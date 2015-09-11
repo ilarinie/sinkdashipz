@@ -39,6 +39,14 @@
                 <groupId>org.pitest</groupId>
                 <artifactId>pitest-maven</artifactId>
                 <version>1.1.4</version>
+                <configuration>
+                    <targetClasses>
+                        <param>com.purkkapussi.sinkdashipz.tools.*</param>
+                    </targetClasses>
+                    <targetTests>
+                        <param>com.purkkapussi.sinkdashipz.tools.*</param>
+                    </targetTests>
+                </configuration>
             </plugin>
         </plugins>
     </build>
