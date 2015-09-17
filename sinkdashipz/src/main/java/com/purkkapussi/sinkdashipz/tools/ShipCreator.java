@@ -6,6 +6,7 @@
 package com.purkkapussi.sinkdashipz.tools;
 
 import com.purkkapussi.sinkdashipz.domain.Direction;
+import com.purkkapussi.sinkdashipz.domain.GameBoard;
 import com.purkkapussi.sinkdashipz.domain.Hull;
 import com.purkkapussi.sinkdashipz.domain.Ship;
 import com.purkkapussi.sinkdashipz.users.Actor;
@@ -19,7 +20,7 @@ public class ShipCreator {
     /*
      Metodi luo satunnaisen laivan annetulla koolla satunnaiseen sijaintiin
      */
-    public Ship createRandomShip(int size) {
+    public Ship createRandomShip(int size, GameBoard gameBoard) {
         
         Ship ship = new Ship();
         
@@ -27,7 +28,7 @@ public class ShipCreator {
         if (rand.nextInt(2) == 1) {
             direction = Direction.EAST;
         }
-        Location start = createStartPoint(size, direction);
+        Location start = createStartPoint(size, direction,gameBoard);
         
         Hull hull = new Hull(start);
         
@@ -58,14 +59,14 @@ public class ShipCreator {
      Metodi luo satunnaisen aloituspisteen joka sopii yhteen laivan koon kanssa.
      */
 
-    public Location createStartPoint(int size, Direction direction) {
+    public Location createStartPoint(int size, Direction direction, GameBoard gameBoard) {
         
         int startX = rand.nextInt(9);
-        while (direction == Direction.EAST && (startX + size) >= 10) {
+        while (direction == Direction.EAST && (startX + size) >= gameBoard.getWidth()) {
             startX = rand.nextInt(9);
         }
         int startY = rand.nextInt(9);
-        while (direction == Direction.NORTH && (startY + size) >= 10) {
+        while (direction == Direction.NORTH && (startY + size) >= gameBoard.getLength()) {
             startY = rand.nextInt(9);
         }
         return new Location(startX, startY);
@@ -88,10 +89,10 @@ public class ShipCreator {
         
     }
     
-    public void createRandomFleet(Actor actor, int fleetSize){
+    public void createRandomFleet(Actor actor, int fleetSize,GameBoard gameBoard){
         
         for (int i=0; i< fleetSize; i++){
-            Ship ship = createRandomShip(fleetSize-i);
+            Ship ship = createRandomShip(fleetSize-i,gameBoard);
             
             try {
                 addShipToActor(actor,ship);
