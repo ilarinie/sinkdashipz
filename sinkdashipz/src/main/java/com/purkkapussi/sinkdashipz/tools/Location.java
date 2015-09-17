@@ -1,14 +1,27 @@
 package com.purkkapussi.sinkdashipz.tools;
 
+import com.purkkapussi.sinkdashipz.domain.GameBoard;
+import java.util.Random;
+
 
 public class Location {
     
     private int x;
     private int y;
     
+    
     public Location(int x, int y){
         this.x = x;
         this.y = y;
+    }
+    
+    /*
+    Konstruktori, joka muodostaa satunnaisen lokaation parametrinä annetulle pelilaudalle
+    */
+    public Location(GameBoard gameBoard){
+        Random rand = new Random();
+        this.x = rand.nextInt(gameBoard.getWidth());
+        this.y = rand.nextInt(gameBoard.getLength());
     }
 
     public int getX() {

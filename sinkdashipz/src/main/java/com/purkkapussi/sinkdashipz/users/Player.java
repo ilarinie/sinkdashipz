@@ -20,12 +20,15 @@ public class Player extends Actor{
     
     public Player(String nick){
         this.nickName = nick;
-        this.ships = new ArrayList<Ship>();
+        this.ships = new ArrayList<>();
+    }
+
+    public Player() {
+        this.nickName = "unnamed player";
+        this.ships = new ArrayList<>();
     }
     
-    public ArrayList<Ship> getShips(){
-        return this.ships;
-    }
+
     
     
     

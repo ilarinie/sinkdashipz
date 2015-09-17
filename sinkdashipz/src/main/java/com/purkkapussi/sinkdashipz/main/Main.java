@@ -1,5 +1,6 @@
 package com.purkkapussi.sinkdashipz.main;
 
+import com.purkkapussi.sinkdashipz.domain.Game;
 import com.purkkapussi.sinkdashipz.domain.GameBoard;
 import com.purkkapussi.sinkdashipz.domain.Hull;
 import com.purkkapussi.sinkdashipz.domain.Ship;
@@ -12,13 +13,10 @@ public class Main {
     
     public static void main(String[] args){
         
-        ShipCreator luoja = new ShipCreator();
-        Actor testaaja = new Actor();
         GameBoard gameboard = new GameBoard(10,10);
+        Game game = new Game();
+        game.startRandomizedGame(gameboard);
         
-        luoja.createRandomFleet(testaaja, 5,gameboard);
-        
-        System.out.println(testaaja);
         
     }
     

@@ -5,6 +5,7 @@
  */
 package com.purkkapussi.sinkdashipz.users;
 
+import com.purkkapussi.sinkdashipz.domain.GameBoard;
 import com.purkkapussi.sinkdashipz.domain.Hull;
 import com.purkkapussi.sinkdashipz.domain.Ship;
 import com.purkkapussi.sinkdashipz.tools.Location;
@@ -36,10 +37,18 @@ public class Actor {
         }
         return text;
     }
+    
+    public int fleetSize(){
+        return ships.size();
+    }
 
     public void removeShip(Ship ship) {
         ships.remove(ship);
     }
+    public void createRandomFleet(GameBoard gameboard){
+        
+    }
+    
     /*
      Metodi saa parametrinä lokaation, johon ammutaan. Metodi tarkistaa pelaajan laivat mahdollisten osumien 
      varalta ja poistaa laivan, jos sen rungon kaikkiin osiin on osuttu.
