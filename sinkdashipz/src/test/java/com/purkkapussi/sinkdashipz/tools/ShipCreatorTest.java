@@ -4,6 +4,7 @@ import com.purkkapussi.sinkdashipz.domain.GameBoard;
 import com.purkkapussi.sinkdashipz.domain.Ship;
 import com.purkkapussi.sinkdashipz.tools.ShipCreator;
 import com.purkkapussi.sinkdashipz.users.Actor;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.Rule;
 
@@ -35,7 +36,7 @@ public void createShipForActor(){
     
     luoja.addShipToActor(tester, laiva);
     
-    assertEquals(1, tester.getShips().size());
+    assertEquals(1, tester.fleetSize());
     
 }
 
@@ -60,10 +61,23 @@ public void createRandomFleet(){
     
     try {
         luoja.createRandomFleet(tester, 5, gameBoard);
-        assertEquals(5, tester.getShips().size());
+        assertEquals(5, tester.fleetSize());
     }
     catch (IllegalArgumentException e){
         
+    }
+    
+}
+@Test
+public void creatTooBigRandomFleet(){
+    
+    try {
+        luoja.createRandomFleet(tester, 12, gameBoard);
+        fail("Should have thrown exception");
+    }
+    catch (IllegalArgumentException e){
+        String error = "Board too small for fleetsize";
+        assertEquals(error,e.getMessage());
     }
     
 }

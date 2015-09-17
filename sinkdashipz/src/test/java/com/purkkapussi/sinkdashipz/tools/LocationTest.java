@@ -1,6 +1,7 @@
 
 package com.purkkapussi.sinkdashipz.tools;
 
+import com.purkkapussi.sinkdashipz.domain.GameBoard;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertEquals;
@@ -39,6 +40,14 @@ public class LocationTest {
     public void newLocationsMatch(){
         
         assertEquals(new Location(2,2), new Location(2,2));
+    }
+    
+    @Test
+    public void randomLocationOnGameBoard(){
+        GameBoard gameboard = new GameBoard(10,10);
+        Location randLoc = new Location(gameboard);
+        assertEquals(true, (randLoc.getX()<10 && randLoc.getY()<10));
+        
     }
     
 }

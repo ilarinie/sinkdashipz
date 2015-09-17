@@ -16,15 +16,15 @@ import java.util.List;
 public class Player extends Actor{
     
     private final ArrayList<Ship> ships;
-    private String nickName;
+    
     
     public Player(String nick){
-        this.nickName = nick;
+        super.setName(nick);
         this.ships = new ArrayList<>();
     }
 
     public Player() {
-        this.nickName = "unnamed player";
+        super.setName("unnamed player");
         this.ships = new ArrayList<>();
     }
     

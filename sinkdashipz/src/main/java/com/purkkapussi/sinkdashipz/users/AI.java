@@ -15,6 +15,7 @@ public class AI extends Actor{
     
     public AI(){
         laivat = new ArrayList<>();
+        super.setName("AI");
     }
     
     public void addShips(){

@@ -54,4 +54,19 @@ public class ShipTest {
         System.out.println(testShip2);
         assertEquals(true, testShip.equals(testShip2));
     }
+    
+    @Test
+    public void shipSizeIsCorrect(){
+        ship.addHull(hull1);
+        assertEquals(1,ship.getSize());
+    }
+    
+    @Test
+    public void shipSizeIsCorrectTwo(){
+        ship.addHull(hull1);
+        ship.addHull(hull2);
+        ship.addHull(hull3);
+        
+        assertEquals(3,ship.getSize());
+    }
 }

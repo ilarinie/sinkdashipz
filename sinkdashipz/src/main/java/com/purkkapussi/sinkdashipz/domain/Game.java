@@ -36,7 +36,7 @@ public class Game {
 
         initGame(gameboard);
 
-        creator.createRandomFleet(ai, 9, gameboard);
+        creator.createRandomFleet(ai, 2, gameboard);
         creator.createRandomFleet(player, 9, gameboard);
 
         int aiShipsLeft = ai.fleetSize();
@@ -44,32 +44,43 @@ public class Game {
 
         ui.showScore(player.fleetSize(), ai.fleetSize());
 
+        boolean endgame = false;
+
         while (player.fleetSize() != 0 && ai.fleetSize() != 0) {
             ui.showScore(player.fleetSize(), ai.fleetSize());
 
             Location location = ui.shoot();
-            
+
             while (ai.hit(location)) {
                 ui.hit();
                 hitList.add(location);
+                if (ai.fleetSize() == 0) {
+                    ui.youWon();
+                    endgame = true;
+                    break;
+                }
                 location = ui.shoot();
             }
-            if (ai.fleetSize() == 0) {
-                ui.youWon();
-                break;
-            }
-            ui.youMissed();
+
+            
             location = new Location(gameboard);
             while (player.hit(location)) {
                 ui.aiHit();
+                if (player.fleetSize() == 0) {
+                    ui.youLost();
+                    endgame = true;
+                    break;
+                }
                 location = new Location(gameboard);
             }
-            if (player.fleetSize() == 0) {
-                ui.youLost();
-                break;
-            }
-            ui.aiMissed(location);
 
+            if (!endgame) {
+                ui.youMissed();
+                
+                ui.aiMissed(location);
+
+                ui.printFleet(ai);
+            }
         }
 
     }

@@ -7,6 +7,7 @@ package com.purkkapussi.sinkdashipz.UI.textUI;
 
 import com.purkkapussi.sinkdashipz.tools.Location;
 import com.purkkapussi.sinkdashipz.users.AI;
+import com.purkkapussi.sinkdashipz.users.Actor;
 import java.util.Scanner;
 
 /**
@@ -62,5 +63,8 @@ public class TextBasedUi {
     public void aiMissed(Location location){
         System.out.println("AI missed you on "+location+", those fool computers");
     }
-    
+    public void printFleet(Actor actor){
+        System.out.println(actor.getName()+"'s ships as follows: \n");
+        System.out.println(actor);
+    }
 }

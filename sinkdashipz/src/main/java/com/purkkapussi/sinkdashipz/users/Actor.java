@@ -17,6 +17,7 @@ import java.util.ArrayList;
 public class Actor {
 
     private ArrayList<Ship> ships;
+    private String name;
 
     public Actor() {
         this.ships = new ArrayList<>();
@@ -36,6 +37,14 @@ public class Actor {
             text = text + ship.toString() + "\n";
         }
         return text;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
     
     public int fleetSize(){

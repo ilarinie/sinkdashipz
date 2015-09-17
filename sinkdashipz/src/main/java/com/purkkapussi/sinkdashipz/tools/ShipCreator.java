@@ -89,7 +89,14 @@ public class ShipCreator {
         
     }
     
-    public void createRandomFleet(Actor actor, int fleetSize,GameBoard gameBoard){
+    public void createRandomFleet(Actor actor, int fleetSize,GameBoard gameBoard) throws IllegalArgumentException{
+        
+        
+        if (fleetSize >= gameBoard.getLength() || fleetSize >= gameBoard.getWidth()){
+            throw new IllegalArgumentException("Board too small for fleetsize");
+        }
+        
+        
         
         for (int i=0; i< fleetSize; i++){
             Ship ship = createRandomShip(fleetSize-i,gameBoard);
