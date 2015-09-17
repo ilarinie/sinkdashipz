@@ -45,4 +45,13 @@ public class ShipTest {
 
         assertEquals(false, ship.equals(ship2));
     }
+    
+    @Test
+    public void sameShipsCollide(){
+        Ship testShip = new Ship(new Hull(1,1));
+        System.out.println(testShip);
+        Ship testShip2 = new Ship(new Hull(1,1));
+        System.out.println(testShip2);
+        assertEquals(true, testShip.equals(testShip2));
+    }
 }

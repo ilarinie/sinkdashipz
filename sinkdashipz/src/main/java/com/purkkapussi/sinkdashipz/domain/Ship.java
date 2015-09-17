@@ -11,10 +11,19 @@ public class Ship {
     public Ship() {
         hullPieces = new ArrayList<>();
     }
+    
+    public Ship(Hull hull){
+        hullPieces = new ArrayList<>();
+        hullPieces.add(hull);
+    }
 
     public void addHull(Hull hull) {
         hullPieces.add(hull);
 
+    }
+    
+    public void removeHull(Hull hull){
+        hullPieces.remove(hull);
     }
     public int getSize(){
         return hullPieces.size();
@@ -47,9 +56,17 @@ public class Ship {
             return false;
         }
         final Ship other = (Ship) obj;
+        
+        if (this.getSize()==1 && other.getSize() == 1){
+            if (this.getHulls().get(0) == other.getHulls().get(0))
+                return true;
+        }
+        
+        
+        
         for (Hull hull : this.hullPieces){
             for (Hull otherHull : other.hullPieces){
-                if (hull.getLocation() == otherHull.getLocation())
+                if (hull.equals(otherHull))
                     return true;
             }
         }

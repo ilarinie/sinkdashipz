@@ -21,5 +21,12 @@ public class HullTest {
         
         assertEquals(true, hull1.equals(hull2));
     }
+    @Test
+    public void differentLocationsDontMatch(){
+        Hull hull1 = new Hull(1,1);
+        Hull hull2 = new Hull(3,5);
+        
+        assertEquals(false, hull1.equals(hull2));
+    }
     
 }
