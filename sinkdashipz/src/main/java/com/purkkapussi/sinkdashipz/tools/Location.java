@@ -27,11 +27,18 @@ public class Location {
         this.y = y;
     }
     
-    public void moveEast(){
-        this.x++;
+    public Location moveEast(){
+        this.x = this.x + 1;
+        return this;
     }
-    public void moveSouth(){
-        this.y--;
+    public Location moveSouth(){
+        this.y = this.y-1;
+        return this;
+    }
+    
+    public String toString(){
+        
+        return "["+this.x+","+this.y+"]";
     }
 
     @Override

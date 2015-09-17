@@ -19,5 +19,45 @@ public class Ship {
     public int getSize(){
         return hullPieces.size();
     }
+    public ArrayList<Hull> getHulls(){
+        return this.hullPieces;
+    }
+    
+    
+    public String toString(){
+        String text = "";
+        for (Hull hull : hullPieces){
+            text = text+hull.toString();
+        }
+        return text;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Ship other = (Ship) obj;
+        for (Hull hull : this.hullPieces){
+            for (Hull otherHull : other.hullPieces){
+                if (hull.getLocation() == otherHull.getLocation())
+                    return true;
+            }
+        }
+        
+        return false;
+    }
+    
+    
+    
 
 }

@@ -5,10 +5,28 @@
  */
 package com.purkkapussi.sinkdashipz.users;
 
+import com.purkkapussi.sinkdashipz.domain.Ship;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author ile
  */
-public class Player {
+public class Player extends Actor{
+    
+    private final ArrayList<Ship> ships;
+    private String nickName;
+    
+    public Player(String nick){
+        this.nickName = nick;
+        this.ships = new ArrayList<Ship>();
+    }
+    
+    public ArrayList<Ship> getShips(){
+        return this.ships;
+    }
+    
+    
     
 }

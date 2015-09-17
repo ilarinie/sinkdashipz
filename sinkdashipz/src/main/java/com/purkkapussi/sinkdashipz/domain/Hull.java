@@ -8,9 +8,20 @@ import java.util.Objects;
 public class Hull {
     
     private Location location;
+    private int x;
+    private int y;
     
     public Hull(Location location){
         this.location = location;
+        this.x = location.getX();
+        this.y = location.getY();
+    }
+    
+    public Hull(int x, int y){
+        this.x = x;
+        this.y = y;
+        this.location = new Location(x,y);
+        
     }
 
     public Location getLocation() {
@@ -19,6 +30,11 @@ public class Hull {
 
     public void setLocation(Location location) {
         this.location = location;
+    }
+    
+    
+    public String toString(){
+        return this.location.toString();
     }
 
     @Override
@@ -37,10 +53,7 @@ public class Hull {
             return false;
         }
         final Hull other = (Hull) obj;
-        if (!Objects.equals(this.location, other.location)) {
-            return false;
-        }
-        return true;
+        return Objects.equals(this.location, other.location);
     }
     
     

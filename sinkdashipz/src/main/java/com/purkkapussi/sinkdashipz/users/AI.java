@@ -9,7 +9,7 @@ import com.purkkapussi.sinkdashipz.domain.Ship;
 import java.util.ArrayList;
 
 
-public class AI {
+public class AI extends Actor{
     
     private ArrayList<Ship> laivat;
     
