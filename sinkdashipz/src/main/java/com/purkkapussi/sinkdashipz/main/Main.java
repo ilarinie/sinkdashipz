@@ -14,8 +14,8 @@ public class Main {
     public static void main(String[] args){
         
         GameBoard gameboard = new GameBoard(10,10);
-        Game game = new Game();
-        game.startRandomizedGame(gameboard);
+        Game game = new Game(gameboard);
+        
         
         
     }

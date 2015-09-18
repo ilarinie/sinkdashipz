@@ -18,6 +18,7 @@ import java.util.ArrayList;
  */
 public class Game {
 
+    private GameBoard gameboard;
     private ShipCreator creator;
     private AI ai;
     private Player player;
@@ -25,22 +26,28 @@ public class Game {
 
     private ArrayList<Location> hitList = new ArrayList<>();
 
-    public void initGame(GameBoard gameboard) {
+    public Game(GameBoard gameboard) {
         this.creator = new ShipCreator();
         this.ai = new AI();
         this.player = new Player();
         this.ui = new TextBasedUi();
+        this.gameboard = gameboard;
+    }
+    
+    public Game(AI ai, Player player,GameBoard gameboard){
+        this.ai = ai;
+        this.player = player;
+        this.creator = new ShipCreator();
+        this.ui = new TextBasedUi();
+        this.gameboard = gameboard;
+    }
+    
+    public void addRandomFleets(int size){
+        creator.createRandomFleet(ai, size, gameboard);
+        creator.createRandomFleet(player, size, gameboard);
     }
 
-    public void startRandomizedGame(GameBoard gameboard) {
-
-        initGame(gameboard);
-
-        creator.createRandomFleet(ai, 2, gameboard);
-        creator.createRandomFleet(player, 9, gameboard);
-
-        int aiShipsLeft = ai.fleetSize();
-        int playerShipsLeft = player.fleetSize();
+    public void startGame() {
 
         ui.showScore(player.fleetSize(), ai.fleetSize());
 
