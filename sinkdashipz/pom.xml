@@ -42,10 +42,13 @@
                 <configuration>
                     <targetClasses>
                         <param>com.purkkapussi.sinkdashipz.tools.*</param>
+                        <param>com.purkkapussi.sinkdashipz.domain.*</param>
                     </targetClasses>
                     <targetTests>
                         <param>com.purkkapussi.sinkdashipz.tools.*</param>
+                        <param>com.purkkapussi.sinkdashipz.domain.*</param>
                     </targetTests>
+                    
                 </configuration>
             </plugin>
         </plugins>
