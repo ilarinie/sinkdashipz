@@ -98,7 +98,6 @@ public class ShipCreator {
 
         for (int i = 0; i < fleetSize; i++) {
             Ship ship = createRandomShip(nextShipSize(actor, 2), gameBoard);
-            System.out.println("shipsize=" + nextShipSize(actor, 1));
             try {
                 addShipToActor(actor, ship, gameBoard);
             } catch (IllegalArgumentException e) {

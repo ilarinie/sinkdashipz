@@ -5,12 +5,17 @@
  */
 package com.purkkapussi.sinkdashipz.UI.GUI;
 
+import com.purkkapussi.sinkdashipz.UI.GUI.gamemenu.GameMenu;
+import com.purkkapussi.sinkdashipz.UI.GUI.hitlists.HitList;
 import com.purkkapussi.sinkdashipz.UI.GUI.initialsetup.InitialSetup;
 import com.purkkapussi.sinkdashipz.UI.GUI.mainui.MainUI;
 import com.purkkapussi.sinkdashipz.domain.Game;
+import com.purkkapussi.sinkdashipz.domain.Ship;
 import com.purkkapussi.sinkdashipz.tools.Location;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.util.ArrayList;
+import java.util.HashSet;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
@@ -20,6 +25,9 @@ public class GUI implements Runnable {
     private JFrame frame;
     private InitialSetup initialSetup;
     private MainUI mainUI;
+    private GameMenu gameMenu;
+    private HitList hitList;
+    
 
     public GUI(Game game) {
         this.game = game;
@@ -29,7 +37,7 @@ public class GUI implements Runnable {
     @Override
     public void run() {
         frame = new JFrame("Sinkdashipz V 0.1");
-        frame.setPreferredSize(new Dimension(1000, 500));
+        frame.setPreferredSize(new Dimension(1100, 600));
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         frame.getContentPane().setLayout(new BorderLayout());
@@ -53,6 +61,14 @@ public class GUI implements Runnable {
         mainUI.createMainUI(this);
         frame.getContentPane().add(mainUI, BorderLayout.CENTER);
         
+        gameMenu = new GameMenu(this);
+        gameMenu.createGameMenu(this);
+        frame.getContentPane().add(gameMenu, BorderLayout.SOUTH);
+        
+        hitList = new HitList(this);
+        hitList.createHitLists(this);
+        frame.getContentPane().add(hitList, BorderLayout.EAST);
+        
         frame.pack();
         
     }
@@ -69,7 +85,41 @@ public class GUI implements Runnable {
         return game.getGameBoardSize();
     }
     public void playerShootLoc(Location loc){
+        
         this.game.setPlayerShootLoc(loc);
+        update();
+    }
+    public boolean isTherePlayerShip(int x, int y){
+        return game.isTherePlayerShip(x,y);
+    }
+
+    public HashSet<Location> getAIHits(){
+        return game.getAiShootLocs();
+    }
+    public HashSet<Location> getPlayerHits(){
+        return game.getPlayerShootLocs();
+    }
+    public HashSet<Location> getAIShips(){
+        return game.getAI().shipLocs();
+    }
+    
+    public void update(){
+       gameMenu.updateGameMenu(this);
+       hitList.updateHitList(this);
+       mainUI.updateMainUI(this);
+        
+    }
+    
+    public boolean isLocationSelected(){
+        if (null != game.getPlayerShootLoc())
+            return true;
+        else
+            return false;
+    }
+    public void shoot(){
+        
+        game.playerShoot();
+        update();
     }
     
     

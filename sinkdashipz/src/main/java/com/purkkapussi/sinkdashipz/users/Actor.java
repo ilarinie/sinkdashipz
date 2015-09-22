@@ -10,6 +10,7 @@ import com.purkkapussi.sinkdashipz.domain.Hull;
 import com.purkkapussi.sinkdashipz.domain.Ship;
 import com.purkkapussi.sinkdashipz.tools.Location;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  * yläluokka pelaajille (sekä AI, että pelaaja), hoitaa pelaajan laivat.
@@ -71,6 +72,16 @@ public class Actor {
     }
     public void lastMiss(Location location){
         this.lastHitSuccess = false;
+    }
+    
+    public HashSet<Location> shipLocs(){
+        HashSet<Location> shipLocs = new HashSet<Location>();
+        for (Ship ship : ships){
+            for (Hull hull : ship.getHulls()){
+                shipLocs.add(hull.getLocation());
+            }
+        }
+        return shipLocs;
     }
     
     /*
