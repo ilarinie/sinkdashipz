@@ -44,7 +44,7 @@ public class LocationTest {
     
     @Test
     public void randomLocationOnGameBoard(){
-        GameBoard gameboard = new GameBoard(10,10);
+        GameBoard gameboard = new GameBoard(10);
         Location randLoc = new Location(gameboard);
         assertEquals(true, (randLoc.getX()<10 && randLoc.getY()<10));
         

@@ -18,6 +18,8 @@ public class Actor {
 
     private ArrayList<Ship> ships;
     private String name;
+    private boolean lastHitSuccess;
+    private Location lastHitLoc;
 
     public Actor() {
         this.ships = new ArrayList<>();
@@ -54,8 +56,21 @@ public class Actor {
     public void removeShip(Ship ship) {
         ships.remove(ship);
     }
-    public void createRandomFleet(GameBoard gameboard){
-        
+    public int biggestShipSize(){
+        int size = 0;
+        for (Ship ship : ships){
+            if (ship.getSize() > size)
+                size=ship.getSize();
+        }
+        return size;
+    }
+    
+    public void lastHit(Location location){
+        this.lastHitSuccess = true;
+        this.lastHitLoc = location;
+    }
+    public void lastMiss(Location location){
+        this.lastHitSuccess = false;
     }
     
     /*

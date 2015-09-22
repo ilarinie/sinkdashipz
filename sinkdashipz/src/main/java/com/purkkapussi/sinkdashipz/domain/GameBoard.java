@@ -12,12 +12,12 @@ package com.purkkapussi.sinkdashipz.domain;
 public class GameBoard {
     
     private int width;
-    private int length;
+
     
     
-    public GameBoard(int width, int length){
+    public GameBoard(int width){
         this.width = width;
-        this.length = length;
+        
     }
 
     public int getWidth() {
@@ -26,14 +26,6 @@ public class GameBoard {
 
     public void setWidth(int width) {
         this.width = width;
-    }
-
-    public int getLength() {
-        return length;
-    }
-
-    public void setLength(int length) {
-        this.length = length;
     }
     
     

@@ -32,6 +32,18 @@ public class Ship {
         return this.hullPieces;
     }
     
+    public boolean overlaps(GameBoard gameBoard){
+        if (hullPieces.isEmpty())
+            return false;
+        
+        for (Hull hull : hullPieces){
+            if (hull.getLocation().getX() < 0 || hull.getLocation().getX() > gameBoard.getWidth()-1 || hull.getLocation().getY() < 0 || hull.getLocation().getY() > gameBoard.getWidth()-1){
+                return true;
+            }
+        }
+        return false;
+    }
+    
     
     public String toString(){
         String text = "";

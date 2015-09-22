@@ -5,12 +5,15 @@
  */
 package com.purkkapussi.sinkdashipz.domain;
 
+import com.purkkapussi.sinkdashipz.UI.GUI.GUI;
 import com.purkkapussi.sinkdashipz.UI.textUI.TextBasedUi;
 import com.purkkapussi.sinkdashipz.tools.Location;
 import com.purkkapussi.sinkdashipz.tools.ShipCreator;
 import com.purkkapussi.sinkdashipz.users.AI;
 import com.purkkapussi.sinkdashipz.users.Player;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 
 /**
  *
@@ -23,6 +26,11 @@ public class Game {
     private AI ai;
     private Player player;
     private TextBasedUi ui;
+    private GUI gui;
+    private Location playerShootLoc;
+    private Location aiShootLoc;
+    private HashSet<Location> playerShootLocs;
+    private HashSet<Location> aiShootLocs;
 
     private ArrayList<Location> hitList = new ArrayList<>();
 
@@ -33,21 +41,27 @@ public class Game {
         this.ui = new TextBasedUi();
         this.gameboard = gameboard;
     }
-    
-    public Game(AI ai, Player player,GameBoard gameboard){
+
+    public Game(AI ai, Player player, GameBoard gameboard) {
         this.ai = ai;
         this.player = player;
         this.creator = new ShipCreator();
         this.ui = new TextBasedUi();
         this.gameboard = gameboard;
+        this.playerShootLocs = new HashSet<>();
+        this.aiShootLocs = new HashSet<>();
+        
     }
-    
-    public void addRandomFleets(int size){
+    public void createGUI(){
+        this.gui = new GUI(this);
+    }
+
+    public void addRandomFleets(int size) {
         creator.createRandomFleet(ai, size, gameboard);
         creator.createRandomFleet(player, size, gameboard);
     }
 
-    public void startGame() {
+    public void startTextGame() {
 
         ui.showScore(player.fleetSize(), ai.fleetSize());
 
@@ -56,22 +70,25 @@ public class Game {
         while (player.fleetSize() != 0 && ai.fleetSize() != 0) {
             ui.showScore(player.fleetSize(), ai.fleetSize());
 
-            Location location = ui.shoot();
+            Location location = ui.shoot();      //pyydetään pelaajalta ampumiskoordinaatit
 
-            while (ai.hit(location)) {
+            while (ai.hit(location)) {          //ammutaan niin kauan kun tulee osumia
+                player.lastHit(location);
                 ui.hit();
                 hitList.add(location);
-                if (ai.fleetSize() == 0) {
+                if (ai.fleetSize() == 0) {      // jos tekoälyn laivat loppuvat, peli loppuu
                     ui.youWon();
                     endgame = true;
                     break;
                 }
                 location = ui.shoot();
             }
+            player.lastMiss(location);
 
+            location = new Location(gameboard); //luo satunnaisen lokaation pelilaudalla
             
-            location = new Location(gameboard);
-            while (player.hit(location)) {
+            try {
+            while (player.hit(ai.shoot(gameboard, player))) {      //tekoäly ampuu niin kauan kun osuu, satunnaisiin 
                 ui.aiHit();
                 if (player.fleetSize() == 0) {
                     ui.youLost();
@@ -80,16 +97,50 @@ public class Game {
                 }
                 location = new Location(gameboard);
             }
+            }
+            catch (IllegalArgumentException e){
+                endgame = true;
+            }
 
             if (!endgame) {
                 ui.youMissed();
-                
                 ui.aiMissed(location);
-
                 ui.printFleet(ai);
             }
         }
 
     }
+    
+    public void startGame(){
+        gui.run();
+        
+    }
+    
+    public Player getPlayer(){
+        return this.player;
+    }
+    
+    public int getGameBoardSize(){
+        return this.gameboard.getWidth();
+    }
+
+    public void setPlayerShootLoc(Location playerShootLoc) {
+        this.playerShootLoc = playerShootLoc;
+    }
+
+    public void setAiShootLoc(Location aiShootLoc) {
+        this.aiShootLoc = aiShootLoc;
+    }
+
+    public Location getPlayerShootLoc() {
+        return playerShootLoc;
+    }
+
+    public HashSet<Location> getAiShootLocs() {
+        return aiShootLocs;
+    }
+    
+   
+    
 
 }

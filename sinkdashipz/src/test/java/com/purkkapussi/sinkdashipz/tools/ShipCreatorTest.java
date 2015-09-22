@@ -1,6 +1,7 @@
 package com.purkkapussi.sinkdashipz.tools;
 
 import com.purkkapussi.sinkdashipz.domain.GameBoard;
+import com.purkkapussi.sinkdashipz.domain.Hull;
 import com.purkkapussi.sinkdashipz.domain.Ship;
 import com.purkkapussi.sinkdashipz.tools.ShipCreator;
 import com.purkkapussi.sinkdashipz.users.Actor;
@@ -13,43 +14,50 @@ import static org.junit.Assert.*;
 
 public class ShipCreatorTest{
 
-public ShipCreator luoja = new ShipCreator();
+public ShipCreator creator = new ShipCreator();
 public Actor tester = new Actor();
-public GameBoard gameBoard = new GameBoard(10,10);
+public GameBoard gameBoard = new GameBoard(10);
 
 @Test
 public void createShipSizeTest(){
-    Ship laiva = luoja.createRandomShip(5,gameBoard);
+    Ship laiva = creator.createRandomShip(5,gameBoard);
     
     assertEquals(5, laiva.getSize());
 }
 
 @Test
 public void createBiggerShip(){
-    Ship laiva = luoja.createRandomShip(9,gameBoard);
+    Ship laiva = creator.createRandomShip(9,gameBoard);
     assertEquals(9, laiva.getSize());
 }
 
 @Test
 public void createShipForActor(){
-    Ship laiva = luoja.createRandomShip(9,gameBoard);
+    Ship laiva = creator.createRandomShip(9,gameBoard);
     
-    luoja.addShipToActor(tester, laiva);
-    
+    try {
+    creator.addShipToActor(tester, laiva, gameBoard);
     assertEquals(1, tester.fleetSize());
+    }
+    catch (IllegalArgumentException e){
+        assertEquals(0, tester.fleetSize());
+    }
+    
+    
     
 }
 
 @Test
 public void createDuplicateShipForActor(){
-    Ship laiva = luoja.createRandomShip(5,gameBoard);
+    Ship ship = new Ship(new Hull(1, 1));
     
-    luoja.addShipToActor(tester, laiva);
+    creator.addShipToActor(tester, ship, gameBoard);
     try {
-    luoja.addShipToActor(tester, laiva);
+    creator.addShipToActor(tester, ship, gameBoard);
     fail("Expected overlapping exception.");
     }
     catch (IllegalArgumentException e){
+        
         String error = "Ships overlapping!";
         assertEquals(error, e.getMessage());
     }
@@ -60,7 +68,8 @@ public void createDuplicateShipForActor(){
 public void createRandomFleet(){
     
     try {
-        luoja.createRandomFleet(tester, 5, gameBoard);
+        creator.createRandomFleet(tester, 5, gameBoard);
+        System.out.println(tester);
         assertEquals(5, tester.fleetSize());
     }
     catch (IllegalArgumentException e){
@@ -72,7 +81,7 @@ public void createRandomFleet(){
 public void creatTooBigRandomFleet(){
     
     try {
-        luoja.createRandomFleet(tester, 12, gameBoard);
+        creator.createRandomFleet(tester, 12, gameBoard);
         fail("Should have thrown exception");
     }
     catch (IllegalArgumentException e){
