@@ -9,6 +9,7 @@ import com.purkkapussi.sinkdashipz.UI.GUI.GUI;
 import com.purkkapussi.sinkdashipz.tools.Location;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -21,7 +22,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class MainUI extends JPanel {
-    
+
     private MainUIListener listener;
     private int gameBoardSize;
     private BufferedImage shipImage = null;
@@ -32,6 +33,10 @@ public class MainUI extends JPanel {
     protected JPanel aimHolder;
     protected JPanel playerShipHolder;
     
+    private int buttonWidth = 60;
+    private int buttonHeight = 40;
+    private int fontSize = 7;
+
     public MainUI(GUI gui) {
         this.listener = new MainUIListener(gui);
         gameBoardSize = gui.getGameBoardSideLenght();
@@ -40,30 +45,30 @@ public class MainUI extends JPanel {
         mainHolder = new JPanel(new GridLayout(1, 2));
         //System.out.println(seaUrl.getPath());
     }
-    
+
     public void createImages() {
-        
+
         shipUrl = getClass().getResource("/com/purkkapussi/sinkdashipz/UI/GUI/mainui/ship.png");
         seaUrl = getClass().getResource("/com/purkkapussi/sinkdashipz/UI/GUI/mainui/ship.png");
-        
+
         try {
             shipImage = ImageIO.read(new File("/com/purkkapussi/sinkdashipz/UI/GUI/mainui/ship.png"));
-            
+
         } catch (IOException e) {
-            
+
         }
         try {
             seaImage = ImageIO.read(new File("/com/purkkapussi/sinkdashipz/UI/GUI/mainui/sea.png"));
         } catch (IOException e) {
-            
+
         }
-        
+
     }
-    
+
     public void createMainUI(GUI gui) {
-        
+
         createImages();
-        
+
         for (int i = 0; i < gameBoardSize; i++) {
             for (int j = 0; j < gameBoardSize; j++) {
                 //pelaajan ampumisnappulat
@@ -71,11 +76,12 @@ public class MainUI extends JPanel {
                 Location loc = new Location(i, j);
                 AimListener aimListener = new AimListener(gui, loc);
                 aimButton.addActionListener(aimListener);
-                aimButton.setPreferredSize(new Dimension(40, 40));
+                aimButton.setPreferredSize(new Dimension(buttonWidth, buttonHeight));
                 aimHolder.add(aimButton);
                 //pelaajan omat laivat
-                JLabel playerShip = new JLabel();
-                playerShip.setPreferredSize(new Dimension(40,40));
+                JButton playerShip = new JButton();
+                playerShip.setPreferredSize(new Dimension(buttonWidth, buttonHeight));
+                playerShip.setFont(new Font("Arial", Font.PLAIN, fontSize));
                 if (gui.isTherePlayerShip(i, j)) {
                     if (gui.getAIHits().contains(new Location(i, j))) {
                         playerShip.setText("BOOM");
@@ -85,55 +91,55 @@ public class MainUI extends JPanel {
                     }
                 } else {
                     if (gui.getAIHits().contains(new Location(i, j))) {
-                        playerShip.setText("AI MISS");
+                        playerShip.setText("MISS");
                         playerShip.setForeground(Color.RED);
-                        
+
                     } else {
                         playerShip.setText("SEA");
                         playerShip.setForeground(Color.BLUE);
                     }
                 }
                 playerShipHolder.add(playerShip);
-                
+
             }
-            
+
         }
         mainHolder.add(aimHolder);
         mainHolder.add(playerShipHolder);
-        
+
         this.add(mainHolder);
-        
+
     }
-    
+
     public void updateMainUI(GUI gui) {
-        
+
         aimHolder.removeAll();
         playerShipHolder.removeAll();
-        
+
         for (int i = 0; i < gameBoardSize; i++) {
             for (int j = 0; j < gameBoardSize; j++) {
                 //pelaajan ampumisnappulat
                 JButton aimButton = new JButton();
-                aimButton.setPreferredSize(new Dimension(40, 40));
-               
+                aimButton.setPreferredSize(new Dimension(buttonWidth, buttonHeight));
+                aimButton.setFont(new Font("Arial", Font.PLAIN, fontSize));
                 Location loc = new Location(i, j);
                 AimListener aimListener = new AimListener(gui, loc);
-                
-                
+
                 if (gui.getPlayerHits().contains(new Location(i, j))) {
                     aimButton.setEnabled(false);
-                    if (gui.initialAIShipLocs().contains(new Location(i,j))){
-                        System.out.println("joo");
+                    aimButton.setText("MISS");
+                    if (gui.initialAIShipLocs().contains(new Location(i, j))) {
                         aimButton.setBackground(Color.ORANGE);
+                        aimButton.setText("BOOM");
                         aimButton.setOpaque(true);
-                        
                     }
                 }
                 aimButton.addActionListener(aimListener);
                 aimHolder.add(aimButton);
                 //pelaajan omat laivat
-                JLabel playerShip = new JLabel();
-                playerShip.setPreferredSize(new Dimension(40,40));
+                JButton playerShip = new JButton();
+                playerShip.setFont(new Font("Arial", Font.PLAIN, 9));
+                playerShip.setPreferredSize(new Dimension(buttonWidth, buttonHeight));
                 if (gui.isTherePlayerShip(i, j)) {
                     if (gui.getAIHits().contains(new Location(i, j))) {
                         playerShip.setText("BOOM");
@@ -145,16 +151,16 @@ public class MainUI extends JPanel {
                     if (gui.getAIHits().contains(new Location(i, j))) {
                         playerShip.setText("AI MISS");
                         playerShip.setForeground(Color.RED);
-                        
+
                     } else {
                         playerShip.setText("SEA");
                         playerShip.setForeground(Color.BLUE);
                     }
                 }
                 playerShipHolder.add(playerShip);
-                
+
             }
         }
-        
+
     }
 }

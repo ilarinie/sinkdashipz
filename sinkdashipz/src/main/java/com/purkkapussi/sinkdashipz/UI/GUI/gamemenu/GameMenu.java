@@ -21,7 +21,7 @@ public class GameMenu extends JPanel{
     protected JButton shoot = new JButton("shoot");
     protected JLabel aiShips = new JLabel("aiships");
     protected JLabel ownShips = new JLabel("own ships");
-    protected JLabel other = new JLabel("sth else");
+    protected JLabel other = new JLabel("Selected coordinates:");
     
     public GameMenu(GUI gui){
         listener = new GameMenuListener(gui);
@@ -45,6 +45,7 @@ public class GameMenu extends JPanel{
         shoot.setEnabled(gui.isLocationSelected());
         aiShips.setText("Ai ships: "+gui.getAIFleetSize());
         ownShips.setText("Player ships: "+gui.getPlayerFleetSize());
+        other.setText("Selected coordinates: "+gui.targetLocation());
     }
     
 }

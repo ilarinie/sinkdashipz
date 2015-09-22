@@ -32,6 +32,7 @@ public class Game {
     private HashSet<Location> playerShootLocs;
     private HashSet<Location> aiShootLocs;
     private HashSet<Location> initialAIShipLocs;
+    private HashSet<Location> initialPlayerShipLocs;
 
     private ArrayList<Location> hitList = new ArrayList<>();
 
@@ -66,9 +67,10 @@ public class Game {
     }
 
     public void startGame() {
-        addRandomFleets(5);
-        ai.addShip(new Ship(new Hull(1,1)));
+        player.addShip(new Ship(new Hull(1, 1)));
+        ai.addShip(new Ship(new Hull(1, 1)));
         initialAIShipLocs = ai.shipLocs();
+        initialPlayerShipLocs = player.shipLocs();
         gui.run();
 
     }
@@ -76,7 +78,8 @@ public class Game {
     public Player getPlayer() {
         return this.player;
     }
-    public AI getAI(){
+
+    public AI getAI() {
         return this.ai;
     }
 
@@ -107,7 +110,10 @@ public class Game {
     public HashSet<Location> getInitialAIShipLocs() {
         return initialAIShipLocs;
     }
-    
+
+    public HashSet<Location> getInitialPlayerShipLocs() {
+        return initialPlayerShipLocs;
+    }
 
     public boolean isTherePlayerShip(int x, int y) {
         Ship tester = new Ship(new Hull(x, y));
@@ -118,8 +124,12 @@ public class Game {
         if (this.playerShootLoc != null) {
             playerShootLocs.add(playerShootLoc);
             if (ai.hit(playerShootLoc)) {
+                if (ai.fleetSize() == 0) {
+                    endgame();
+                }
                 playerShootLoc = null;
             } else {
+                playerShootLoc = null;
                 aiShoot();
             }
         }
@@ -128,11 +138,33 @@ public class Game {
     private void aiShoot() {
         aiShootLoc = ai.shoot(gameboard, player);
         aiShootLocs.add(aiShootLoc);
-        while (player.hit(aiShootLoc)){
+        while (player.hit(aiShootLoc)) {
+            if (player.fleetSize() == 0) {
+                endgame();
+            }
             aiShootLoc = ai.shoot(gameboard, player);
             aiShootLocs.add(aiShootLoc);
         }
-        
+
+    }
+
+    private void endgame() {
+        resetGame();
+        gui.endGame();
+    }
+
+    public void resetGame() {
+        this.creator = new ShipCreator();
+        this.ai = new AI();
+        this.player = new Player();
+        this.ui = new TextBasedUi();
+        this.playerShootLocs = new HashSet<>();
+        this.aiShootLocs = new HashSet<>();
+
+        player.addShip(new Ship(new Hull(1, 1)));
+        ai.addShip(new Ship(new Hull(1, 1)));
+        initialAIShipLocs = ai.shipLocs();
+        initialPlayerShipLocs = player.shipLocs();
     }
 
     /*public void startTextGame() {

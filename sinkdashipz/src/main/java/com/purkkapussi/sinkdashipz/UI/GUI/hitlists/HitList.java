@@ -49,10 +49,19 @@ public class HitList extends JPanel {
         playerHits.setText("Player hit locations:\n");
         if (!aiHitList.isEmpty() || !playerHitList.isEmpty()) {
             for (Location loc : aiHitList) {
-                aiHits.append(loc + "\n");
+                if (gui.getAIShipLocs().contains(loc))
+                    aiHits.append(loc + " (HIT!) \n");
+                else{
+                    aiHits.append(loc + " (MISS!) \n");
+                }
+                
             }
             for (Location loc : playerHitList) {
-                playerHits.append(loc + "\n");
+                
+                if (gui.initialAIShipLocs().contains(loc))
+                    playerHits.append(loc +" (HIT!) \n");
+                else
+                    playerHits.append(loc + " (MISS!) \n");
             }
         }
 

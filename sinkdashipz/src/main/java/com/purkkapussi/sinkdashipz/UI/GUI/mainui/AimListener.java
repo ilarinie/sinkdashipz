@@ -26,6 +26,7 @@ public class AimListener implements ActionListener{
     
    @Override
    public void actionPerformed(ActionEvent e){
+       
        System.out.println(loc);
        gui.playerShootLoc(loc);
        
