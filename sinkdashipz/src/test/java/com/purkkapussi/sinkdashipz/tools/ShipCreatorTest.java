@@ -3,7 +3,7 @@ package com.purkkapussi.sinkdashipz.tools;
 import com.purkkapussi.sinkdashipz.domain.GameBoard;
 import com.purkkapussi.sinkdashipz.domain.Hull;
 import com.purkkapussi.sinkdashipz.domain.Ship;
-import com.purkkapussi.sinkdashipz.tools.ShipCreator;
+import com.purkkapussi.sinkdashipz.domain.ShipCreator;
 import com.purkkapussi.sinkdashipz.users.Actor;
 import org.junit.Assert;
 import org.junit.Test;

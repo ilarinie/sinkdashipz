@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.purkkapussi.sinkdashipz.UI.GUI.initialsetup;
+package com.purkkapussi.sinkdashipz.UI.GUI.mainmenu;
 
 import com.purkkapussi.sinkdashipz.UI.GUI.GUI;
 import java.awt.event.ActionEvent;
@@ -11,14 +11,14 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
-public class ClickListener implements ActionListener {
+public class MainMenuListener implements ActionListener {
 
     private GUI gui;
     private JButton newGame;
     private JButton highScores;
     private JButton exit;
 
-    public ClickListener(GUI gui) {
+    public MainMenuListener(GUI gui) {
         this.gui = gui;
     }
 
@@ -31,7 +31,7 @@ public class ClickListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent ae) {
         if (ae.getSource() == newGame) {
-            gui.startGame();
+            gui.newGame();
         }
         if (ae.getSource() == highScores) {
             gui.showHighScore();

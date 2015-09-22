@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.purkkapussi.sinkdashipz.UI.GUI.initialsetup;
+package com.purkkapussi.sinkdashipz.UI.GUI.mainmenu;
 
 import com.purkkapussi.sinkdashipz.UI.GUI.GUI;
 import java.awt.GridLayout;
@@ -12,12 +12,12 @@ import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
-public class InitialSetup extends JPanel {
+public class MainMenu extends JPanel {
 
-    private ClickListener clickListener;
+    private MainMenuListener clickListener;
 
-    public InitialSetup(GUI gui) {
-        this.clickListener = new ClickListener(gui);
+    public MainMenu(GUI gui) {
+        this.clickListener = new MainMenuListener(gui);
         setLayout(new GridLayout(5,1));
         
     }

@@ -8,7 +8,6 @@ package com.purkkapussi.sinkdashipz.domain;
 import com.purkkapussi.sinkdashipz.UI.GUI.GUI;
 import com.purkkapussi.sinkdashipz.UI.textUI.TextBasedUi;
 import com.purkkapussi.sinkdashipz.tools.Location;
-import com.purkkapussi.sinkdashipz.tools.ShipCreator;
 import com.purkkapussi.sinkdashipz.users.AI;
 import com.purkkapussi.sinkdashipz.users.Player;
 import java.util.ArrayList;
@@ -149,6 +148,7 @@ public class Game {
     }
 
     private void endgame() {
+        System.out.println("The game has ended.");
         resetGame();
         gui.endGame();
     }

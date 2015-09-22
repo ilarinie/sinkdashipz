@@ -8,10 +8,12 @@ package com.purkkapussi.sinkdashipz.UI.GUI;
 import com.purkkapussi.sinkdashipz.UI.GUI.endgame.EndGame;
 import com.purkkapussi.sinkdashipz.UI.GUI.gamemenu.GameMenu;
 import com.purkkapussi.sinkdashipz.UI.GUI.hitlists.HitList;
-import com.purkkapussi.sinkdashipz.UI.GUI.initialsetup.InitialSetup;
+import com.purkkapussi.sinkdashipz.UI.GUI.mainmenu.MainMenu;
 import com.purkkapussi.sinkdashipz.UI.GUI.mainui.MainUI;
+import com.purkkapussi.sinkdashipz.UI.GUI.startSetup.StartSetup;
 import com.purkkapussi.sinkdashipz.domain.Game;
 import com.purkkapussi.sinkdashipz.domain.Ship;
+import com.purkkapussi.sinkdashipz.tools.Difficulty;
 import com.purkkapussi.sinkdashipz.tools.Location;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -24,11 +26,12 @@ public class GUI implements Runnable {
 
     private Game game;
     private JFrame frame;
-    private InitialSetup initialSetup;
+    private MainMenu initialSetup;
     private MainUI mainUI;
     private GameMenu gameMenu;
     private HitList hitList;
     private EndGame endGame;
+    private StartSetup startSetup;
 
     public GUI(Game game) {
         this.game = game;
@@ -51,18 +54,19 @@ public class GUI implements Runnable {
     }
 
     public void createInitialSetup() {
-        initialSetup = new InitialSetup(this);
+        initialSetup = new MainMenu(this);
         initialSetup.createInitialSetup();
         frame.getContentPane().add(initialSetup, BorderLayout.WEST);
     }
 
     public void startGame() {
         //frame.getContentPane().remove(0);
-        if (endGame!=null){
+        if (endGame != null) {
             frame.getContentPane().remove(endGame);
             game.resetGame();
         }
-        
+        frame.getContentPane().remove(startSetup);
+
         mainUI = new MainUI(this);
         mainUI.createMainUI(this);
         frame.getContentPane().add(mainUI, BorderLayout.CENTER);
@@ -75,6 +79,19 @@ public class GUI implements Runnable {
         hitList.createHitLists(this);
         frame.getContentPane().add(hitList, BorderLayout.EAST);
 
+        frame.pack();
+
+    }
+
+    public void newGame() {
+        if (endGame != null) {
+            frame.getContentPane().remove(endGame);
+            game.resetGame();
+        }
+        startSetup = new StartSetup(this);
+        startSetup.createStartSetup();
+        frame.getContentPane().add(startSetup, BorderLayout.CENTER);
+        
         frame.pack();
 
     }
@@ -158,7 +175,11 @@ public class GUI implements Runnable {
         frame.remove(mainUI);
         endGame = new EndGame(this);
         frame.getContentPane().add(endGame, BorderLayout.CENTER);
-        
+
+    }
+
+    public void setDifficulty(Difficulty difficulty) {
+        this.game.getAI().setDifficulty(difficulty);
     }
 
 }

@@ -6,18 +6,17 @@
 package com.purkkapussi.sinkdashipz.domain;
 
 /**
- *
+ *  Class provides the outlines for the game board.
+ * 
  * @author ile
  */
 public class GameBoard {
-    
+
     private int width;
 
-    
-    
-    public GameBoard(int width){
+    public GameBoard(int width) {
         this.width = width;
-        
+
     }
 
     public int getWidth() {
@@ -27,6 +26,5 @@ public class GameBoard {
     public void setWidth(int width) {
         this.width = width;
     }
-    
-    
+
 }

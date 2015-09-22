@@ -5,7 +5,10 @@
  */
 package com.purkkapussi.sinkdashipz.tools;
 
-
+/**
+ * AI Difficulty levels in enum
+ * @author ile
+ */
 public enum Difficulty {
     BRAINLESS(1),EASY(2),CAPABLE(3),LITERALLYJESUS(4);
     

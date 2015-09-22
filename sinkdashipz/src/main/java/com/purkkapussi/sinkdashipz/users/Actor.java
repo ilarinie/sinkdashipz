@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 /**
- * yläluokka pelaajille (sekä AI, että pelaaja), hoitaa pelaajan laivat.
+ * Superclass for players (human player and AI) Provides players name and ships.
  */
 public class Actor {
 
@@ -22,6 +22,9 @@ public class Actor {
     private boolean lastHitSuccess;
     private Location lastHitLoc;
 
+    /**
+     * Constructs a new Actor and creates a new ArrayList for it's ships.
+     */
     public Actor() {
         this.ships = new ArrayList<>();
     }
@@ -30,10 +33,21 @@ public class Actor {
         return this.ships;
     }
 
+    /**
+     * The method adds a ship to the actor.
+     *
+     * @param ship A Ship to add to the actor..
+     */
     public void addShip(Ship ship) {
         ships.add(ship);
     }
 
+    /**
+     * Method constructs a String of players ships. Each ship prints to it's own
+     * line as Location ([x, y]).
+     *
+     * @return Actors ships in human readable (location) form.
+     */
     public String toString() {
         String text = "";
         for (Ship ship : this.ships) {
@@ -49,46 +63,75 @@ public class Actor {
     public void setName(String name) {
         this.name = name;
     }
-    
-    public int fleetSize(){
+
+    /**
+     * Method returns the size of the Actor's fleet
+     *
+     * @return size of the Actor's fleet
+     */
+    public int fleetSize() {
         return ships.size();
     }
 
+    /**
+     * Method removes the given Ship from Actor's fleet.
+     *
+     * @param ship Ship to remove
+     */
     public void removeShip(Ship ship) {
         ships.remove(ship);
     }
-    public int biggestShipSize(){
+
+    /**
+     * Method returns the size (length in coordinates) of Actor's fleet.
+     *
+     * @return size Actors fleet size
+     */
+    public int biggestShipSize() {
         int size = 0;
-        for (Ship ship : ships){
-            if (ship.getSize() > size)
-                size=ship.getSize();
+        for (Ship ship : ships) {
+            if (ship.getSize() > size) {
+                size = ship.getSize();
+            }
         }
         return size;
     }
-    
-    public void lastHit(Location location){
+
+    public void lastHit(Location location) {
         this.lastHitSuccess = true;
         this.lastHitLoc = location;
     }
-    public void lastMiss(Location location){
+
+    public void lastMiss(Location location) {
         this.lastHitSuccess = false;
     }
-    
-    public HashSet<Location> shipLocs(){
+
+    public HashSet<Location> shipLocs() {
         HashSet<Location> shipLocs = new HashSet<Location>();
-        for (Ship ship : ships){
-            for (Hull hull : ship.getHulls()){
+        for (Ship ship : ships) {
+            for (Hull hull : ship.getHulls()) {
                 shipLocs.add(hull.getLocation());
             }
         }
         return shipLocs;
     }
-    
-    /*
-     Metodi saa parametrinä lokaation, johon ammutaan. Metodi tarkistaa pelaajan laivat mahdollisten osumien 
-     varalta ja poistaa laivan, jos sen rungon kaikkiin osiin on osuttu.
-     */
 
+    /**
+     * Method receives a location to "shoot" at. Method goes trough the Actors
+     * ships and tries to find hits by creating a dummy ship in the location
+     * parameter. It then compares the dummy ship against the actors real ships
+     * to determine a hit. If a hit is found, the method removes the Hull that
+     * was hit from the affected Ship. If the Ship has no Hulls left, the method
+     * removes the whole ship from the actor.
+     *
+     * @param location Location of the desired target coordinates.
+     * 
+     * @return re true if there was a hit, false if there wasn't.
+     *
+     * @see Ship
+     * @see Location
+     * @see Hull
+     */
     public boolean hit(Location location) {
         Ship ship = new Ship(new Hull(location.getX(), location.getY()));  //Luo uuden laivan ampumalokaatioon vertailua varten
 
