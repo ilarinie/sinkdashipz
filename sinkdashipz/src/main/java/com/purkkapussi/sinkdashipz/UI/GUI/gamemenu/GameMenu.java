@@ -43,6 +43,8 @@ public class GameMenu extends JPanel{
     }
     public void updateGameMenu(GUI gui){
         shoot.setEnabled(gui.isLocationSelected());
+        aiShips.setText("Ai ships: "+gui.getAIFleetSize());
+        ownShips.setText("Player ships: "+gui.getPlayerFleetSize());
     }
     
 }

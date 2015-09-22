@@ -99,8 +99,17 @@ public class GUI implements Runnable {
     public HashSet<Location> getPlayerHits(){
         return game.getPlayerShootLocs();
     }
-    public HashSet<Location> getAIShips(){
+    public HashSet<Location> getAIShipLocs(){
         return game.getAI().shipLocs();
+    }
+    public int getAIFleetSize(){
+        return game.getAI().fleetSize();
+    }
+    public int getPlayerFleetSize(){
+        return game.getPlayer().fleetSize();
+    }
+    public HashSet<Location> initialAIShipLocs(){
+        return game.getInitialAIShipLocs();
     }
     
     public void update(){

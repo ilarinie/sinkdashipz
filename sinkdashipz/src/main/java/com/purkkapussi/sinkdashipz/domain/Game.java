@@ -31,6 +31,7 @@ public class Game {
     private Location aiShootLoc;
     private HashSet<Location> playerShootLocs;
     private HashSet<Location> aiShootLocs;
+    private HashSet<Location> initialAIShipLocs;
 
     private ArrayList<Location> hitList = new ArrayList<>();
 
@@ -67,6 +68,7 @@ public class Game {
     public void startGame() {
         addRandomFleets(5);
         ai.addShip(new Ship(new Hull(1,1)));
+        initialAIShipLocs = ai.shipLocs();
         gui.run();
 
     }
@@ -101,6 +103,11 @@ public class Game {
     public HashSet<Location> getPlayerShootLocs() {
         return playerShootLocs;
     }
+
+    public HashSet<Location> getInitialAIShipLocs() {
+        return initialAIShipLocs;
+    }
+    
 
     public boolean isTherePlayerShip(int x, int y) {
         Ship tester = new Ship(new Hull(x, y));

@@ -115,17 +115,21 @@ public class MainUI extends JPanel {
                 //pelaajan ampumisnappulat
                 JButton aimButton = new JButton();
                 aimButton.setPreferredSize(new Dimension(40, 40));
+               
                 Location loc = new Location(i, j);
                 AimListener aimListener = new AimListener(gui, loc);
-                aimButton.addActionListener(aimListener);
+                
                 
                 if (gui.getPlayerHits().contains(new Location(i, j))) {
                     aimButton.setEnabled(false);
-                    if (gui.getAIShips().contains(new Location(i,j))){
-                        aimButton.setForeground(Color.ORANGE);
+                    if (gui.initialAIShipLocs().contains(new Location(i,j))){
+                        System.out.println("joo");
+                        aimButton.setBackground(Color.ORANGE);
+                        aimButton.setOpaque(true);
                         
                     }
                 }
+                aimButton.addActionListener(aimListener);
                 aimHolder.add(aimButton);
                 //pelaajan omat laivat
                 JLabel playerShip = new JLabel();
