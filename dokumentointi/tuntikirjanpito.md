@@ -11,3 +11,19 @@ Luokkien määrittely, testauksen aloitus, koodauksen aloitus työkaluista
 ###17.9.2015 14:00-16:00 22:30-23:00
 Laivojen luoja lisätty, testejä lisää, peli hahmottuu lisää
 * Tuntimäärä: 9
+
+###18.9.2015 00:00-03:00
+Alkeellinen tekstikäyttöliittymä, peli periaatteessa toiminnallinen, joskin ilman käyttöliittymää, jatkettu luokkakaaviota
+* Tuntimäärä 12
+
+###20.9.2015 16:00-19:00
+Graafista käyttöliittymää
+* Tuntimäärä 15
+
+###21.9.2015 12:00-16:00
+Graafista käyttöliittymää
+* Tuntimäärä 19
+
+###22.9.2015 13:00-16:00
+Graafista käyttöliittymää
+* Tuntimäärä 22
