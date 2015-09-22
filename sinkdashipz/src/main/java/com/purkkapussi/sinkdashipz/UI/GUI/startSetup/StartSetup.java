@@ -42,10 +42,10 @@ public class StartSetup extends JPanel {
         JButton easy = new JButton("Easy");
         easy.addActionListener(listener);
         
-        JButton startGame = new JButton("Start Game");
-        startGame.addActionListener(listener);
+        JButton literallyJesus = new JButton("Literally jesus");
+        literallyJesus.addActionListener(listener);
         
-        listener.getComponents(brainless, easy, startGame);
+        listener.getComponents(brainless, easy, literallyJesus,playerName);
         
         holder.add(playerName);
         holder.add(brainless);

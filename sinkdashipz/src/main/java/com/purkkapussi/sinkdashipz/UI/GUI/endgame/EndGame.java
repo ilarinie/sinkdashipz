@@ -18,7 +18,7 @@ public class EndGame extends JPanel{
     
     public EndGame(GUI gui){
         this.setPreferredSize(new Dimension(1200,800));
-        this.add(new JLabel("engamee"));
+        this.add(new JLabel("Game ended"));
     }
     
 }

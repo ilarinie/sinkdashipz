@@ -32,6 +32,8 @@ public class Game {
     private HashSet<Location> aiShootLocs;
     private HashSet<Location> initialAIShipLocs;
     private HashSet<Location> initialPlayerShipLocs;
+    
+    
 
     private ArrayList<Location> hitList = new ArrayList<>();
 
@@ -66,8 +68,7 @@ public class Game {
     }
 
     public void startGame() {
-        player.addShip(new Ship(new Hull(1, 1)));
-        ai.addShip(new Ship(new Hull(1, 1)));
+        addRandomFleets(6);
         initialAIShipLocs = ai.shipLocs();
         initialPlayerShipLocs = player.shipLocs();
         gui.run();
@@ -123,11 +124,13 @@ public class Game {
         if (this.playerShootLoc != null) {
             playerShootLocs.add(playerShootLoc);
             if (ai.hit(playerShootLoc)) {
+                player.scoreHit();
                 if (ai.fleetSize() == 0) {
                     endgame();
                 }
                 playerShootLoc = null;
             } else {
+                player.scoreMiss();
                 playerShootLoc = null;
                 aiShoot();
             }

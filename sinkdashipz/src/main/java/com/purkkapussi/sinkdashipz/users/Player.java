@@ -15,6 +15,7 @@ import java.util.List;
 public class Player extends Actor{
     
     private final ArrayList<Ship> ships;
+    private int score;
     
     /**
      * Constructs a new Player object with specified name
@@ -24,6 +25,7 @@ public class Player extends Actor{
     public Player(String nick){
         super.setName(nick);
         this.ships = new ArrayList<>();
+        this.score = 0;
     }
     
     /**
@@ -32,6 +34,21 @@ public class Player extends Actor{
     public Player() {
         super.setName("unnamed player");
         this.ships = new ArrayList<>();
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+    
+    public void scoreHit(){
+        this.score = this.score + 200;
+    }
+    public void scoreMiss(){
+        this.score = this.score - 20;
     }
     
 

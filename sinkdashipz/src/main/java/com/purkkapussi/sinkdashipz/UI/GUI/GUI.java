@@ -12,12 +12,10 @@ import com.purkkapussi.sinkdashipz.UI.GUI.mainmenu.MainMenu;
 import com.purkkapussi.sinkdashipz.UI.GUI.mainui.MainUI;
 import com.purkkapussi.sinkdashipz.UI.GUI.startSetup.StartSetup;
 import com.purkkapussi.sinkdashipz.domain.Game;
-import com.purkkapussi.sinkdashipz.domain.Ship;
 import com.purkkapussi.sinkdashipz.tools.Difficulty;
 import com.purkkapussi.sinkdashipz.tools.Location;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.util.ArrayList;
 import java.util.HashSet;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
@@ -66,7 +64,11 @@ public class GUI implements Runnable {
             game.resetGame();
         }
         frame.getContentPane().remove(startSetup);
-
+        if (mainUI != null ){
+            frame.getContentPane().remove(mainUI);
+            frame.getContentPane().remove(gameMenu);
+            frame.getContentPane().remove(hitList);
+        }
         mainUI = new MainUI(this);
         mainUI.createMainUI(this);
         frame.getContentPane().add(mainUI, BorderLayout.CENTER);
@@ -181,5 +183,17 @@ public class GUI implements Runnable {
     public void setDifficulty(Difficulty difficulty) {
         this.game.getAI().setDifficulty(difficulty);
     }
-
+    
+    public void setPlayerName(String name){
+        this.game.getPlayer().setName(name);
+    }
+    public int playerScore(){
+        return this.game.getPlayer().getScore();
+    }
+    public String playerName(){
+        return this.game.getPlayer().getName();
+    }
+    public String aiName(){
+        return this.game.getAI().getName();
+    }
 }

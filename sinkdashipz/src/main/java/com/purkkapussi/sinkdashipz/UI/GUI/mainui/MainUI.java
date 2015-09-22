@@ -77,9 +77,12 @@ public class MainUI extends JPanel {
                 AimListener aimListener = new AimListener(gui, loc);
                 aimButton.addActionListener(aimListener);
                 aimButton.setPreferredSize(new Dimension(buttonWidth, buttonHeight));
+                if (loc.equals(gui.targetLocation())){
+                    aimButton.setText("X");
+                }
                 aimHolder.add(aimButton);
                 //pelaajan omat laivat
-                JButton playerShip = new JButton();
+                JLabel playerShip = new JLabel();
                 playerShip.setPreferredSize(new Dimension(buttonWidth, buttonHeight));
                 playerShip.setFont(new Font("Arial", Font.PLAIN, fontSize));
                 if (gui.isTherePlayerShip(i, j)) {
@@ -124,6 +127,9 @@ public class MainUI extends JPanel {
                 aimButton.setFont(new Font("Arial", Font.PLAIN, fontSize));
                 Location loc = new Location(i, j);
                 AimListener aimListener = new AimListener(gui, loc);
+                  if (loc.equals(gui.targetLocation())){
+                    aimButton.setText("X");
+                }
 
                 if (gui.getPlayerHits().contains(new Location(i, j))) {
                     aimButton.setEnabled(false);
@@ -136,25 +142,34 @@ public class MainUI extends JPanel {
                 }
                 aimButton.addActionListener(aimListener);
                 aimHolder.add(aimButton);
+                
+                
                 //pelaajan omat laivat
-                JButton playerShip = new JButton();
+                JLabel playerShip = new JLabel();
                 playerShip.setFont(new Font("Arial", Font.PLAIN, 9));
                 playerShip.setPreferredSize(new Dimension(buttonWidth, buttonHeight));
-                if (gui.isTherePlayerShip(i, j)) {
+                if (gui.initialPlayerShipLocs().contains(new Location(i,j))) {
                     if (gui.getAIHits().contains(new Location(i, j))) {
                         playerShip.setText("BOOM");
-                        playerShip.setForeground(Color.ORANGE);
+                        playerShip.setBackground(Color.ORANGE);
+                        playerShip.setOpaque(true);
                     } else {
                         playerShip.setText("SHIP");
+                        playerShip.setBackground(Color.BLACK);
+                        playerShip.setOpaque(true);
                     }
                 } else {
                     if (gui.getAIHits().contains(new Location(i, j))) {
                         playerShip.setText("AI MISS");
-                        playerShip.setForeground(Color.RED);
+                        playerShip.setForeground(Color.BLACK);
+                        playerShip.setBackground(Color.red);
+                        playerShip.setOpaque(true);
 
                     } else {
                         playerShip.setText("SEA");
-                        playerShip.setForeground(Color.BLUE);
+                        playerShip.setForeground(Color.WHITE);
+                        playerShip.setBackground(Color.BLUE);
+                        playerShip.setOpaque(true);
                     }
                 }
                 playerShipHolder.add(playerShip);
