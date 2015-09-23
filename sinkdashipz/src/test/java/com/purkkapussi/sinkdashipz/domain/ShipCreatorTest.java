@@ -76,44 +76,16 @@ public class ShipCreatorTest {
     }
 
     @Test
-    public void createRandomFleetOfFive() {
+    public void createRandomFleet() {
         for (int i = 0; i < 100; i++) {
             try {
-                creator.createRandomFleet(tester, 5, gameBoard);
+                creator.createRandomFleet(tester, gameBoard);
                 System.out.println(tester);
                 assertEquals(5, tester.fleetSize());
             } catch (IllegalArgumentException e) {
 
             }
             this.createObjects();
-        }
-
-    }
-
-    @Test
-    public void createRandomFleetOfSix() {
-        for (int i = 0; i < 5; i++) {
-            try {
-                creator.createRandomFleet(tester, 6, gameBoard);
-                System.out.println(tester);
-                assertEquals(6, tester.fleetSize());
-            } catch (IllegalArgumentException e) {
-
-            }
-            this.createObjects();
-        }
-
-    }
-
-    @Test
-    public void creatTooBigRandomFleet() {
-
-        try {
-            creator.createRandomFleet(tester, 12, gameBoard);
-            fail("Should have thrown exception");
-        } catch (IllegalArgumentException e) {
-            String error = "Board too small for fleetsize";
-            assertEquals(error, e.getMessage());
         }
 
     }

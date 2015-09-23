@@ -62,13 +62,13 @@ public class Game {
         this.gui = new GUI(this);
     }
 
-    public void addRandomFleets(int size) {
-        creator.createRandomFleet(ai, size, gameboard);
-        creator.createRandomFleet(player, size, gameboard);
+    public void addRandomFleets() {
+        creator.createRandomFleet(ai, gameboard);
+        creator.createRandomFleet(player, gameboard);
     }
 
     public void startGame() {
-        addRandomFleets(6);
+        addRandomFleets();
         initialAIShipLocs = ai.shipLocs();
         initialPlayerShipLocs = player.shipLocs();
         gui.run();

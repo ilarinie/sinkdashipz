@@ -5,10 +5,6 @@
  */
 package com.purkkapussi.sinkdashipz.domain;
 
-import com.purkkapussi.sinkdashipz.domain.Direction;
-import com.purkkapussi.sinkdashipz.domain.GameBoard;
-import com.purkkapussi.sinkdashipz.domain.Hull;
-import com.purkkapussi.sinkdashipz.domain.Ship;
 import com.purkkapussi.sinkdashipz.tools.Location;
 import com.purkkapussi.sinkdashipz.users.Actor;
 import java.util.ArrayList;
@@ -169,20 +165,15 @@ public class ShipCreator {
      *
      *
      * @param actor actor to create the fleet for
-     * @param fleetSize desired fleet size
      * @param gameBoard game board to be used
      *
      * @throws IllegalArgumentException
      *
      */
-    public void createRandomFleet(Actor actor, int fleetSize, GameBoard gameBoard) throws IllegalArgumentException {
-        
+    public void createRandomFleet(Actor actor, GameBoard gameBoard) throws IllegalArgumentException {
 
-        if (fleetSize >= gameBoard.getWidth() || (gameBoard.getWidth()==10 && fleetSize > 6)) {
-            throw new IllegalArgumentException("Board too small for fleetsize");
-        }
-        for (int i = 0; i < fleetSize; i++) {
-            Ship ship = createRandomShip(nextShipSize(actor, 1, fleetSize), gameBoard);
+        for (int i = 0; i < 5; i++) {
+            Ship ship = createRandomShip(nextShipSize(actor), gameBoard);
             try {
                 addShipToActor(actor, ship, gameBoard);
             } catch (IllegalArgumentException e) {
@@ -199,24 +190,31 @@ public class ShipCreator {
      * @param increment determines the increment of the ship size increase.
      * @return
      */
-    public int nextShipSize(Actor actor, int increment, int fleetSize) {
-        int size = fleetSize;
-        int add = 0;
+    public int nextShipSize(Actor actor) {
 
-        if (actor.getShips().isEmpty()) {
-            return size;
+        if (actor.fleetSize() == 0) {
+            return 5;
         }
-        size = actor.smallestShipSize();
-        if (size==2){
-            return size;
+        if (actor.fleetSize() == 1) {
+            return 4;
         }
-
-        // if (actor.getShips().size() % 2 == 0) {
-        return size - increment;
-       // }
+        if (actor.fleetSize() < 4) {
+            return 3;
+        } else {
+            return 2;
+        }
 
     }
 
+    /**
+     * Method checks the given ship against the Actors ships to determine if the
+     * ship has any adjacent ships (therefore being in an illegal position)
+     *
+     *
+     * @param actor actor who's ships to check against
+     * @param ship ship to get neighbors
+     * @return
+     */
     public boolean checkForNeighboringShips(Actor actor, Ship ship) {
 
         if (actor.getShips().isEmpty()) {
