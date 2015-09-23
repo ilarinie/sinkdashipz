@@ -32,10 +32,10 @@ public class MainUI extends JPanel {
     protected JPanel mainHolder;
     protected JPanel aimHolder;
     protected JPanel playerShipHolder;
-    
-    private int buttonWidth = 60;
-    private int buttonHeight = 40;
-    private int fontSize = 7;
+
+    private final int buttonWidth = 60;
+    private final int buttonHeight = 40;
+    private final int fontSize = 7;
 
     public MainUI(GUI gui) {
         this.listener = new MainUIListener(gui);
@@ -66,116 +66,123 @@ public class MainUI extends JPanel {
     }
 
     public void createMainUI(GUI gui) {
-
         createImages();
-
-        for (int i = 0; i < gameBoardSize; i++) {
-            for (int j = 0; j < gameBoardSize; j++) {
-                //pelaajan ampumisnappulat
-                JButton aimButton = new JButton();
-                Location loc = new Location(i, j);
-                AimListener aimListener = new AimListener(gui, loc);
-                aimButton.addActionListener(aimListener);
-                aimButton.setPreferredSize(new Dimension(buttonWidth, buttonHeight));
-                if (loc.equals(gui.targetLocation())){
-                    aimButton.setText("X");
-                }
-                aimHolder.add(aimButton);
-                //pelaajan omat laivat
-                JLabel playerShip = new JLabel();
-                playerShip.setPreferredSize(new Dimension(buttonWidth, buttonHeight));
-                playerShip.setFont(new Font("Arial", Font.PLAIN, fontSize));
-                if (gui.isTherePlayerShip(i, j)) {
-                    if (gui.getAIHits().contains(new Location(i, j))) {
-                        playerShip.setText("BOOM");
-                        playerShip.setForeground(Color.ORANGE);
-                    } else {
-                        playerShip.setText("SHIP");
-                    }
-                } else {
-                    if (gui.getAIHits().contains(new Location(i, j))) {
-                        playerShip.setText("MISS");
-                        playerShip.setForeground(Color.RED);
-
-                    } else {
-                        playerShip.setText("SEA");
-                        playerShip.setForeground(Color.BLUE);
-                    }
-                }
-                playerShipHolder.add(playerShip);
-
-            }
-
-        }
+        updateAimButtons(gui);
+        updatePlayerShipLabels(gui);
         mainHolder.add(aimHolder);
         mainHolder.add(playerShipHolder);
-
         this.add(mainHolder);
-
     }
 
     public void updateMainUI(GUI gui) {
-
         aimHolder.removeAll();
         playerShipHolder.removeAll();
+        updateAimButtons(gui);
+        updatePlayerShipLabels(gui);
+    }
 
+    public void updateAimButtons(GUI gui) {
         for (int i = 0; i < gameBoardSize; i++) {
             for (int j = 0; j < gameBoardSize; j++) {
                 //pelaajan ampumisnappulat
-                JButton aimButton = new JButton();
-                aimButton.setPreferredSize(new Dimension(buttonWidth, buttonHeight));
-                aimButton.setFont(new Font("Arial", Font.PLAIN, fontSize));
+                JButton aimButton = createAimButton();
                 Location loc = new Location(i, j);
                 AimListener aimListener = new AimListener(gui, loc);
-                  if (loc.equals(gui.targetLocation())){
-                    aimButton.setText("X");
+                if (loc.equals(gui.targetLocation())) {
+                    markAimLocation(aimButton);
                 }
-
                 if (gui.getPlayerHits().contains(new Location(i, j))) {
-                    aimButton.setEnabled(false);
-                    aimButton.setText("MISS");
+                    changeButtonToMissed(aimButton);
                     if (gui.initialAIShipLocs().contains(new Location(i, j))) {
-                        aimButton.setBackground(Color.ORANGE);
-                        aimButton.setText("BOOM");
-                        aimButton.setOpaque(true);
+                        changeButtonToHit(aimButton);
                     }
                 }
                 aimButton.addActionListener(aimListener);
                 aimHolder.add(aimButton);
-                
-                
-                //pelaajan omat laivat
-                JLabel playerShip = new JLabel();
-                playerShip.setFont(new Font("Arial", Font.PLAIN, 9));
-                playerShip.setPreferredSize(new Dimension(buttonWidth, buttonHeight));
-                if (gui.initialPlayerShipLocs().contains(new Location(i,j))) {
+            }
+        }
+    }
+
+    public void updatePlayerShipLabels(GUI gui) {
+        for (int i = 0; i < gameBoardSize; i++) {
+            for (int j = 0; j < gameBoardSize; j++) {
+                JLabel playerShipLabel = createPlayerShipLabel();
+
+                if (gui.initialPlayerShipLocs().contains(new Location(i, j))) {
                     if (gui.getAIHits().contains(new Location(i, j))) {
-                        playerShip.setText("BOOM");
-                        playerShip.setBackground(Color.ORANGE);
-                        playerShip.setOpaque(true);
+                        setPlayerShipLabelToHit(playerShipLabel);
                     } else {
-                        playerShip.setText("SHIP");
-                        playerShip.setBackground(Color.BLACK);
-                        playerShip.setOpaque(true);
+                        setPlayerShipLabelToShip(playerShipLabel);
                     }
                 } else {
                     if (gui.getAIHits().contains(new Location(i, j))) {
-                        playerShip.setText("AI MISS");
-                        playerShip.setForeground(Color.BLACK);
-                        playerShip.setBackground(Color.red);
-                        playerShip.setOpaque(true);
-
+                        setPlayerShipLabelToAIMiss(playerShipLabel);
                     } else {
-                        playerShip.setText("SEA");
-                        playerShip.setForeground(Color.WHITE);
-                        playerShip.setBackground(Color.BLUE);
-                        playerShip.setOpaque(true);
+                        setPlayerShipLabelToSea(playerShipLabel);
                     }
                 }
-                playerShipHolder.add(playerShip);
-
+                playerShipHolder.add(playerShipLabel);
             }
+
         }
 
     }
+
+    //PLAYERSHIPLABEL CREATION AND MODIFICATION:
+    public JLabel createPlayerShipLabel() {
+        JLabel playerShipLabel = new JLabel();
+        playerShipLabel.setFont(new Font("Arial", Font.PLAIN, fontSize));
+        playerShipLabel.setPreferredSize(new Dimension(buttonWidth, buttonHeight));
+        return playerShipLabel;
+    }
+
+    public void setPlayerShipLabelToHit(JLabel playerShipLabel) {
+        playerShipLabel.setText("BOOM");
+        playerShipLabel.setBackground(Color.ORANGE);
+        playerShipLabel.setOpaque(true);
+    }
+
+    public void setPlayerShipLabelToShip(JLabel playerShipLabel) {
+        playerShipLabel.setText("SHIP");
+        playerShipLabel.setBackground(Color.BLACK);
+        playerShipLabel.setOpaque(true);
+    }
+
+    public void setPlayerShipLabelToAIMiss(JLabel playerShipLabel) {
+        playerShipLabel.setText("AI MISS");
+        playerShipLabel.setForeground(Color.BLACK);
+        playerShipLabel.setBackground(Color.red);
+        playerShipLabel.setOpaque(true);
+    }
+
+    public void setPlayerShipLabelToSea(JLabel playerShipLabel) {
+        playerShipLabel.setText("SEA");
+        playerShipLabel.setForeground(Color.WHITE);
+        playerShipLabel.setBackground(Color.BLUE);
+        playerShipLabel.setOpaque(true);
+    }
+
+    // AIMBUTTON CREATION AND MODIFICATION:
+    public JButton createAimButton() {
+        JButton aimButton = new JButton();
+        aimButton.setPreferredSize(new Dimension(buttonWidth, buttonHeight));
+        aimButton.setFont(new Font("Arial", Font.PLAIN, fontSize));
+        return aimButton;
+    }
+
+    public void markAimLocation(JButton aimButton) {
+        aimButton.setText("X");
+    }
+
+    public void changeButtonToMissed(JButton aimButton) {
+        aimButton.setEnabled(false);
+        aimButton.setText("MISS");
+    }
+
+    public void changeButtonToHit(JButton aimButton) {
+        aimButton.setBackground(Color.ORANGE);
+        aimButton.setText("BOOM");
+        aimButton.setOpaque(true);
+    }
+
 }
