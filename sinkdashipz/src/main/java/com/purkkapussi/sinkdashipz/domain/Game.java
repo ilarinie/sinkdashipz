@@ -72,7 +72,7 @@ public class Game {
         initialAIShipLocs = ai.shipLocs();
         initialPlayerShipLocs = player.shipLocs();
         gui.run();
-
+        System.out.println(ai);
     }
 
     public Player getPlayer() {

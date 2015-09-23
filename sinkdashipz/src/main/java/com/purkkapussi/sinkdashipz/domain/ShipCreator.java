@@ -12,6 +12,7 @@ import com.purkkapussi.sinkdashipz.domain.Ship;
 import com.purkkapussi.sinkdashipz.tools.Location;
 import com.purkkapussi.sinkdashipz.users.Actor;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Random;
 
 /**
@@ -39,23 +40,57 @@ public class ShipCreator {
         if (rand.nextInt(2) == 1) {
             direction = Direction.EAST;
         }
+        ship.setDirection(direction);
         Location start = createStartPoint(gameBoard);
 
         Hull hull = new Hull(start);
+        System.out.println("startloc " + start + " direction " + direction);
 
-        while (size > 0) {
-            if (direction == direction.SOUTH) {
-                start = start.moveSouth();
-                shipBuilder(ship, new Hull(start.getX(), start.getY()));
-            } else {
-                start = start.moveEast();
-                shipBuilder(ship, new Hull(start.getX(), start.getY()));
+        if (direction == Direction.EAST) {
+            for (int i = 0; i < size; i++) {
+                shipBuilder(ship, new Hull((start.getX() + i), start.getY()));
+                System.out.println(i + ". pala: " + (start.getX() + i) + ", " + start.getY());
             }
-
-            size--;
         }
-
+        if (direction == Direction.SOUTH) {
+            for (int i = 0; i < size; i++) {
+                shipBuilder(ship, new Hull(start.getX(), start.getY() - i));
+                System.out.println(i + ". pala: " + start.getX() + ", " + (start.getY() - i));
+            }
+        }
+        System.out.println("laiva täs vaihees: " + ship);
         return ship;
+    }
+
+    public Ship createShip(int size, Direction direction, Location startloc) {
+        Ship newShip = new Ship();
+        newShip.setDirection(direction);
+        if (direction == Direction.EAST) {
+            for (int i = 0; i < size; i++) {
+                shipBuilder(newShip, new Hull(startloc.getX() + i, startloc.getY()));
+            }
+        }
+        if (direction == Direction.SOUTH) {
+            for (int i = 0; i < size; i++) {
+                shipBuilder(newShip, new Hull(startloc.getX(), startloc.getY() - i));
+            }
+        }
+        return newShip;
+    }
+
+    public HashSet<Hull> createHullSet(int size, Direction direction, Location startloc) {
+        HashSet<Hull> hulls = new HashSet<>();
+        if (direction == Direction.EAST) {
+            for (int i = 0; i < size; i++) {
+                hulls.add(new Hull(startloc.getX() + i, startloc.getY()));
+            }
+        }
+        if (direction == Direction.SOUTH) {
+            for (int i = 0; i < size; i++) {
+                hulls.add(new Hull(startloc.getX(), startloc.getY() - i));
+            }
+        }
+        return hulls;
     }
 
     /**
@@ -100,7 +135,7 @@ public class ShipCreator {
      * @param actor actor to add the ship to.
      * @param ship ship to add.
      * @param gameBoard game board to be used.
-     * 
+     *
      * @throws IllegalArgumentException thrown if ships overlap, or are out of
      * bounds
      */
@@ -121,61 +156,98 @@ public class ShipCreator {
                 }
 
             }
+            if (checkForNeighboringShips(actor, ship)) {
+                throw new IllegalArgumentException("Neighboring ship detected");
+            }
             actor.addShip(ship);
         }
 
     }
-    
-    
+
     /**
-     * Method creates a random fleet for the Actor. 
-     * 
-     * 
+     * Method creates a random fleet for the Actor.
+     *
+     *
      * @param actor actor to create the fleet for
      * @param fleetSize desired fleet size
      * @param gameBoard game board to be used
-     * 
-     * @throws IllegalArgumentException 
-     * 
+     *
+     * @throws IllegalArgumentException
+     *
      */
     public void createRandomFleet(Actor actor, int fleetSize, GameBoard gameBoard) throws IllegalArgumentException {
+        
 
-        if (fleetSize >= gameBoard.getWidth() || fleetSize >= gameBoard.getWidth()) {
+        if (fleetSize >= gameBoard.getWidth() || (gameBoard.getWidth()==10 && fleetSize > 6)) {
             throw new IllegalArgumentException("Board too small for fleetsize");
         }
-
         for (int i = 0; i < fleetSize; i++) {
-            Ship ship = createRandomShip(nextShipSize(actor, 2), gameBoard);
+            Ship ship = createRandomShip(nextShipSize(actor, 1, fleetSize), gameBoard);
             try {
                 addShipToActor(actor, ship, gameBoard);
             } catch (IllegalArgumentException e) {
                 i--;
             }
         }
-
     }
 
     /**
-     * Method determines the next ship to be created for an actor in random ship creation.
-     * 
+     * Method determines the next ship to be created for an actor in random ship
+     * creation.
+     *
      * @param actor actor in question
      * @param increment determines the increment of the ship size increase.
-     * @return 
+     * @return
      */
-    public int nextShipSize(Actor actor, int increment) {
-        int size;
+    public int nextShipSize(Actor actor, int increment, int fleetSize) {
+        int size = fleetSize;
         int add = 0;
 
         if (actor.getShips().isEmpty()) {
-            return 2;
+            return size;
         }
-        size = actor.biggestShipSize();
-
-        if (actor.getShips().size() % 2 == 0) {
-            return size + increment;
+        size = actor.smallestShipSize();
+        if (size==2){
+            return size;
         }
 
-        return size;
+        // if (actor.getShips().size() % 2 == 0) {
+        return size - increment;
+       // }
+
     }
 
+    public boolean checkForNeighboringShips(Actor actor, Ship ship) {
+
+        if (actor.getShips().isEmpty()) {
+            return false;
+        }
+
+        Ship tester = new Ship();
+        Location startLoc = new Location(ship.getHulls().get(0).getLocation().getX(), ship.getHulls().get(0).getLocation().getY());
+        startLoc.moveNorth();
+        startLoc.moveWest();
+
+        if (ship.getDirection() == Direction.EAST) {
+            ArrayList<Hull> hulls = new ArrayList<>();
+            hulls.addAll(createHullSet(ship.getSize() + 2, ship.getDirection(), startLoc));
+            startLoc.moveSouth();
+            hulls.addAll(createHullSet(ship.getSize() + 2, ship.getDirection(), startLoc));
+            startLoc.moveSouth();
+            hulls.addAll(createHullSet(ship.getSize() + 2, ship.getDirection(), startLoc));
+            tester.addHullList(hulls);
+
+        }
+        if (ship.getDirection() == Direction.SOUTH) {
+            ArrayList<Hull> hulls = new ArrayList<>();
+            hulls.addAll(createHullSet(ship.getSize() + 2, ship.getDirection(), startLoc));
+            startLoc.moveEast();
+            hulls.addAll(createHullSet(ship.getSize() + 2, ship.getDirection(), startLoc));
+            startLoc.moveEast();
+            hulls.addAll(createHullSet(ship.getSize() + 2, ship.getDirection(), startLoc));
+            tester.addHullList(hulls);
+        }
+
+        return actor.getShips().contains(tester);
+    }
 }

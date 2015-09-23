@@ -5,7 +5,7 @@ import java.util.Objects;
 
 
 
-public class Hull {
+public class Hull implements Comparable{
     
     private Location location;
     private int x;
@@ -54,6 +54,12 @@ public class Hull {
         }
         final Hull other = (Hull) obj;
         return Objects.equals(this.location, other.location);
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        Hull other = (Hull) o;
+        return this.getLocation().compareTo(other.getLocation());
     }
     
     

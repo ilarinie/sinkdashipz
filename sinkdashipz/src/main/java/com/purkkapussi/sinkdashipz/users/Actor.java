@@ -97,6 +97,16 @@ public class Actor {
         return size;
     }
 
+    public int smallestShipSize() {
+        int size = this.biggestShipSize();
+        for (Ship ship : ships) {
+            if (ship.getSize() < size) {
+                size = ship.getSize();
+            }
+        }
+        return size;
+    }
+
     public void lastHit(Location location) {
         this.lastHitSuccess = true;
         this.lastHitLoc = location;
@@ -125,7 +135,7 @@ public class Actor {
      * removes the whole ship from the actor.
      *
      * @param location Location of the desired target coordinates.
-     * 
+     *
      * @return re true if there was a hit, false if there wasn't.
      *
      * @see Ship

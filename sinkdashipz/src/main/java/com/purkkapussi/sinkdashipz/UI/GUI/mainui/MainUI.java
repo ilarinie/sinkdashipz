@@ -21,6 +21,12 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+/**
+ * Class provides the main game functionality for the GUI including aiming and
+ * showing the players ships
+ *
+ * @author ile
+ */
 public class MainUI extends JPanel {
 
     private MainUIListener listener;
@@ -45,35 +51,27 @@ public class MainUI extends JPanel {
         mainHolder = new JPanel(new GridLayout(1, 2));
         //System.out.println(seaUrl.getPath());
     }
-
-    public void createImages() {
-
-        shipUrl = getClass().getResource("/com/purkkapussi/sinkdashipz/UI/GUI/mainui/ship.png");
-        seaUrl = getClass().getResource("/com/purkkapussi/sinkdashipz/UI/GUI/mainui/ship.png");
-
-        try {
-            shipImage = ImageIO.read(new File("/com/purkkapussi/sinkdashipz/UI/GUI/mainui/ship.png"));
-
-        } catch (IOException e) {
-
-        }
-        try {
-            seaImage = ImageIO.read(new File("/com/purkkapussi/sinkdashipz/UI/GUI/mainui/sea.png"));
-        } catch (IOException e) {
-
-        }
-
-    }
-
+    /**
+     * method creates a new MainUI on the given graphical user interface
+     *
+     * @param gui GUI to be used
+     */
     public void createMainUI(GUI gui) {
-        createImages();
+        //createImages();
         updateAimButtons(gui);
         updatePlayerShipLabels(gui);
         mainHolder.add(aimHolder);
         mainHolder.add(playerShipHolder);
         this.add(mainHolder);
     }
-
+    
+    
+    //MAIN UPDATE METHOD
+    /**
+     * Method updates the buttons and labels on the mainUI.
+     *
+     * @param gui GUI to be used
+     */
     public void updateMainUI(GUI gui) {
         aimHolder.removeAll();
         playerShipHolder.removeAll();
@@ -81,6 +79,12 @@ public class MainUI extends JPanel {
         updatePlayerShipLabels(gui);
     }
 
+    //SECONDARY UPDATE METHODS
+    /**
+     * Method to update the aimButtons on the main UI
+     *
+     * @param gui main graphical user interface
+     */
     public void updateAimButtons(GUI gui) {
         for (int i = 0; i < gameBoardSize; i++) {
             for (int j = 0; j < gameBoardSize; j++) {
@@ -103,6 +107,11 @@ public class MainUI extends JPanel {
         }
     }
 
+    /**
+     * Method to update the container which contains the players ships.
+     *
+     * @param gui main graphical user interface
+     */
     public void updatePlayerShipLabels(GUI gui) {
         for (int i = 0; i < gameBoardSize; i++) {
             for (int j = 0; j < gameBoardSize; j++) {
@@ -123,12 +132,17 @@ public class MainUI extends JPanel {
                 }
                 playerShipHolder.add(playerShipLabel);
             }
-
         }
-
     }
-
+    //END UPDATE METHODS
+    
     //PLAYERSHIPLABEL CREATION AND MODIFICATION:
+    /**
+     * Method returns a new JLabel used indicate players ships, sea and AI's
+     * hits and misses. Labels will be updated with icons in the future
+     *
+     * @return new Label with the defined appearance
+     */
     public JLabel createPlayerShipLabel() {
         JLabel playerShipLabel = new JLabel();
         playerShipLabel.setFont(new Font("Arial", Font.PLAIN, fontSize));
@@ -136,18 +150,34 @@ public class MainUI extends JPanel {
         return playerShipLabel;
     }
 
+    /**
+     * Method changes the given Label to indicate AI hit on a players ship.
+     *
+     * @param playerShipLabel label to change
+     */
     public void setPlayerShipLabelToHit(JLabel playerShipLabel) {
         playerShipLabel.setText("BOOM");
         playerShipLabel.setBackground(Color.ORANGE);
         playerShipLabel.setOpaque(true);
     }
 
+    /**
+     * Method changes the given label to indicate (undamaged) player ship
+     *
+     * @param playerShipLabel label to change
+     */
     public void setPlayerShipLabelToShip(JLabel playerShipLabel) {
         playerShipLabel.setText("SHIP");
         playerShipLabel.setBackground(Color.BLACK);
         playerShipLabel.setOpaque(true);
     }
 
+    /**
+     * Method changes the given label to indicate location on which the AI tried
+     * to shoot but missed.
+     *
+     * @param playerShipLabel label to change
+     */
     public void setPlayerShipLabelToAIMiss(JLabel playerShipLabel) {
         playerShipLabel.setText("AI MISS");
         playerShipLabel.setForeground(Color.BLACK);
@@ -155,14 +185,25 @@ public class MainUI extends JPanel {
         playerShipLabel.setOpaque(true);
     }
 
+    /**
+     * Method changes the given label to indicate "sea" (no ships or AI misses)
+     *
+     * @param playerShipLabel label to change
+     */
     public void setPlayerShipLabelToSea(JLabel playerShipLabel) {
         playerShipLabel.setText("SEA");
         playerShipLabel.setForeground(Color.WHITE);
         playerShipLabel.setBackground(Color.BLUE);
         playerShipLabel.setOpaque(true);
     }
+    //END PLAYERSHIPLABEL CREATION AND MODIFICATION
 
     // AIMBUTTON CREATION AND MODIFICATION:
+    /**
+     * Method returns a new JButton to be used in the aim grid.
+     *
+     * @return new JButton
+     */
     public JButton createAimButton() {
         JButton aimButton = new JButton();
         aimButton.setPreferredSize(new Dimension(buttonWidth, buttonHeight));
@@ -170,19 +211,52 @@ public class MainUI extends JPanel {
         return aimButton;
     }
 
+    /**
+     * Method marks the selected button with and X to indicate current target.
+     *
+     * @param aimButton button to change
+     */
     public void markAimLocation(JButton aimButton) {
         aimButton.setText("X");
     }
 
+    /**
+     * Method marks the selected button as missed shot.
+     *
+     * @param aimButton button to change
+     */
     public void changeButtonToMissed(JButton aimButton) {
         aimButton.setEnabled(false);
         aimButton.setText("MISS");
     }
 
+    /**
+     * Method marks the selected button as successful shot
+     *
+     * @param aimButton button to change
+     */
     public void changeButtonToHit(JButton aimButton) {
         aimButton.setBackground(Color.ORANGE);
         aimButton.setText("BOOM");
         aimButton.setOpaque(true);
     }
+    //END AIMBUTTON CREATION AND MODIFICATION
+    
+    //METHOD NOT YET IMPLEMENTED
+    /*
+        public void createImages() {
+        shipUrl = getClass().getResource("/com/purkkapussi/sinkdashipz/UI/GUI/mainui/ship.png");
+        seaUrl = getClass().getResource("/com/purkkapussi/sinkdashipz/UI/GUI/mainui/ship.png");
+        try {
+            shipImage = ImageIO.read(new File("/com/purkkapussi/sinkdashipz/UI/GUI/mainui/ship.png"));
+
+        } catch (IOException e) {
+        }
+        try {
+            seaImage = ImageIO.read(new File("/com/purkkapussi/sinkdashipz/UI/GUI/mainui/sea.png"));
+        } catch (IOException e) {
+        }
+    }
+    */
 
 }

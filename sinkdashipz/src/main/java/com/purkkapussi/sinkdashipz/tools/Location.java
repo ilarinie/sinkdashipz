@@ -1,7 +1,12 @@
 package com.purkkapussi.sinkdashipz.tools;
 
+import com.purkkapussi.sinkdashipz.domain.Direction;
 import com.purkkapussi.sinkdashipz.domain.Game;
 import com.purkkapussi.sinkdashipz.domain.GameBoard;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -9,7 +14,7 @@ import java.util.Random;
  *
  * @author ile
  */
-public class Location {
+public class Location implements Comparable {
 
     private int x;
     private int y;
@@ -53,6 +58,46 @@ public class Location {
     }
 
     /**
+     * Method receives a HashSet of Locations, moves each location once towards
+     * the given direction
+     *
+     * @param locations locations to be moved
+     * @param direction direction to move at
+     * @return moved locations in a HashSet
+     */
+    public HashSet<Location> moveLocSet(HashSet<Location> locations, Direction direction) {
+
+        HashSet<Location> movedLocations = new HashSet<>();
+
+        if (direction == Direction.EAST) {
+            for (Location loc : locations) {
+                loc.moveEast();
+                movedLocations.add(loc);
+            }
+        }
+        if (direction == Direction.WEST) {
+            for (Location loc : locations) {
+                loc.moveWest();
+                movedLocations.add(loc);
+            }
+        }
+        if (direction == Direction.SOUTH) {
+            for (Location loc : locations) {
+                loc.moveSouth();
+                movedLocations.add(loc);
+            }
+        }
+        if (direction == Direction.NORTH) {
+            for (Location loc : locations) {
+                loc.moveNorth();
+                movedLocations.add(loc);
+            }
+        }
+
+        return movedLocations;
+    }
+
+    /**
      * Method moves the Location "east". Adds one to the x-coordinate.
      *
      * @return new Location after the repositioning.
@@ -77,10 +122,8 @@ public class Location {
      *
      * @return new Location after the repositioning.
      */
-    public Location moveNorth(GameBoard gameBoard) throws IndexOutOfBoundsException {
-        if ((this.y + 1) >= gameBoard.getWidth()) {
-            throw new IndexOutOfBoundsException();
-        }
+    public Location moveNorth() {
+
         this.y = this.y + 1;
         return this;
     }
@@ -90,10 +133,8 @@ public class Location {
      *
      * @return new Location after the repositioning.
      */
-    public Location moveWest(GameBoard gameBoard) throws IndexOutOfBoundsException {
-        if ((this.x - 1) < 0) {
-            throw new IndexOutOfBoundsException();
-        }
+    public Location moveWest() {
+
         this.x = this.x - 1;
         return this;
     }
@@ -106,6 +147,14 @@ public class Location {
     public String toString() {
 
         return "[" + this.x + "," + this.y + "]";
+    }
+
+    public String setToString(HashSet<Location> locations) {
+        ArrayList<Location> sortedList = new ArrayList(locations);
+        Collections.sort(sortedList);
+        Location firstLoc = sortedList.get(0);
+        return "";
+
     }
 
     @Override
@@ -132,6 +181,28 @@ public class Location {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        final Location other = (Location) o;
+        if (this.y > other.getY()) {
+            return 1;
+        }
+        if (this.equals(o)) {
+            return 0;
+        }
+        if (this.y < other.getY()) {
+            return -1;
+        }
+        if (this.y == other.getY()) {
+            if (this.x > other.getX()) {
+                return 1;
+            }
+
+            return -1;
+        }
+        return 0;
     }
 
 }
