@@ -27,3 +27,11 @@ Graafista käyttöliittymää
 ###22.9.2015 13:00-16:00
 Graafista käyttöliittymää
 * Tuntimäärä 22
+
+###23.9.2015
+Sovelluslogiikkaan korjauksia, pelin rikkominen, javadoccia
+* Tuntimäärä 25
+
+###24.9.2015 
+Koodin siivoilua, pelin korjaus, logiikan korjailua, testien lisäyksiä, javadoccia
+* Tuntimäärä 29
