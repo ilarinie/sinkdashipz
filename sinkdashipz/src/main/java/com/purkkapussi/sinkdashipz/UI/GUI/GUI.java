@@ -13,7 +13,7 @@ import com.purkkapussi.sinkdashipz.UI.GUI.mainui.MainUI;
 import com.purkkapussi.sinkdashipz.UI.GUI.startSetup.StartSetup;
 import com.purkkapussi.sinkdashipz.domain.Game;
 import com.purkkapussi.sinkdashipz.tools.Difficulty;
-import com.purkkapussi.sinkdashipz.tools.Location;
+import com.purkkapussi.sinkdashipz.domain.Location;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.util.HashSet;

@@ -5,7 +5,7 @@
  */
 package com.purkkapussi.sinkdashipz.UI.textUI;
 
-import com.purkkapussi.sinkdashipz.tools.Location;
+import com.purkkapussi.sinkdashipz.domain.Location;
 import com.purkkapussi.sinkdashipz.users.AI;
 import com.purkkapussi.sinkdashipz.users.Actor;
 import java.util.Scanner;

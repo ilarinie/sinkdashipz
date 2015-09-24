@@ -2,11 +2,8 @@ package com.purkkapussi.sinkdashipz.domain;
 
 import com.purkkapussi.sinkdashipz.tools.Direction;
 
-import com.purkkapussi.sinkdashipz.tools.Location;
 import com.purkkapussi.sinkdashipz.users.Actor;
-import org.junit.Assert;
 import org.junit.Test;
-import org.junit.Rule;
 
 import static org.junit.Assert.*;
 import org.junit.Before;
@@ -23,10 +20,10 @@ public class ShipCreatorTest {
         creator = new ShipCreator();
         tester = new Actor();
         gameBoard = 10;
-        testShip = new Ship(new Hull(1, 1));
+        testShip = new Ship(new Location(1, 1));
         testShip.setDirection(Direction.EAST);
         for (int i = 2; i < 6; i++) {
-            testShip.addHull(new Hull(i, 1));
+            testShip.addHull(new Location(i, 1));
         }
 
     }
@@ -59,7 +56,7 @@ public class ShipCreatorTest {
 
     @Test
     public void createDuplicateShipForActor() {
-        Ship ship = new Ship(new Hull(1, 1));
+        Ship ship = new Ship(new Location(1, 1));
 
         creator.addShipToActor(tester, ship, gameBoard);
         try {
@@ -75,24 +72,23 @@ public class ShipCreatorTest {
 
     @Test
     public void createRandomFleet() {
-      
-            try {
-                creator.createRandomFleet(tester, gameBoard);
-                System.out.println(tester);
-                assertEquals(5, tester.fleetSize());
-            } catch (IllegalArgumentException e) {
 
-            }
-            this.createObjects();
-        
+        try {
+            creator.createRandomFleet(tester, gameBoard);
+            System.out.println(tester);
+            assertEquals(5, tester.fleetSize());
+        } catch (IllegalArgumentException e) {
+
+        }
+        this.createObjects();
 
     }
 
     @Test
     public void checkForNeighborShips() {
-        Ship ship1 = new Ship(new Hull(1, 1));
+        Ship ship1 = new Ship(new Location(1, 1));
         tester.addShip(ship1);
-        Ship ship2 = new Ship(new Hull(2, 1));
+        Ship ship2 = new Ship(new Location(2, 1));
         ship2.setDirection(Direction.EAST);
 
         assertEquals(true, creator.checkForNeighboringShips(tester, ship2));
@@ -100,9 +96,9 @@ public class ShipCreatorTest {
 
     @Test
     public void checkForNeighBorShipsWhenNoneArePresent() {
-        Ship ship1 = new Ship(new Hull(1, 1));
+        Ship ship1 = new Ship(new Location(1, 1));
         tester.addShip(ship1);
-        Ship ship2 = new Ship(new Hull(5, 4));
+        Ship ship2 = new Ship(new Location(5, 4));
 
         assertEquals(false, creator.checkForNeighboringShips(tester, ship2));
     }
@@ -142,26 +138,26 @@ public class ShipCreatorTest {
     @Test
     public void checkForShipToTheEast() {
         tester.addShip(testShip);
-        Ship eastShip = new Ship(new Hull(6, 1));
+        Ship eastShip = new Ship(new Location(6, 1));
         assertEquals(true, creator.checkForNeighboringShips(tester, eastShip));
     }
 
     @Test
     public void checkForShipToTheWest() {
         tester.addShip(testShip);
-        Ship westShip = new Ship(new Hull(0, 1));
+        Ship westShip = new Ship(new Location(0, 1));
         assertEquals(true, creator.checkForNeighboringShips(tester, westShip));
     }
 
     @Test
     public void checkAgainsShip() {
         tester.addShip(testShip);
-        assertEquals(true, creator.checkForNeighboringShips(tester, new Ship(new Hull(4, 2))));
+        assertEquals(true, creator.checkForNeighboringShips(tester, new Ship(new Location(4, 2))));
     }
 
     @Test
     public void testAllSpotsAroundShip() {
-        Location startLoc = new Location(testShip.getHulls().get(0).getLocation().getX(), testShip.getHulls().get(0).getLocation().getY());
+        Location startLoc = new Location(testShip.getHulls().get(0).getX(), testShip.getHulls().get(0).getY());
         int size = testShip.getSize();
 
         if (testShip.getDirection() == Direction.SOUTH) {
@@ -170,21 +166,27 @@ public class ShipCreatorTest {
 
             for (int i = 0; i <= size + 1; i++) {
                 for (int j = 0; j < 3; j++) {
-                    System.out.println("Location: " + (startLoc.getX() + j) + "," + (startLoc.getY() - i) + " truth: " + creator.checkForNeighboringShips(tester, new Ship(new Hull((startLoc.getX() + j), (startLoc.getY() - i)))));
-                    assertEquals(true, creator.checkForNeighboringShips(tester, new Ship(new Hull((startLoc.getX() + j), (startLoc.getY() - i)))));
+                    System.out.println("Location: " + (startLoc.getX() + j) + "," + (startLoc.getY() - i) + " truth: " + creator.checkForNeighboringShips(tester, new Ship(new Location((startLoc.getX() + j), (startLoc.getY() - i)))));
+                    assertEquals(true, creator.checkForNeighboringShips(tester, new Ship(new Location((startLoc.getX() + j), (startLoc.getY() - i)))));
                 }
             }
         }
     }
-    
+
     @Test
-    public void noRandomShipOutOfBounds(){
+    public void noRandomShipOutOfBounds() {
         creator.createRandomFleet(tester, gameBoard);
-        for (Ship ship : tester.getShips()){
-            if (ship.outOfBounds(gameBoard)){
+        for (Ship ship : tester.getShips()) {
+            if (ship.outOfBounds(gameBoard)) {
                 fail("Fleetcreator added a ship that is out of bounds");
             }
         }
+    }
+
+    @Test
+    public void checkNeighborsWhenEmpty() {
+        tester.getShips().clear();
+        assertEquals(false, creator.checkForNeighboringShips(tester, testShip));
     }
 
 }

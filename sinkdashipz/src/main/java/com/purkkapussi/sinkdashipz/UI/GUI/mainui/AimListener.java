@@ -6,7 +6,7 @@
 package com.purkkapussi.sinkdashipz.UI.GUI.mainui;
 
 import com.purkkapussi.sinkdashipz.UI.GUI.GUI;
-import com.purkkapussi.sinkdashipz.tools.Location;
+import com.purkkapussi.sinkdashipz.domain.Location;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 

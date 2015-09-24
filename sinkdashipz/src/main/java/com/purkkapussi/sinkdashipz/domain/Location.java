@@ -1,4 +1,4 @@
-package com.purkkapussi.sinkdashipz.tools;
+package com.purkkapussi.sinkdashipz.domain;
 
 
 
@@ -9,7 +9,7 @@ import java.util.Random;
  *
  * @author ile
  */
-public class Location implements Comparable {
+public class Location {
 
     private int x;
     private int y;
@@ -145,26 +145,5 @@ public class Location implements Comparable {
         return true;
     }
 
-    @Override
-    public int compareTo(Object o) {
-        final Location other = (Location) o;
-        if (this.y > other.getY()) {
-            return 1;
-        }
-        if (this.equals(o)) {
-            return 0;
-        }
-        if (this.y < other.getY()) {
-            return -1;
-        }
-        if (this.y == other.getY()) {
-            if (this.x > other.getX()) {
-                return 1;
-            }
-
-            return -1;
-        }
-        return 0;
-    }
 
 }

@@ -6,7 +6,6 @@
 package com.purkkapussi.sinkdashipz.domain;
 
 import com.purkkapussi.sinkdashipz.tools.Direction;
-import com.purkkapussi.sinkdashipz.tools.Location;
 import com.purkkapussi.sinkdashipz.users.Actor;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -43,12 +42,12 @@ public class ShipCreator {
 
         if (direction == Direction.EAST) {
             for (int i = 0; i < size; i++) {
-                shipBuilder(ship, new Hull((start.getX() + i), start.getY()));
+                shipBuilder(ship, new Location((start.getX() + i), start.getY()));
             }
         }
         if (direction == Direction.SOUTH) {
             for (int i = 0; i < size; i++) {
-                shipBuilder(ship, new Hull(start.getX(), start.getY() - i));
+                shipBuilder(ship, new Location(start.getX(), start.getY() - i));
             }
         }
         return ship;
@@ -59,27 +58,27 @@ public class ShipCreator {
         newShip.setDirection(direction);
         if (direction == Direction.EAST) {
             for (int i = 0; i < size; i++) {
-                shipBuilder(newShip, new Hull(startloc.getX() + i, startloc.getY()));
+                shipBuilder(newShip, new Location(startloc.getX() + i, startloc.getY()));
             }
         }
         if (direction == Direction.SOUTH) {
             for (int i = 0; i < size; i++) {
-                shipBuilder(newShip, new Hull(startloc.getX(), startloc.getY() - i));
+                shipBuilder(newShip, new Location(startloc.getX(), startloc.getY() - i));
             }
         }
         return newShip;
     }
 
-    public HashSet<Hull> createHullSet(int size, Direction direction, Location startloc) {
-        HashSet<Hull> hulls = new HashSet<>();
+    public HashSet<Location> createHullSet(int size, Direction direction, Location startloc) {
+        HashSet<Location> hulls = new HashSet<>();
         if (direction == Direction.EAST) {
             for (int i = 0; i < size; i++) {
-                hulls.add(new Hull(startloc.getX() + i, startloc.getY()));
+                hulls.add(new Location(startloc.getX() + i, startloc.getY()));
             }
         }
         if (direction == Direction.SOUTH) {
             for (int i = 0; i < size; i++) {
-                hulls.add(new Hull(startloc.getX(), startloc.getY() - i));
+                hulls.add(new Location(startloc.getX(), startloc.getY() - i));
             }
         }
         return hulls;
@@ -114,7 +113,7 @@ public class ShipCreator {
      * @param hull Hull to be added
      *
      */
-    public void shipBuilder(Ship ship, Hull hull) {
+    public void shipBuilder(Ship ship, Location hull) {
         ship.addHull(hull);
     }
 
@@ -216,13 +215,13 @@ public class ShipCreator {
             return false;
         }
         Ship tester = new Ship();
-        Location startLoc = new Location(ship.getHulls().get(0).getLocation().getX(), ship.getHulls().get(0).getLocation().getY());
+        Location startLoc = new Location(ship.getHulls().get(0).getX(), ship.getHulls().get(0).getY());
         startLoc.moveNorth();
         startLoc.moveWest();
 
         //The code below will create a new ship that has all the Hulls of the tested ship and also a Hull in every location surrounding the tested ship
         if (ship.getDirection() == Direction.EAST) {
-            ArrayList<Hull> hulls = new ArrayList<>();
+            ArrayList<Location> hulls = new ArrayList<>();
             hulls.addAll(createHullSet(ship.getSize() + 2, ship.getDirection(), startLoc));
             startLoc.moveSouth();
             hulls.addAll(createHullSet(ship.getSize() + 2, ship.getDirection(), startLoc));
@@ -231,7 +230,7 @@ public class ShipCreator {
             tester.addHullList(hulls);
         }
         if (ship.getDirection() == Direction.SOUTH) {
-            ArrayList<Hull> hulls = new ArrayList<>();
+            ArrayList<Location> hulls = new ArrayList<>();
             hulls.addAll(createHullSet(ship.getSize() + 2, ship.getDirection(), startLoc));
             startLoc.moveEast();
             hulls.addAll(createHullSet(ship.getSize() + 2, ship.getDirection(), startLoc));

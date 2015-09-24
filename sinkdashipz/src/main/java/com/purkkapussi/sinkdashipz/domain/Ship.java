@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class Ship {
 
-    private ArrayList<Hull> hullPieces;
+    private ArrayList<Location> hullPieces;
     private Direction direction;
 
     /**
@@ -22,7 +22,7 @@ public class Ship {
      *
      * @param hull the Hull of the new ship
      */
-    public Ship(Hull hull) {
+    public Ship(Location hull) {
         hullPieces = new ArrayList<>();
         hullPieces.add(hull);
         this.direction = Direction.SOUTH;
@@ -40,8 +40,8 @@ public class Ship {
         if (hullPieces.isEmpty()) {
             return false;
         }
-        for (Hull hull : hullPieces) {
-            if (hull.getLocation().getX() < 0 || hull.getLocation().getX() > gameBoardSize - 1 || hull.getLocation().getY() < 0 || hull.getLocation().getY() > gameBoardSize - 1) {
+        for (Location hull : hullPieces) {
+            if (hull.getX() < 0 || hull.getX() > gameBoardSize - 1 || hull.getY() < 0 || hull.getY() > gameBoardSize - 1) {
                 return true;
             }
         }
@@ -52,7 +52,7 @@ public class Ship {
      *
      * @param hull hull to be added.
      */
-    public void addHull(Hull hull) {
+    public void addHull(Location hull) {
         hullPieces.add(hull);
     }
 
@@ -62,7 +62,7 @@ public class Ship {
      *
      * @param hulls Hull to add to the Ship
      */
-    public void addHullList(ArrayList<Hull> hulls) {
+    public void addHullList(ArrayList<Location> hulls) {
         this.hullPieces.addAll(hulls);
     }
 
@@ -71,7 +71,7 @@ public class Ship {
      *
      * @param hull hull to remove
      */
-    public void removeHull(Hull hull) {
+    public void removeHull(Location hull) {
         hullPieces.remove(hull);
     }
 
@@ -90,7 +90,7 @@ public class Ship {
      *
      * @return hulls of the Ship
      */
-    public ArrayList<Hull> getHulls() {
+    public ArrayList<Location> getHulls() {
         return this.hullPieces;
     }
 
@@ -120,7 +120,7 @@ public class Ship {
     @Override
     public String toString() {
         String text = "";
-        for (Hull hull : hullPieces) {
+        for (Location hull : hullPieces) {
             text = text + hull.toString();
         }
         return text;
@@ -154,8 +154,8 @@ public class Ship {
             }
         }
 
-        for (Hull hull : this.hullPieces) {
-            for (Hull otherHull : other.hullPieces) {
+        for (Location hull : this.hullPieces) {
+            for (Location otherHull : other.hullPieces) {
                 if (hull.equals(otherHull)) {
                     return true;
                 }

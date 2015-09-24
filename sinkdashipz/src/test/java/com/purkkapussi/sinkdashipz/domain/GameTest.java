@@ -6,14 +6,8 @@
 package com.purkkapussi.sinkdashipz.domain;
 
 
-import com.purkkapussi.sinkdashipz.tools.Location;
 import com.purkkapussi.sinkdashipz.users.*;
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-import static java.nio.file.Files.size;
-import org.junit.After;
 import static org.junit.Assert.assertEquals;
-import org.junit.Before;
 import org.junit.Test;
 
 public class GameTest {
@@ -32,16 +26,10 @@ public class GameTest {
         assertEquals(10, game.getGameBoardSize());
     }
 
-    @Test
-    public void biggestShipSizeCorrect() {
-        game.addRandomFleets();
-        assertEquals(5, game.getAI().biggestShipSize());
-        assertEquals(5, game.getPlayer().biggestShipSize());
-    }
 
     @Test
     public void gameEndsWhenAIFleetDestroyed() {
-        game.getAI().addShip(new Ship(new Hull(1, 1)));
+        game.getAI().addShip(new Ship(new Location(1, 1)));
         game.setPlayerTargetLoc(new Location(1, 1));
         game.playerShoot();
         assertEquals(200, game.getPlayer().getScore());
@@ -51,8 +39,8 @@ public class GameTest {
     @Test
     public void gameEndsWhenAIFleetDestroyedTwo() {
         
-        game.getAI().addShip(new Ship(new Hull(1, 1)));
-        game.getPlayer().addShip(new Ship(new Hull(-1,2)));
+        game.getAI().addShip(new Ship(new Location(1, 1)));
+        game.getPlayer().addShip(new Ship(new Location(-1,2)));
         game.setPlayerTargetLoc(new Location(0, 1));
         game.playerShoot();
         assertEquals(1,game.getAiShootLocs().size());
@@ -96,7 +84,7 @@ public class GameTest {
     @Test
     public void gameEndsIfAIWins(){
         Game game2 = new Game(1);
-        game2.getPlayer().addShip(new Ship(new Hull(0,0)));
+        game2.getPlayer().addShip(new Ship(new Location(0,0)));
         game2.aiShoot();
         assertEquals(true,game2.getEndgame());
         

@@ -8,7 +8,7 @@ package com.purkkapussi.sinkdashipz.users;
 
 import com.purkkapussi.sinkdashipz.domain.Ship;
 import com.purkkapussi.sinkdashipz.tools.Difficulty;
-import com.purkkapussi.sinkdashipz.tools.Location;
+import com.purkkapussi.sinkdashipz.domain.Location;
 import java.util.ArrayList;
 
 /**
@@ -67,7 +67,7 @@ public class AI extends Actor {
      * 
      */
     public Location shoot(int gameBoardSize, Actor actor){
-        if (this.difficulty == Difficulty.BRAINLESS || !lastHitSuccess) {
+       /* if (this.difficulty == Difficulty.BRAINLESS || !lastHitSuccess) {
             return new Location(gameBoardSize);
         }
         if (this.difficulty == Difficulty.EASY) {
@@ -78,7 +78,8 @@ public class AI extends Actor {
         } else {
             return new Location(gameBoardSize);
         }
-
+        */
+        return new Location(gameBoardSize);
     }
 
 }

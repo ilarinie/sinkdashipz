@@ -5,10 +5,8 @@
  */
 package com.purkkapussi.sinkdashipz.users;
 
-
-import com.purkkapussi.sinkdashipz.domain.Hull;
 import com.purkkapussi.sinkdashipz.domain.Ship;
-import com.purkkapussi.sinkdashipz.tools.Location;
+import com.purkkapussi.sinkdashipz.domain.Location;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -19,8 +17,7 @@ public class Actor {
 
     private ArrayList<Ship> ships;
     private String name;
-    private boolean lastHitSuccess;
-    private Location lastHitLoc;
+
 
     /**
      * Constructs a new Actor and creates a new ArrayList for it's ships.
@@ -48,6 +45,7 @@ public class Actor {
      *
      * @return Actors ships in human readable (location) form.
      */
+    @Override
     public String toString() {
         String text = "";
         for (Ship ship : this.ships) {
@@ -82,45 +80,12 @@ public class Actor {
         ships.remove(ship);
     }
 
-    /**
-     * Method returns the size (length in coordinates) of Actor's fleet.
-     *
-     * @return size Actors fleet size
-     */
-    public int biggestShipSize() {
-        int size = 0;
-        for (Ship ship : ships) {
-            if (ship.getSize() > size) {
-                size = ship.getSize();
-            }
-        }
-        return size;
-    }
-
-    public int smallestShipSize() {
-        int size = this.biggestShipSize();
-        for (Ship ship : ships) {
-            if (ship.getSize() < size) {
-                size = ship.getSize();
-            }
-        }
-        return size;
-    }
-
-    public void lastHit(Location location) {
-        this.lastHitSuccess = true;
-        this.lastHitLoc = location;
-    }
-
-    public void lastMiss(Location location) {
-        this.lastHitSuccess = false;
-    }
 
     public HashSet<Location> shipLocs() {
         HashSet<Location> shipLocs = new HashSet<Location>();
         for (Ship ship : ships) {
-            for (Hull hull : ship.getHulls()) {
-                shipLocs.add(hull.getLocation());
+            for (Location hull : ship.getHulls()) {
+                shipLocs.add(hull);
             }
         }
         return shipLocs;
@@ -143,7 +108,7 @@ public class Actor {
      * @see Hull
      */
     public boolean hit(Location location) {
-        Ship ship = new Ship(new Hull(location.getX(), location.getY()));  //Luo uuden laivan ampumalokaatioon vertailua varten
+        Ship ship = new Ship(new Location(location.getX(), location.getY()));  //Luo uuden laivan ampumalokaatioon vertailua varten
 
         boolean re = false;
 

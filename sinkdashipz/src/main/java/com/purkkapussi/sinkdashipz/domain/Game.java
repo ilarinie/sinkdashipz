@@ -5,7 +5,6 @@
  */
 package com.purkkapussi.sinkdashipz.domain;
 
-import com.purkkapussi.sinkdashipz.tools.Location;
 import com.purkkapussi.sinkdashipz.users.AI;
 import com.purkkapussi.sinkdashipz.users.Player;
 import java.util.HashSet;

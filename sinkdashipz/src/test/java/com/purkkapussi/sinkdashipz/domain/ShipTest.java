@@ -16,10 +16,10 @@ import org.junit.Test;
  */
 public class ShipTest {
 
-    Hull hull1 = new Hull(1, 1);
-    Hull hull2 = new Hull(2, 1);
-    Hull hull3 = new Hull(3, 1);
-    Hull hull4 = new Hull(4, 1);
+    Location hull1 = new Location(1, 1);
+    Location hull2 = new Location(2, 1);
+    Location hull3 = new Location(3, 1);
+    Location hull4 = new Location(4, 1);
 
     int gameBoard = 10;
 
@@ -48,9 +48,9 @@ public class ShipTest {
 
     @Test
     public void sameShipsCollide() {
-        Ship testShip = new Ship(new Hull(1, 1));
+        Ship testShip = new Ship(new Location(1, 1));
         System.out.println(testShip);
-        Ship testShip2 = new Ship(new Hull(1, 1));
+        Ship testShip2 = new Ship(new Location(1, 1));
         System.out.println(testShip2);
         assertEquals(true, testShip.equals(testShip2));
     }
@@ -72,7 +72,7 @@ public class ShipTest {
 
     @Test
     public void shipOutOfBoundsTrue() {
-        Ship outShip = new Ship(new Hull(-1, 2));
+        Ship outShip = new Ship(new Location(-1, 2));
         assertEquals(true, outShip.outOfBounds(gameBoard));
     }
 
@@ -95,21 +95,26 @@ public class ShipTest {
     }
     @Test
     public void addHullList(){
-        ArrayList<Hull> hulls = new ArrayList<>();
+        ArrayList<Location> hulls = new ArrayList<>();
         for (int i=0; i < 10; i++){
-            hulls.add(new Hull(i,1));
+            hulls.add(new Location(i,1));
         }
         ship.addHullList(hulls);
         assertEquals(10, ship.getSize());
     }
     @Test
     public void addBigHullList(){
-        ArrayList<Hull> hulls = new ArrayList<>();
+        ArrayList<Location> hulls = new ArrayList<>();
         for (int i=0; i < 1000; i++){
-            hulls.add(new Hull(i,1));
+            hulls.add(new Location(i,1));
         }
         ship.addHullList(hulls);
         assertEquals(1000, ship.getSize());
+    }
+    @Test
+    public void toStringTest(){
+        ship.addHull(hull1);
+        assertEquals("[1,1]",ship.toString());
     }
     
 }

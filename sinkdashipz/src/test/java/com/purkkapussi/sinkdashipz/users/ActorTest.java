@@ -5,9 +5,9 @@
  */
 package com.purkkapussi.sinkdashipz.users;
 
-import com.purkkapussi.sinkdashipz.domain.Hull;
+
 import com.purkkapussi.sinkdashipz.domain.Ship;
-import com.purkkapussi.sinkdashipz.tools.Location;
+import com.purkkapussi.sinkdashipz.domain.Location;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
@@ -16,8 +16,8 @@ public class ActorTest {
 
     Actor person = new Actor();
 
-    Ship ship = new Ship(new Hull(1, 1));
-    Ship ship2 = new Ship(new Hull(2, 1));
+    Ship ship = new Ship(new Location(1, 1));
+    Ship ship2 = new Ship(new Location(2, 1));
     Location location = new Location(1, 1);
     Location location2 = new Location(2, 3);
 
@@ -54,4 +54,17 @@ public class ActorTest {
 
         assertEquals(before - 1, person.getShips().size());
     }
+    
+    @Test
+    public void toStringTest(){
+        person.addShip(ship);
+        assertEquals("[1,1]\n",person.toString());
+    }
+    @Test
+    public void removeShipTest(){
+        person.addShip(ship);
+        person.removeShip(ship);
+        assertEquals(0,person.fleetSize());
+    }
+    
 }
