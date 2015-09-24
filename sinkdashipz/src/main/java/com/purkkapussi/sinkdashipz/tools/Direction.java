@@ -1,4 +1,4 @@
-package com.purkkapussi.sinkdashipz.domain;
+package com.purkkapussi.sinkdashipz.tools;
 
 
 public enum Direction {

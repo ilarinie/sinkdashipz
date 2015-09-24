@@ -1,12 +1,8 @@
 package com.purkkapussi.sinkdashipz.tools;
 
-import com.purkkapussi.sinkdashipz.domain.Direction;
-import com.purkkapussi.sinkdashipz.domain.Game;
-import com.purkkapussi.sinkdashipz.domain.GameBoard;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Random;
 
 /**

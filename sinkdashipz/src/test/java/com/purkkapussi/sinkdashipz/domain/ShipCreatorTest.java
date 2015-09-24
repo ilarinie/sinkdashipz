@@ -1,6 +1,7 @@
 package com.purkkapussi.sinkdashipz.domain;
 
-import com.purkkapussi.sinkdashipz.domain.GameBoard;
+import com.purkkapussi.sinkdashipz.tools.Direction;
+import com.purkkapussi.sinkdashipz.tools.GameBoard;
 import com.purkkapussi.sinkdashipz.domain.Hull;
 import com.purkkapussi.sinkdashipz.domain.Ship;
 import com.purkkapussi.sinkdashipz.domain.ShipCreator;
@@ -77,7 +78,7 @@ public class ShipCreatorTest {
 
     @Test
     public void createRandomFleet() {
-        for (int i = 0; i < 100; i++) {
+      
             try {
                 creator.createRandomFleet(tester, gameBoard);
                 System.out.println(tester);
@@ -86,7 +87,7 @@ public class ShipCreatorTest {
 
             }
             this.createObjects();
-        }
+        
 
     }
 

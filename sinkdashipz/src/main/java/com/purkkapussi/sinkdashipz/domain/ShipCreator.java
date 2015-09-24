@@ -5,6 +5,8 @@
  */
 package com.purkkapussi.sinkdashipz.domain;
 
+import com.purkkapussi.sinkdashipz.tools.GameBoard;
+import com.purkkapussi.sinkdashipz.tools.Direction;
 import com.purkkapussi.sinkdashipz.tools.Location;
 import com.purkkapussi.sinkdashipz.users.Actor;
 import java.util.ArrayList;
@@ -18,7 +20,7 @@ import java.util.Random;
  */
 public class ShipCreator {
 
-    private Random rand = new Random();
+    private final Random rand = new Random();
 
     /**
      * Method creates a random ship with the given size on the given game board.
@@ -39,22 +41,16 @@ public class ShipCreator {
         ship.setDirection(direction);
         Location start = createStartPoint(gameBoard);
 
-        Hull hull = new Hull(start);
-        System.out.println("startloc " + start + " direction " + direction);
-
         if (direction == Direction.EAST) {
             for (int i = 0; i < size; i++) {
                 shipBuilder(ship, new Hull((start.getX() + i), start.getY()));
-                System.out.println(i + ". pala: " + (start.getX() + i) + ", " + start.getY());
             }
         }
         if (direction == Direction.SOUTH) {
             for (int i = 0; i < size; i++) {
                 shipBuilder(ship, new Hull(start.getX(), start.getY() - i));
-                System.out.println(i + ". pala: " + start.getX() + ", " + (start.getY() - i));
             }
         }
-        System.out.println("laiva täs vaihees: " + ship);
         return ship;
     }
 
@@ -125,7 +121,8 @@ public class ShipCreator {
     /**
      * Method tries to add a ship to an actor. The method throws an
      * IllegalArgumentException if the ship is either out of bounds from the
-     * game board, or if the actor has overlapping ships.
+     * game board, if the actor has overlapping ships or if the ship would have
+     * adjacent neighbor ships.
      *
      *
      * @param actor actor to add the ship to.
@@ -137,27 +134,23 @@ public class ShipCreator {
      */
     public void addShipToActor(Actor actor, Ship ship, GameBoard gameBoard) throws IllegalArgumentException {
 
-        if (ship.overlaps(gameBoard)) {
+        if (ship.outOfBounds(gameBoard)) {
             throw new IllegalArgumentException("Ship out of bounds");
         }
-
         ArrayList<Ship> ships = actor.getShips();
         if (ships.isEmpty()) {
             actor.addShip(ship);
         } else {
-
             for (Ship shipster : ships) {
                 if (ship.equals(shipster)) {
                     throw new IllegalArgumentException("Ships overlapping!");
                 }
-
             }
             if (checkForNeighboringShips(actor, ship)) {
                 throw new IllegalArgumentException("Neighboring ship detected");
             }
             actor.addShip(ship);
         }
-
     }
 
     /**
@@ -184,11 +177,10 @@ public class ShipCreator {
 
     /**
      * Method determines the next ship to be created for an actor in random ship
-     * creation.
+     * creation based on the original rules of Battleship.
      *
      * @param actor actor in question
-     * @param increment determines the increment of the ship size increase.
-     * @return
+     * @return size of the next ship for the actor
      */
     public int nextShipSize(Actor actor) {
 
@@ -208,24 +200,25 @@ public class ShipCreator {
 
     /**
      * Method checks the given ship against the Actors ships to determine if the
-     * ship has any adjacent ships (therefore being in an illegal position)
-     *
+     * ship has any adjacent ships (therefore being in an illegal position). The
+     * method creates a new ship that has all the Hulls of the tested ship and
+     * also a Hull in every location surrounding the tested ship. It then checks
+     * if the new ship overlaps with any of the actors previous ships
      *
      * @param actor actor who's ships to check against
      * @param ship ship to get neighbors
      * @return
      */
     public boolean checkForNeighboringShips(Actor actor, Ship ship) {
-
         if (actor.getShips().isEmpty()) {
             return false;
         }
-
         Ship tester = new Ship();
         Location startLoc = new Location(ship.getHulls().get(0).getLocation().getX(), ship.getHulls().get(0).getLocation().getY());
         startLoc.moveNorth();
         startLoc.moveWest();
 
+        //The code below will create a new ship that has all the Hulls of the tested ship and also a Hull in every location surrounding the tested ship
         if (ship.getDirection() == Direction.EAST) {
             ArrayList<Hull> hulls = new ArrayList<>();
             hulls.addAll(createHullSet(ship.getSize() + 2, ship.getDirection(), startLoc));
@@ -234,7 +227,6 @@ public class ShipCreator {
             startLoc.moveSouth();
             hulls.addAll(createHullSet(ship.getSize() + 2, ship.getDirection(), startLoc));
             tester.addHullList(hulls);
-
         }
         if (ship.getDirection() == Direction.SOUTH) {
             ArrayList<Hull> hulls = new ArrayList<>();

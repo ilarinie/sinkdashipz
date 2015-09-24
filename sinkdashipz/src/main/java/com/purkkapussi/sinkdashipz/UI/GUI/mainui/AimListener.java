@@ -28,7 +28,7 @@ public class AimListener implements ActionListener{
    public void actionPerformed(ActionEvent e){
        
        
-       gui.playerShootLoc(loc);
+       gui.playerTargetLoc(loc);
        
        
    }

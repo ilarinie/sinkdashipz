@@ -1,7 +1,6 @@
 
 package com.purkkapussi.sinkdashipz.tools;
 
-import com.purkkapussi.sinkdashipz.domain.GameBoard;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertEquals;

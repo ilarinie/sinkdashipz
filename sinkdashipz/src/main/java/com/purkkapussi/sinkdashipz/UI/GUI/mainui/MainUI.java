@@ -39,7 +39,7 @@ public class MainUI extends JPanel {
     protected JPanel aimHolder;
     protected JPanel playerShipHolder;
 
-    private final int buttonWidth = 60;
+    private final int buttonWidth = 40;
     private final int buttonHeight = 40;
     private final int fontSize = 7;
 

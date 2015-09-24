@@ -5,6 +5,7 @@
  */
 package com.purkkapussi.sinkdashipz.domain;
 
+import com.purkkapussi.sinkdashipz.tools.GameBoard;
 import com.purkkapussi.sinkdashipz.tools.Location;
 import com.purkkapussi.sinkdashipz.users.*;
 import java.io.ByteArrayOutputStream;
@@ -19,21 +20,46 @@ public class GameTest {
 
     private GameBoard gameboard = new GameBoard(10);
     private Game game = new Game(gameboard);
-    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-    private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
 
-    @Before
-    public void setUpStreams() {
-        System.setOut(new PrintStream(outContent));
-        System.setErr(new PrintStream(errContent));
+    @Test
+    public void fleetsHaveRightAmountOfShips() {
+        game.addRandomFleets();
+        assertEquals(5, game.getAI().fleetSize());
+        assertEquals(5, game.getPlayer().fleetSize());
     }
 
-    @After
-    public void cleanUpStreams() {
-        System.setOut(null);
-        System.setErr(null);
+    @Test
+    public void biggestShipSizeCorrect() {
+        game.addRandomFleets();
+        assertEquals(5, game.getAI().biggestShipSize());
+        assertEquals(5, game.getPlayer().biggestShipSize());
     }
 
+    @Test
+    public void gameEndsWhenAIFleetDestroyed() {
+        game.getAI().addShip(new Ship(new Hull(1, 1)));
+        game.setPlayerTargetLoc(new Location(1, 1));
+        game.playerShoot();
 
+        assertEquals(true, game.getEndgame());
 
+    }
+
+    @Test
+    public void resetGameTest() {
+        game.resetGame();
+        assertEquals(true, game.getAI().getShips().isEmpty());
+        assertEquals(true, game.getPlayer().getShips().isEmpty());
+        assertEquals(true, game.getAiShootLocs().isEmpty());
+        assertEquals(true, game.getPlayerShootLocs().isEmpty());
+        assertEquals(false, game.getEndgame());
+    }
+    @Test
+    public void endGameTest(){
+        
+        game.endgame();
+        assertEquals(true, game.getEndgame());
+    }
+    
+    
 }

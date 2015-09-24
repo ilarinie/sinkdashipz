@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.purkkapussi.sinkdashipz.domain;
+package com.purkkapussi.sinkdashipz.tools;
 
 /**
  *  Class provides the outlines for the game board.
@@ -18,11 +18,9 @@ public class GameBoard {
         this.width = width;
 
     }
-
     public int getWidth() {
         return width;
     }
-
     public void setWidth(int width) {
         this.width = width;
     }

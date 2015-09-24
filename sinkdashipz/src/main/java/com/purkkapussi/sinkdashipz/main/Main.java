@@ -2,7 +2,7 @@ package com.purkkapussi.sinkdashipz.main;
 
 import com.purkkapussi.sinkdashipz.UI.GUI.GUI;
 import com.purkkapussi.sinkdashipz.domain.Game;
-import com.purkkapussi.sinkdashipz.domain.GameBoard;
+import com.purkkapussi.sinkdashipz.tools.GameBoard;
 import com.purkkapussi.sinkdashipz.domain.Hull;
 import com.purkkapussi.sinkdashipz.domain.Ship;
 import com.purkkapussi.sinkdashipz.domain.ShipCreator;

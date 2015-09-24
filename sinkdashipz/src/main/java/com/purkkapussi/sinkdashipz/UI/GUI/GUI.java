@@ -41,7 +41,7 @@ public class GUI implements Runnable {
     @Override
     public void run() {
         frame = new JFrame("Sinkdashipz V 0.1");
-        frame.setPreferredSize(new Dimension(1400, 600));
+        frame.setPreferredSize(new Dimension(1100, 600));
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         frame.getContentPane().setLayout(new BorderLayout());
@@ -67,11 +67,13 @@ public class GUI implements Runnable {
             game.resetGame();
         }
         frame.getContentPane().remove(startSetup);
+        
         if (mainUI != null ){
             frame.getContentPane().remove(mainUI);
             frame.getContentPane().remove(gameMenu);
             frame.getContentPane().remove(hitList);
         }
+        
         mainUI = new MainUI(this);
         mainUI.createMainUI(this);
         frame.getContentPane().add(mainUI, BorderLayout.CENTER);
@@ -95,6 +97,10 @@ public class GUI implements Runnable {
             frame.getContentPane().remove(endGame);
             game.resetGame();
         }
+        if (mainUI != null){
+            frame.getContentPane().remove(mainUI);
+            frame.getContentPane().remove(gameMenu);
+        }
         startSetup = new StartSetup(this);
         startSetup.createStartSetup();
         frame.getContentPane().add(startSetup, BorderLayout.CENTER);
@@ -114,17 +120,21 @@ public class GUI implements Runnable {
     public int getGameBoardSideLenght() {
         return game.getGameBoardSize();
     }
-
-    public void playerShootLoc(Location loc) {
-
-        this.game.setPlayerShootLoc(loc);
+    
+    /**
+     * Method sets the players target location to the given location and updates the view.
+     * 
+     * @param loc Players target location
+    */
+    public void playerTargetLoc(Location loc) {
+        this.game.setPlayerTargetLoc(loc);
         update();
     }
-
-    public boolean isTherePlayerShip(int x, int y) {
-        return game.isTherePlayerShip(x, y);
-    }
-
+    /**
+     * Method used by HitList and MainUI
+     * 
+     * @return targets the AI has hit
+     */
     public HashSet<Location> getAIHits() {
         return game.getAiShootLocs();
     }

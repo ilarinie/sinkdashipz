@@ -5,6 +5,8 @@
  */
 package com.purkkapussi.sinkdashipz.domain;
 
+import com.purkkapussi.sinkdashipz.tools.GameBoard;
+import java.util.ArrayList;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
@@ -19,20 +21,18 @@ public class ShipTest {
     Hull hull3 = new Hull(3, 1);
     Hull hull4 = new Hull(4, 1);
 
+    GameBoard gameBoard = new GameBoard(10);
+
     Ship ship = new Ship();
     Ship ship2 = new Ship();
 
     @Test
     public void shipsWithSameHullsCollide() {
-
         ship.addHull(hull1);
         ship.addHull(hull2);
-
         ship2.addHull(hull2);
         ship2.addHull(hull3);
-
         assertEquals(true, ship.equals(ship2));
-
     }
 
     @Test
@@ -45,28 +45,71 @@ public class ShipTest {
 
         assertEquals(false, ship.equals(ship2));
     }
-    
+
     @Test
-    public void sameShipsCollide(){
-        Ship testShip = new Ship(new Hull(1,1));
+    public void sameShipsCollide() {
+        Ship testShip = new Ship(new Hull(1, 1));
         System.out.println(testShip);
-        Ship testShip2 = new Ship(new Hull(1,1));
+        Ship testShip2 = new Ship(new Hull(1, 1));
         System.out.println(testShip2);
         assertEquals(true, testShip.equals(testShip2));
     }
-    
+
     @Test
-    public void shipSizeIsCorrect(){
+    public void shipSizeIsCorrect() {
         ship.addHull(hull1);
-        assertEquals(1,ship.getSize());
+        assertEquals(1, ship.getSize());
     }
-    
+
     @Test
-    public void shipSizeIsCorrectTwo(){
+    public void shipSizeIsCorrectTwo() {
         ship.addHull(hull1);
         ship.addHull(hull2);
         ship.addHull(hull3);
-        
-        assertEquals(3,ship.getSize());
+
+        assertEquals(3, ship.getSize());
     }
+
+    @Test
+    public void shipOutOfBoundsTrue() {
+        Ship outShip = new Ship(new Hull(-1, 2));
+        assertEquals(true, outShip.outOfBounds(gameBoard));
+    }
+
+    @Test
+    public void shipOutOfBoundsFalse() {
+        ship.addHull(hull1);
+        assertEquals(false, ship.outOfBounds(gameBoard));
+    }
+    
+    @Test
+    public void addHullTest(){
+        ship.addHull(hull1);
+        assertEquals(1, ship.getSize());
+    }
+    @Test
+    public void addTwoHullsTest(){
+        ship.addHull(hull1);
+        ship.addHull(hull2);
+        assertEquals(2,ship.getSize());
+    }
+    @Test
+    public void addHullList(){
+        ArrayList<Hull> hulls = new ArrayList<>();
+        for (int i=0; i < 10; i++){
+            hulls.add(new Hull(i,1));
+        }
+        ship.addHullList(hulls);
+        assertEquals(10, ship.getSize());
+    }
+    @Test
+    public void addBigHullList(){
+        ArrayList<Hull> hulls = new ArrayList<>();
+        for (int i=0; i < 1000; i++){
+            hulls.add(new Hull(i,1));
+        }
+        ship.addHullList(hulls);
+        assertEquals(1000, ship.getSize());
+    }
+    
 }
