@@ -23,6 +23,8 @@ import javax.swing.WindowConstants;
 public class GUI implements Runnable {
 
     private Game game;
+    
+    
     private JFrame frame;
     private MainMenu initialSetup;
     private MainUI mainUI;
@@ -39,7 +41,7 @@ public class GUI implements Runnable {
     @Override
     public void run() {
         frame = new JFrame("Sinkdashipz V 0.1");
-        frame.setPreferredSize(new Dimension(1600, 600));
+        frame.setPreferredSize(new Dimension(1400, 600));
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         frame.getContentPane().setLayout(new BorderLayout());
@@ -58,6 +60,7 @@ public class GUI implements Runnable {
     }
 
     public void startGame() {
+        
         //frame.getContentPane().remove(0);
         if (endGame != null) {
             frame.getContentPane().remove(endGame);
@@ -86,6 +89,8 @@ public class GUI implements Runnable {
     }
 
     public void newGame() {
+        game.resetGame();
+        game.startGame();
         if (endGame != null) {
             frame.getContentPane().remove(endGame);
             game.resetGame();
@@ -152,6 +157,9 @@ public class GUI implements Runnable {
         gameMenu.updateGameMenu(this);
         hitList.updateHitList(this);
         mainUI.updateMainUI(this);
+        if (game.getEndgame()){
+            endGame();
+        }
 
     }
 

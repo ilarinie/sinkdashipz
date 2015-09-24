@@ -5,7 +5,6 @@
  */
 package com.purkkapussi.sinkdashipz.domain;
 
-import com.purkkapussi.sinkdashipz.UI.GUI.GUI;
 import com.purkkapussi.sinkdashipz.UI.textUI.TextBasedUi;
 import com.purkkapussi.sinkdashipz.tools.Location;
 import com.purkkapussi.sinkdashipz.users.AI;
@@ -20,20 +19,21 @@ import java.util.List;
  */
 public class Game {
 
-    private GameBoard gameboard;
+    //Main object variables
+    private final GameBoard gameboard;
     private ShipCreator creator;
     private AI ai;
     private Player player;
     private TextBasedUi ui;
-    private GUI gui;
+
+    //Runtime variables
+    private Boolean endgame;
     private Location playerShootLoc;
     private Location aiShootLoc;
     private HashSet<Location> playerShootLocs;
     private HashSet<Location> aiShootLocs;
     private HashSet<Location> initialAIShipLocs;
     private HashSet<Location> initialPlayerShipLocs;
-    
-    
 
     private ArrayList<Location> hitList = new ArrayList<>();
 
@@ -41,7 +41,6 @@ public class Game {
         this.creator = new ShipCreator();
         this.ai = new AI();
         this.player = new Player();
-        this.ui = new TextBasedUi();
         this.gameboard = gameboard;
         this.playerShootLocs = new HashSet<>();
         this.aiShootLocs = new HashSet<>();
@@ -58,10 +57,6 @@ public class Game {
 
     }
 
-    public void createGUI() {
-        this.gui = new GUI(this);
-    }
-
     public void addRandomFleets() {
         creator.createRandomFleet(ai, gameboard);
         creator.createRandomFleet(player, gameboard);
@@ -71,7 +66,6 @@ public class Game {
         addRandomFleets();
         initialAIShipLocs = ai.shipLocs();
         initialPlayerShipLocs = player.shipLocs();
-        gui.run();
         System.out.println(ai);
     }
 
@@ -152,22 +146,21 @@ public class Game {
 
     private void endgame() {
         System.out.println("The game has ended.");
-        resetGame();
-        gui.endGame();
+        this.endgame = true;
     }
 
     public void resetGame() {
         this.creator = new ShipCreator();
         this.ai = new AI();
         this.player = new Player();
-        this.ui = new TextBasedUi();
         this.playerShootLocs = new HashSet<>();
         this.aiShootLocs = new HashSet<>();
-
-        player.addShip(new Ship(new Hull(1, 1)));
-        ai.addShip(new Ship(new Hull(1, 1)));
         initialAIShipLocs = ai.shipLocs();
         initialPlayerShipLocs = player.shipLocs();
+    }
+
+    public Boolean getEndgame() {
+        return endgame;
     }
 
     /*public void startTextGame() {

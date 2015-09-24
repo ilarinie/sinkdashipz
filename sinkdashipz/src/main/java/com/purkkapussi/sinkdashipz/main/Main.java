@@ -1,5 +1,6 @@
 package com.purkkapussi.sinkdashipz.main;
 
+import com.purkkapussi.sinkdashipz.UI.GUI.GUI;
 import com.purkkapussi.sinkdashipz.domain.Game;
 import com.purkkapussi.sinkdashipz.domain.GameBoard;
 import com.purkkapussi.sinkdashipz.domain.Hull;
@@ -15,8 +16,8 @@ public class Main {
         
         GameBoard gameboard = new GameBoard(10);
         Game game = new Game(gameboard);
-        game.createGUI();
-        game.startGame();
+        GUI gui = new GUI(game);
+        gui.run();
         
         
         
