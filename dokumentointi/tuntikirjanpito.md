@@ -32,6 +32,6 @@ Graafista käyttöliittymää
 Sovelluslogiikkaan korjauksia, pelin rikkominen, javadoccia
 * Tuntimäärä 25
 
-##24.9.2015 
+###24.9.2015 
 Koodin siivoilua, pelin korjaus, logiikan korjailua, testien lisäyksiä, javadoccia
 * Tuntimäärä 29
