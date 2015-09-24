@@ -5,7 +5,7 @@
  */
 package com.purkkapussi.sinkdashipz.domain;
 
-import com.purkkapussi.sinkdashipz.tools.GameBoard;
+
 import com.purkkapussi.sinkdashipz.tools.Location;
 import com.purkkapussi.sinkdashipz.users.*;
 import java.io.ByteArrayOutputStream;
@@ -18,7 +18,7 @@ import org.junit.Test;
 
 public class GameTest {
 
-    private GameBoard gameboard = new GameBoard(10);
+    private int gameboard = 10;
     private Game game = new Game(gameboard);
 
     @Test
@@ -95,7 +95,7 @@ public class GameTest {
     }
     @Test
     public void gameEndsIfAIWins(){
-        Game game2 = new Game(new GameBoard(1));
+        Game game2 = new Game(1);
         game2.getPlayer().addShip(new Ship(new Hull(0,0)));
         game2.aiShoot();
         assertEquals(true,game2.getEndgame());

@@ -1,10 +1,7 @@
 package com.purkkapussi.sinkdashipz.domain;
 
 import com.purkkapussi.sinkdashipz.tools.Direction;
-import com.purkkapussi.sinkdashipz.tools.GameBoard;
-import com.purkkapussi.sinkdashipz.domain.Hull;
-import com.purkkapussi.sinkdashipz.domain.Ship;
-import com.purkkapussi.sinkdashipz.domain.ShipCreator;
+
 import com.purkkapussi.sinkdashipz.tools.Location;
 import com.purkkapussi.sinkdashipz.users.Actor;
 import org.junit.Assert;
@@ -18,14 +15,14 @@ public class ShipCreatorTest {
 
     public ShipCreator creator;
     public Actor tester;
-    public GameBoard gameBoard;
+    public int gameBoard;
     public Ship testShip;
 
     @Before
     public void createObjects() {
         creator = new ShipCreator();
         tester = new Actor();
-        gameBoard = new GameBoard(10);
+        gameBoard = 10;
         testShip = new Ship(new Hull(1, 1));
         testShip.setDirection(Direction.EAST);
         for (int i = 2; i < 6; i++) {
@@ -184,7 +181,7 @@ public class ShipCreatorTest {
     public void noRandomShipOutOfBounds(){
         creator.createRandomFleet(tester, gameBoard);
         for (Ship ship : tester.getShips()){
-            if (ship.outOfBounds(gameBoard.getWidth())){
+            if (ship.outOfBounds(gameBoard)){
                 fail("Fleetcreator added a ship that is out of bounds");
             }
         }

@@ -5,7 +5,6 @@
  */
 package com.purkkapussi.sinkdashipz.domain;
 
-import com.purkkapussi.sinkdashipz.tools.GameBoard;
 import com.purkkapussi.sinkdashipz.tools.Direction;
 import com.purkkapussi.sinkdashipz.tools.Location;
 import com.purkkapussi.sinkdashipz.users.Actor;
@@ -31,7 +30,7 @@ public class ShipCreator {
      *
      * @return new random Ship
      */
-    public Ship createRandomShip(int size, GameBoard gameBoard) {
+    public Ship createRandomShip(int size, int gameBoard) {
 
         Ship ship = new Ship();
 
@@ -96,7 +95,7 @@ public class ShipCreator {
      * @throws IllegalArgumentException
      *
      */
-    public void createRandomFleet(Actor actor, GameBoard gameBoard) throws IllegalArgumentException {
+    public void createRandomFleet(Actor actor, int gameBoard) throws IllegalArgumentException {
 
         for (int i = 0; i < 5; i++) {
             Ship ship = createRandomShip(nextShipSize(actor), gameBoard);
@@ -128,14 +127,14 @@ public class ShipCreator {
      *
      * @return starting location for the new Ship
      */
-    public Location createStartPoint(GameBoard gameBoard) {
+    public Location createStartPoint(int gameBoard) {
 
-        int startX = rand.nextInt(gameBoard.getWidth() - 2);
+        int startX = rand.nextInt(gameBoard - 2);
         /* while (direction == Direction.EAST && ((startX + size) >= gameBoard.getWidth())) {
          startX = rand.nextInt(gameBoard.getWidth() - 2);
          }
          */
-        int startY = rand.nextInt(gameBoard.getWidth() - 2);
+        int startY = rand.nextInt(gameBoard - 2);
         /*  while (direction == Direction.SOUTH && ((startY - size) < 0)) {
          startY = rand.nextInt(gameBoard.getLength() - 2);
          }*/
@@ -157,9 +156,9 @@ public class ShipCreator {
      * @throws IllegalArgumentException thrown if ships overlap, or are out of
      * bounds
      */
-    public void addShipToActor(Actor actor, Ship ship, GameBoard gameBoard) throws IllegalArgumentException {
+    public void addShipToActor(Actor actor, Ship ship, int gameBoard) throws IllegalArgumentException {
 
-        if (ship.outOfBounds(gameBoard.getWidth())) {
+        if (ship.outOfBounds(gameBoard)) {
             throw new IllegalArgumentException("Ship out of bounds");
         }
         ArrayList<Ship> ships = actor.getShips();

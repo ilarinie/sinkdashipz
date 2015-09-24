@@ -5,7 +5,6 @@
  */
 package com.purkkapussi.sinkdashipz.domain;
 
-import com.purkkapussi.sinkdashipz.tools.GameBoard;
 import com.purkkapussi.sinkdashipz.tools.Location;
 import com.purkkapussi.sinkdashipz.users.AI;
 import com.purkkapussi.sinkdashipz.users.Player;
@@ -18,7 +17,7 @@ import java.util.HashSet;
 public class Game {
 
     //Main object variables
-    private final GameBoard gameboard;
+    private final int gameBoardSize;
     private ShipCreator creator;
     private AI ai;
     private Player player;
@@ -33,20 +32,20 @@ public class Game {
     private HashSet<Location> initialPlayerShipLocs;
 
     //CONSTRUCTORS
-    public Game(GameBoard gameboard) {
+    public Game(int gameboard) {
         this.creator = new ShipCreator();
         this.ai = new AI();
         this.player = new Player();
-        this.gameboard = gameboard;
+        this.gameBoardSize = gameboard;
         this.playerShootLocs = new HashSet<>();
         this.aiShootLocs = new HashSet<>();
     }
 
-    public Game(AI ai, Player player, GameBoard gameboard) {
+    public Game(AI ai, Player player, int gameboard) {
         this.ai = ai;
         this.player = player;
         this.creator = new ShipCreator();
-        this.gameboard = gameboard;
+        this.gameBoardSize = gameboard;
         this.playerShootLocs = new HashSet<>();
         this.aiShootLocs = new HashSet<>();
     }
@@ -75,8 +74,8 @@ public class Game {
 
     //FLEET CREATORS
     public void addRandomFleets() {
-        creator.createRandomFleet(ai, gameboard);
-        creator.createRandomFleet(player, gameboard);
+        creator.createRandomFleet(ai, gameBoardSize);
+        creator.createRandomFleet(player, gameBoardSize);
     }
 
     //SHOOTING CONTROLS
@@ -99,13 +98,13 @@ public class Game {
 
     public void aiShoot() {
 
-        aiShootLoc = ai.shoot(gameboard.getWidth(), player);
+        aiShootLoc = ai.shoot(gameBoardSize, player);
         aiShootLocs.add(aiShootLoc);
         while (player.hit(aiShootLoc)) {
             if (player.fleetSize() == 0) {
                 endgame();
             }
-            aiShootLoc = ai.shoot(gameboard.getWidth(), player);
+            aiShootLoc = ai.shoot(gameBoardSize, player);
             aiShootLocs.add(aiShootLoc);
         }
 
@@ -125,7 +124,7 @@ public class Game {
     }
 
     public int getGameBoardSize() {
-        return this.gameboard.getWidth();
+        return this.gameBoardSize;
     }
 
     public void setPlayerTargetLoc(Location playerTargetLoc) {

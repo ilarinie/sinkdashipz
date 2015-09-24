@@ -5,7 +5,7 @@
  */
 package com.purkkapussi.sinkdashipz.domain;
 
-import com.purkkapussi.sinkdashipz.tools.GameBoard;
+
 import java.util.ArrayList;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
@@ -21,7 +21,7 @@ public class ShipTest {
     Hull hull3 = new Hull(3, 1);
     Hull hull4 = new Hull(4, 1);
 
-    GameBoard gameBoard = new GameBoard(10);
+    int gameBoard = 10;
 
     Ship ship = new Ship();
     Ship ship2 = new Ship();
@@ -73,13 +73,13 @@ public class ShipTest {
     @Test
     public void shipOutOfBoundsTrue() {
         Ship outShip = new Ship(new Hull(-1, 2));
-        assertEquals(true, outShip.outOfBounds(gameBoard.getWidth()));
+        assertEquals(true, outShip.outOfBounds(gameBoard));
     }
 
     @Test
     public void shipOutOfBoundsFalse() {
         ship.addHull(hull1);
-        assertEquals(false, ship.outOfBounds(gameBoard.getWidth()));
+        assertEquals(false, ship.outOfBounds(gameBoard));
     }
     
     @Test

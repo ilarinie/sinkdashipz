@@ -5,8 +5,7 @@
  */
 package com.purkkapussi.sinkdashipz.users;
 
-import com.purkkapussi.sinkdashipz.domain.Game;
-import com.purkkapussi.sinkdashipz.tools.GameBoard;
+
 import com.purkkapussi.sinkdashipz.domain.Ship;
 import com.purkkapussi.sinkdashipz.tools.Difficulty;
 import com.purkkapussi.sinkdashipz.tools.Location;
