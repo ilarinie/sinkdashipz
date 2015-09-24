@@ -1,9 +1,8 @@
 package com.purkkapussi.sinkdashipz.domain;
 
-import com.purkkapussi.sinkdashipz.tools.GameBoard;
 import com.purkkapussi.sinkdashipz.tools.Direction;
 import java.util.ArrayList;
-import java.util.Collections;
+
 
 public class Ship {
 
@@ -33,16 +32,16 @@ public class Ship {
      * Method checks if the Ship is out of bounds of the GameBoard given as
      * parameter.
      *
-     * @param gameBoard GameBoard to be used
+     * @param gameBoardSize GameBoard to be used
      *
      * @return true if ship is out of bounds, false if not
      */
-    public boolean outOfBounds(GameBoard gameBoard) {
+    public boolean outOfBounds(int gameBoardSize) {
         if (hullPieces.isEmpty()) {
             return false;
         }
         for (Hull hull : hullPieces) {
-            if (hull.getLocation().getX() < 0 || hull.getLocation().getX() > gameBoard.getWidth() - 1 || hull.getLocation().getY() < 0 || hull.getLocation().getY() > gameBoard.getWidth() - 1) {
+            if (hull.getLocation().getX() < 0 || hull.getLocation().getX() > gameBoardSize - 1 || hull.getLocation().getY() < 0 || hull.getLocation().getY() > gameBoardSize - 1) {
                 return true;
             }
         }
@@ -65,7 +64,6 @@ public class Ship {
      */
     public void addHullList(ArrayList<Hull> hulls) {
         this.hullPieces.addAll(hulls);
-        Collections.sort(this.hullPieces);
     }
 
     /**

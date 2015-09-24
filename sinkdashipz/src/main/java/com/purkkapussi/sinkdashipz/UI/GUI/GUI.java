@@ -174,7 +174,7 @@ public class GUI implements Runnable {
     }
 
     public boolean isLocationSelected() {
-        if (null != game.getPlayerShootLoc()) {
+        if (null != game.getPlayerTargetLoc()) {
             return true;
         } else {
             return false;
@@ -182,7 +182,7 @@ public class GUI implements Runnable {
     }
 
     public Location targetLocation() {
-        return game.getPlayerShootLoc();
+        return game.getPlayerTargetLoc();
     }
 
     public void shoot() {

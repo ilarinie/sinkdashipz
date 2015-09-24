@@ -73,13 +73,13 @@ public class ShipTest {
     @Test
     public void shipOutOfBoundsTrue() {
         Ship outShip = new Ship(new Hull(-1, 2));
-        assertEquals(true, outShip.outOfBounds(gameBoard));
+        assertEquals(true, outShip.outOfBounds(gameBoard.getWidth()));
     }
 
     @Test
     public void shipOutOfBoundsFalse() {
         ship.addHull(hull1);
-        assertEquals(false, ship.outOfBounds(gameBoard));
+        assertEquals(false, ship.outOfBounds(gameBoard.getWidth()));
     }
     
     @Test

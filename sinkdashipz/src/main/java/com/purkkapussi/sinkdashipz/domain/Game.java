@@ -6,7 +6,6 @@
 package com.purkkapussi.sinkdashipz.domain;
 
 import com.purkkapussi.sinkdashipz.tools.GameBoard;
-import com.purkkapussi.sinkdashipz.UI.textUI.TextBasedUi;
 import com.purkkapussi.sinkdashipz.tools.Location;
 import com.purkkapussi.sinkdashipz.users.AI;
 import com.purkkapussi.sinkdashipz.users.Player;
@@ -33,8 +32,7 @@ public class Game {
     private HashSet<Location> initialAIShipLocs;
     private HashSet<Location> initialPlayerShipLocs;
 
-
-
+    //CONSTRUCTORS
     public Game(GameBoard gameboard) {
         this.creator = new ShipCreator();
         this.ai = new AI();
@@ -53,15 +51,69 @@ public class Game {
         this.aiShootLocs = new HashSet<>();
     }
 
+    //GAME CONTROLS
+    public void startGame() {
+        addRandomFleets();
+        initialAIShipLocs = ai.shipLocs();
+        initialPlayerShipLocs = player.shipLocs();
+    }
+
+    public void resetGame() {
+        this.creator = new ShipCreator();
+        this.ai = new AI();
+        this.player = new Player();
+        this.playerShootLocs = new HashSet<>();
+        this.aiShootLocs = new HashSet<>();
+        initialAIShipLocs = ai.shipLocs();
+        initialPlayerShipLocs = player.shipLocs();
+        endgame = false;
+    }
+
+    public void endgame() {
+        this.endgame = true;
+    }
+
+    //FLEET CREATORS
     public void addRandomFleets() {
         creator.createRandomFleet(ai, gameboard);
         creator.createRandomFleet(player, gameboard);
     }
 
-    public void startGame() {
-        addRandomFleets();
-        initialAIShipLocs = ai.shipLocs();
-        initialPlayerShipLocs = player.shipLocs();
+    //SHOOTING CONTROLS
+    public void playerShoot() {
+        if (this.playerTargetLoc != null) {
+            playerShootLocs.add(playerTargetLoc);
+            if (ai.hit(playerTargetLoc)) {
+                player.scoreHit();
+                if (ai.fleetSize() == 0) {
+                    endgame();
+                }
+                playerTargetLoc = null;
+            } else {
+                player.scoreMiss();
+                playerTargetLoc = null;
+                aiShoot();
+            }
+        }
+    }
+
+    public void aiShoot() {
+
+        aiShootLoc = ai.shoot(gameboard.getWidth(), player);
+        aiShootLocs.add(aiShootLoc);
+        while (player.hit(aiShootLoc)) {
+            if (player.fleetSize() == 0) {
+                endgame();
+            }
+            aiShootLoc = ai.shoot(gameboard.getWidth(), player);
+            aiShootLocs.add(aiShootLoc);
+        }
+
+    }
+
+    //GETTERS AND SETTERS
+    public Boolean getEndgame() {
+        return endgame;
     }
 
     public Player getPlayer() {
@@ -80,7 +132,7 @@ public class Game {
         this.playerTargetLoc = playerTargetLoc;
     }
 
-    public Location getPlayerShootLoc() {
+    public Location getPlayerTargetLoc() {
         return playerTargetLoc;
     }
 
@@ -98,56 +150,6 @@ public class Game {
 
     public HashSet<Location> getInitialPlayerShipLocs() {
         return initialPlayerShipLocs;
-    }
-
-
-    public void playerShoot() {
-        if (this.playerTargetLoc != null) {
-            playerShootLocs.add(playerTargetLoc);
-            if (ai.hit(playerTargetLoc)) {
-                player.scoreHit();
-                if (ai.fleetSize() == 0) {
-                    endgame();
-                }
-                playerTargetLoc = null;
-            } else {
-                player.scoreMiss();
-                playerTargetLoc = null;
-                aiShoot();
-            }
-        }
-    }
-
-    private void aiShoot() {
-        aiShootLoc = ai.shoot(gameboard, player);
-        aiShootLocs.add(aiShootLoc);
-        while (player.hit(aiShootLoc)) {
-            if (player.fleetSize() == 0) {
-                endgame();
-            }
-            aiShootLoc = ai.shoot(gameboard, player);
-            aiShootLocs.add(aiShootLoc);
-        }
-    }
-
-    public void endgame() {
-        System.out.println("The game has ended.");
-        this.endgame = true;
-    }
-
-    public void resetGame() {
-        this.creator = new ShipCreator();
-        this.ai = new AI();
-        this.player = new Player();
-        this.playerShootLocs = new HashSet<>();
-        this.aiShootLocs = new HashSet<>();
-        initialAIShipLocs = ai.shipLocs();
-        initialPlayerShipLocs = player.shipLocs();
-        endgame = false;
-    }
-
-    public Boolean getEndgame() {
-        return endgame;
     }
 
 }

@@ -1,8 +1,7 @@
 package com.purkkapussi.sinkdashipz.tools;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
+
+
 import java.util.Random;
 
 /**
@@ -27,16 +26,18 @@ public class Location implements Comparable {
     }
 
     /**
-     * Constructs a random new location on the given game board.
+     * Constructs a random new location depending on the game board size given
+     * as parameter
      *
-     * @param gameBoard game board to create random Location on
+     * @param size game board size
+     *
      */
-    public Location(GameBoard gameBoard) {
+    public Location(int size) {
         Random rand = new Random();
-        this.x = rand.nextInt(gameBoard.getWidth());
-        this.y = rand.nextInt(gameBoard.getWidth());
+        this.x = rand.nextInt(size);
+        this.y = rand.nextInt(size);
     }
-
+    //GETTERS AND SETTERS
     public int getX() {
         return x;
     }
@@ -52,47 +53,19 @@ public class Location implements Comparable {
     public void setY(int y) {
         this.y = y;
     }
-
-    /**
-     * Method receives a HashSet of Locations, moves each location once towards
-     * the given direction
-     *
-     * @param locations locations to be moved
-     * @param direction direction to move at
-     * @return moved locations in a HashSet
-     */
-    public HashSet<Location> moveLocSet(HashSet<Location> locations, Direction direction) {
-
-        HashSet<Location> movedLocations = new HashSet<>();
-
-        if (direction == Direction.EAST) {
-            for (Location loc : locations) {
-                loc.moveEast();
-                movedLocations.add(loc);
-            }
-        }
-        if (direction == Direction.WEST) {
-            for (Location loc : locations) {
-                loc.moveWest();
-                movedLocations.add(loc);
-            }
-        }
-        if (direction == Direction.SOUTH) {
-            for (Location loc : locations) {
-                loc.moveSouth();
-                movedLocations.add(loc);
-            }
-        }
-        if (direction == Direction.NORTH) {
-            for (Location loc : locations) {
-                loc.moveNorth();
-                movedLocations.add(loc);
-            }
-        }
-
-        return movedLocations;
+    //LOCATION FUNCTIONALITY
+    
+    public Boolean locOutOfBounds(int size){
+        if (this.x < 0)
+            return true;
+        if (this.x >= size)
+            return true;
+        if (this.y < 0)
+            return true;
+        if (this.y >= size)
+            return true;
+        return false;
     }
-
     /**
      * Method moves the Location "east". Adds one to the x-coordinate.
      *
@@ -140,17 +113,10 @@ public class Location implements Comparable {
      *
      * @return Location in human readable form.
      */
+    @Override
     public String toString() {
 
         return "[" + this.x + "," + this.y + "]";
-    }
-
-    public String setToString(HashSet<Location> locations) {
-        ArrayList<Location> sortedList = new ArrayList(locations);
-        Collections.sort(sortedList);
-        Location firstLoc = sortedList.get(0);
-        return "";
-
     }
 
     @Override

@@ -63,10 +63,12 @@
                     <targetClasses>
                         <param>com.purkkapussi.sinkdashipz.tools.*</param>
                         <param>com.purkkapussi.sinkdashipz.domain.*</param>
+                        <param>com.purkkapussi.sinkdashipz.users.*</param>
                     </targetClasses>
                     <targetTests>
                         <param>com.purkkapussi.sinkdashipz.tools.*</param>
                         <param>com.purkkapussi.sinkdashipz.domain.*</param>
+                        <param>com.purkkapussi.sinkdashipz.users.*</param>
                     </targetTests>
                     
                 </configuration>

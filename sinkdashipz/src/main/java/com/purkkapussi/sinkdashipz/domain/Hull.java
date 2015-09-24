@@ -3,27 +3,27 @@ package com.purkkapussi.sinkdashipz.domain;
 import com.purkkapussi.sinkdashipz.tools.Location;
 import java.util.Objects;
 
+public class Hull implements Comparable {
 
-
-public class Hull implements Comparable{
-    
     private Location location;
     private int x;
     private int y;
-    
-    public Hull(Location location){
+
+    //CONSTRUCTORS
+    public Hull(Location location) {
         this.location = location;
         this.x = location.getX();
         this.y = location.getY();
     }
-    
-    public Hull(int x, int y){
+
+    public Hull(int x, int y) {
         this.x = x;
         this.y = y;
-        this.location = new Location(x,y);
-        
+        this.location = new Location(x, y);
+
     }
 
+    //GETTERS AND SETTERS
     public Location getLocation() {
         return location;
     }
@@ -31,9 +31,10 @@ public class Hull implements Comparable{
     public void setLocation(Location location) {
         this.location = location;
     }
-    
-    
-    public String toString(){
+
+    //OVERRIDES
+    @Override
+    public String toString() {
         return this.location.toString();
     }
 
@@ -61,7 +62,5 @@ public class Hull implements Comparable{
         Hull other = (Hull) o;
         return this.getLocation().compareTo(other.getLocation());
     }
-    
-    
-    
+
 }

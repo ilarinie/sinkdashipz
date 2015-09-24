@@ -164,7 +164,6 @@ public class ShipCreatorTest {
 
     @Test
     public void testAllSpotsAroundShip() {
-
         Location startLoc = new Location(testShip.getHulls().get(0).getLocation().getX(), testShip.getHulls().get(0).getLocation().getY());
         int size = testShip.getSize();
 
@@ -176,10 +175,18 @@ public class ShipCreatorTest {
                 for (int j = 0; j < 3; j++) {
                     System.out.println("Location: " + (startLoc.getX() + j) + "," + (startLoc.getY() - i) + " truth: " + creator.checkForNeighboringShips(tester, new Ship(new Hull((startLoc.getX() + j), (startLoc.getY() - i)))));
                     assertEquals(true, creator.checkForNeighboringShips(tester, new Ship(new Hull((startLoc.getX() + j), (startLoc.getY() - i)))));
-
                 }
             }
-
+        }
+    }
+    
+    @Test
+    public void noRandomShipOutOfBounds(){
+        creator.createRandomFleet(tester, gameBoard);
+        for (Ship ship : tester.getShips()){
+            if (ship.outOfBounds(gameBoard.getWidth())){
+                fail("Fleetcreator added a ship that is out of bounds");
+            }
         }
     }
 

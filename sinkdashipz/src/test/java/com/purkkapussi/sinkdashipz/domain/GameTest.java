@@ -27,6 +27,10 @@ public class GameTest {
         assertEquals(5, game.getAI().fleetSize());
         assertEquals(5, game.getPlayer().fleetSize());
     }
+    @Test
+    public void gameBoardRightSize(){
+        assertEquals(10, game.getGameBoardSize());
+    }
 
     @Test
     public void biggestShipSizeCorrect() {
@@ -40,9 +44,23 @@ public class GameTest {
         game.getAI().addShip(new Ship(new Hull(1, 1)));
         game.setPlayerTargetLoc(new Location(1, 1));
         game.playerShoot();
-
+        assertEquals(200, game.getPlayer().getScore());
         assertEquals(true, game.getEndgame());
+    }
 
+    @Test
+    public void gameEndsWhenAIFleetDestroyedTwo() {
+        
+        game.getAI().addShip(new Ship(new Hull(1, 1)));
+        game.getPlayer().addShip(new Ship(new Hull(-1,2)));
+        game.setPlayerTargetLoc(new Location(0, 1));
+        game.playerShoot();
+        assertEquals(1,game.getAiShootLocs().size());
+        game.setPlayerTargetLoc(new Location(1, 1));
+        game.playerShoot();
+        
+        assertEquals(180, game.getPlayer().getScore());
+        assertEquals(true, game.getEndgame());
     }
 
     @Test
@@ -54,12 +72,34 @@ public class GameTest {
         assertEquals(true, game.getPlayerShootLocs().isEmpty());
         assertEquals(false, game.getEndgame());
     }
+
     @Test
-    public void endGameTest(){
-        
+    public void endGameTest() {
+
         game.endgame();
         assertEquals(true, game.getEndgame());
     }
-    
-    
+
+    @Test
+    public void startGameTest() {
+        game.startGame();
+        assertEquals(5, game.getAI().fleetSize());
+    }
+
+    @Test
+    public void testAnotherConstructor() {
+        Game game2 = new Game(new AI(), new Player(), gameboard);
+        assertEquals(0, game2.getAI().fleetSize());
+        game2.startGame();
+        assertEquals(5, game2.getAI().fleetSize());
+    }
+    @Test
+    public void gameEndsIfAIWins(){
+        Game game2 = new Game(new GameBoard(1));
+        game2.getPlayer().addShip(new Ship(new Hull(0,0)));
+        game2.aiShoot();
+        assertEquals(true,game2.getEndgame());
+        
+    }
+
 }

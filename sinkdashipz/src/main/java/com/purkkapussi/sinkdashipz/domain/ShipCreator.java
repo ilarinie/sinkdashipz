@@ -22,6 +22,7 @@ public class ShipCreator {
 
     private final Random rand = new Random();
 
+    //SHIP CREATING TOOLS
     /**
      * Method creates a random ship with the given size on the given game board.
      *
@@ -86,6 +87,28 @@ public class ShipCreator {
     }
 
     /**
+     * Method creates a random fleet for the Actor.
+     *
+     *
+     * @param actor actor to create the fleet for
+     * @param gameBoard game board to be used
+     *
+     * @throws IllegalArgumentException
+     *
+     */
+    public void createRandomFleet(Actor actor, GameBoard gameBoard) throws IllegalArgumentException {
+
+        for (int i = 0; i < 5; i++) {
+            Ship ship = createRandomShip(nextShipSize(actor), gameBoard);
+            try {
+                addShipToActor(actor, ship, gameBoard);
+            } catch (IllegalArgumentException e) {
+                i--;
+            }
+        }
+    }
+
+    /**
      * Method adds a given Hull to the given Ship
      *
      * @param ship Ship to add the Hull to
@@ -96,6 +119,7 @@ public class ShipCreator {
         ship.addHull(hull);
     }
 
+    //RANDOM STARTLOCATION GENERATOR
     /**
      * Method creates a randomized "starting point" for a new Ship.
      *
@@ -118,6 +142,7 @@ public class ShipCreator {
         return new Location(startX, startY);
     }
 
+    //TOOLS TO ADD SHIPS TO ACTORS
     /**
      * Method tries to add a ship to an actor. The method throws an
      * IllegalArgumentException if the ship is either out of bounds from the
@@ -134,7 +159,7 @@ public class ShipCreator {
      */
     public void addShipToActor(Actor actor, Ship ship, GameBoard gameBoard) throws IllegalArgumentException {
 
-        if (ship.outOfBounds(gameBoard)) {
+        if (ship.outOfBounds(gameBoard.getWidth())) {
             throw new IllegalArgumentException("Ship out of bounds");
         }
         ArrayList<Ship> ships = actor.getShips();
@@ -150,28 +175,6 @@ public class ShipCreator {
                 throw new IllegalArgumentException("Neighboring ship detected");
             }
             actor.addShip(ship);
-        }
-    }
-
-    /**
-     * Method creates a random fleet for the Actor.
-     *
-     *
-     * @param actor actor to create the fleet for
-     * @param gameBoard game board to be used
-     *
-     * @throws IllegalArgumentException
-     *
-     */
-    public void createRandomFleet(Actor actor, GameBoard gameBoard) throws IllegalArgumentException {
-
-        for (int i = 0; i < 5; i++) {
-            Ship ship = createRandomShip(nextShipSize(actor), gameBoard);
-            try {
-                addShipToActor(actor, ship, gameBoard);
-            } catch (IllegalArgumentException e) {
-                i--;
-            }
         }
     }
 
