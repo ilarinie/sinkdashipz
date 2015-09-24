@@ -49,6 +49,8 @@ public class MainUI extends JPanel {
         playerShipHolder = new JPanel(new GridLayout(gameBoardSize, gameBoardSize));
         aimHolder = new JPanel(new GridLayout(gameBoardSize, gameBoardSize));
         mainHolder = new JPanel(new GridLayout(1, 2));
+        this.setBackground(Color.BLACK);
+        this.setPreferredSize(new Dimension(810,400));
         //System.out.println(seaUrl.getPath());
     }
     /**
@@ -208,6 +210,9 @@ public class MainUI extends JPanel {
         JButton aimButton = new JButton();
         aimButton.setPreferredSize(new Dimension(buttonWidth, buttonHeight));
         aimButton.setFont(new Font("Arial", Font.PLAIN, fontSize));
+        aimButton.setOpaque(true);
+        aimButton.setBackground(Color.DARK_GRAY);
+        aimButton.setForeground(Color.red);
         return aimButton;
     }
 
@@ -227,7 +232,8 @@ public class MainUI extends JPanel {
      */
     public void changeButtonToMissed(JButton aimButton) {
         aimButton.setEnabled(false);
-        aimButton.setText("MISS");
+        aimButton.setBackground(Color.BLUE);
+        aimButton.setText("M");
     }
 
     /**
@@ -237,7 +243,7 @@ public class MainUI extends JPanel {
      */
     public void changeButtonToHit(JButton aimButton) {
         aimButton.setBackground(Color.ORANGE);
-        aimButton.setText("BOOM");
+        aimButton.setText("B");
         aimButton.setOpaque(true);
     }
     //END AIMBUTTON CREATION AND MODIFICATION

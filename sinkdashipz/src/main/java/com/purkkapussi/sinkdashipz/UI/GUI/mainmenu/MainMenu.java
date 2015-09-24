@@ -6,6 +6,8 @@
 package com.purkkapussi.sinkdashipz.UI.GUI.mainmenu;
 
 import com.purkkapussi.sinkdashipz.UI.GUI.GUI;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -19,34 +21,40 @@ public class MainMenu extends JPanel {
     public MainMenu(GUI gui) {
         this.clickListener = new MainMenuListener(gui);
         setLayout(new GridLayout(5,1));
+        this.setBackground(Color.BLACK);
+        this.setForeground(Color.GREEN);
+        this.setPreferredSize(new Dimension(100,400));
         
     }
     public void createInitialSetup(){
         
         JButton newgame = new JButton("New Game");
-        newgame.setBounds(50, 70, 90, 25);
+        newgame.setBackground(Color.DARK_GRAY);
+        newgame.setForeground(Color.WHITE);
         newgame.addActionListener(clickListener);
         this.add(newgame);
 
         JButton highscores = new JButton("High Scores");
-        highscores.setBounds(50, 140, 90, 25);
+        highscores.setBackground(Color.DARK_GRAY);
+        highscores.setForeground(Color.WHITE);
         highscores.addActionListener(clickListener);
         highscores.setEnabled(false);
         this.add(highscores);
         
         JButton exit = new JButton("Exit");
-        exit.setBounds(50, 210, 90, 25);
+        exit.setBackground(Color.DARK_GRAY);
+        exit.setForeground(Color.WHITE);
         exit.addActionListener(clickListener);
         this.add(exit);
         
         clickListener.getComponents(newgame, highscores, exit);
 
-         JLabel mainPic = new JLabel("kuva t\u00E4h\u00E4n");
-        mainPic.setBounds(220, 75, 50, 15);
+        JLabel mainPic = new JLabel("kuva t\u00E4h\u00E4n");
+        mainPic.setForeground(Color.WHITE);
         this.add(mainPic);
 
         JLabel titleLabel = new JLabel("Sinkdashipz v 0.1");
-        titleLabel.setBounds(50, 30, 90, 14);
+        titleLabel.setForeground(Color.WHITE);
         this.add(titleLabel);
     }
 }

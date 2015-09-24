@@ -7,6 +7,8 @@ package com.purkkapussi.sinkdashipz.UI.GUI.hitlists;
 
 import com.purkkapussi.sinkdashipz.UI.GUI.GUI;
 import com.purkkapussi.sinkdashipz.domain.Location;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.HashSet;
 import javax.swing.JPanel;
@@ -23,9 +25,15 @@ public class HitList extends JPanel {
 
     public HitList(GUI gui) {
         this.setLayout(new GridLayout(2, 1));
+        this.setPreferredSize(new Dimension(120,400));
+        this.setBackground(Color.BLACK);
     }
 
     public void createHitLists(GUI gui) {
+        aiHits.setForeground(Color.WHITE);
+        aiHits.setBackground(Color.BLACK);
+        playerHits.setForeground(Color.WHITE);
+        playerHits.setBackground(Color.BLACK);
         HashSet<Location> aiHitList = gui.getAIHits();
         HashSet<Location> playerHitList = gui.getPlayerHits();
 

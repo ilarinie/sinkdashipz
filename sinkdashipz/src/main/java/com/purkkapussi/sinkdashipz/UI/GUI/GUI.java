@@ -22,7 +22,7 @@ import javax.swing.WindowConstants;
 
 public class GUI implements Runnable {
 
-    private Game game;
+    private final Game game;
     
     
     private JFrame frame;
@@ -41,10 +41,11 @@ public class GUI implements Runnable {
     @Override
     public void run() {
         frame = new JFrame("Sinkdashipz V 0.1");
-        frame.setPreferredSize(new Dimension(1100, 600));
+        frame.setPreferredSize(new Dimension(1060, 500));
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         frame.getContentPane().setLayout(new BorderLayout());
+        
 
         createInitialSetup();
 
