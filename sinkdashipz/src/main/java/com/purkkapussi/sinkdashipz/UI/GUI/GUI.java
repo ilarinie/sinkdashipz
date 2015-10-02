@@ -72,7 +72,7 @@ public class GUI implements Runnable {
         if (mainUI != null ){
             frame.getContentPane().remove(mainUI);
             frame.getContentPane().remove(gameMenu);
-            frame.getContentPane().remove(hitList);
+            //frame.getContentPane().remove(hitList);
         }
         
         mainUI = new MainUI(this);
@@ -83,9 +83,9 @@ public class GUI implements Runnable {
         gameMenu.createGameMenu(this);
         frame.getContentPane().add(gameMenu, BorderLayout.SOUTH);
 
-        hitList = new HitList(this);
-        hitList.createHitLists(this);
-        frame.getContentPane().add(hitList, BorderLayout.EAST);
+        //hitList = new HitList(this);
+       // hitList.createHitLists(this);
+        //frame.getContentPane().add(hitList, BorderLayout.EAST);
 
         frame.pack();
 
@@ -166,7 +166,7 @@ public class GUI implements Runnable {
 
     public void update() {
         gameMenu.updateGameMenu(this);
-        hitList.updateHitList(this);
+        //hitList.updateHitList(this);
         mainUI.updateMainUI(this);
         if (game.getEndgame()){
             endGame();
