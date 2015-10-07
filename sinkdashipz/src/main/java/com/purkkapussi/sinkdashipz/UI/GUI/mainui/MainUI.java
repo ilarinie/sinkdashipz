@@ -29,8 +29,8 @@ import javax.swing.JPanel;
  */
 public class MainUI extends JPanel {
 
-    private MainUIListener listener;
-    private int gameBoardSize;
+    private final MainUIListener listener;
+    private final int gameBoardSize;
     private BufferedImage shipImage = null;
     private BufferedImage seaImage = null;
     private URL shipUrl;
@@ -50,9 +50,10 @@ public class MainUI extends JPanel {
         aimHolder = new JPanel(new GridLayout(gameBoardSize, gameBoardSize));
         mainHolder = new JPanel(new GridLayout(1, 2));
         this.setBackground(Color.BLACK);
-        this.setPreferredSize(new Dimension(810,400));
+        this.setPreferredSize(new Dimension(810, 400));
         //System.out.println(seaUrl.getPath());
     }
+
     /**
      * method creates a new MainUI on the given graphical user interface
      *
@@ -66,8 +67,7 @@ public class MainUI extends JPanel {
         mainHolder.add(playerShipHolder);
         this.add(mainHolder);
     }
-    
-    
+
     //MAIN UPDATE METHOD
     /**
      * Method updates the buttons and labels on the mainUI.
@@ -137,7 +137,7 @@ public class MainUI extends JPanel {
         }
     }
     //END UPDATE METHODS
-    
+
     //PLAYERSHIPLABEL CREATION AND MODIFICATION:
     /**
      * Method returns a new JLabel used indicate players ships, sea and AI's
@@ -158,7 +158,8 @@ public class MainUI extends JPanel {
      * @param playerShipLabel label to change
      */
     public void setPlayerShipLabelToHit(JLabel playerShipLabel) {
-        playerShipLabel.setText("BOOM");
+        URL imgURL = this.getClass().getResource("/img/playershiphitpic.png");
+        playerShipLabel.setIcon(new ImageIcon(imgURL));
         playerShipLabel.setBackground(Color.ORANGE);
         playerShipLabel.setOpaque(true);
     }
@@ -169,7 +170,8 @@ public class MainUI extends JPanel {
      * @param playerShipLabel label to change
      */
     public void setPlayerShipLabelToShip(JLabel playerShipLabel) {
-        playerShipLabel.setText("SHIP");
+        URL imgURL = this.getClass().getResource("/img/playershippic.png");
+        playerShipLabel.setIcon(new ImageIcon(imgURL));
         playerShipLabel.setBackground(Color.BLACK);
         playerShipLabel.setOpaque(true);
     }
@@ -181,7 +183,8 @@ public class MainUI extends JPanel {
      * @param playerShipLabel label to change
      */
     public void setPlayerShipLabelToAIMiss(JLabel playerShipLabel) {
-        playerShipLabel.setText("AI MISS");
+        URL imgURL = this.getClass().getResource("/img/aimisspic.png");
+        playerShipLabel.setIcon(new ImageIcon(imgURL));
         playerShipLabel.setForeground(Color.BLACK);
         playerShipLabel.setBackground(Color.red);
         playerShipLabel.setOpaque(true);
@@ -193,7 +196,8 @@ public class MainUI extends JPanel {
      * @param playerShipLabel label to change
      */
     public void setPlayerShipLabelToSea(JLabel playerShipLabel) {
-        playerShipLabel.setText("SEA");
+        URL imgURL = this.getClass().getResource("/img/seapic.png");
+        playerShipLabel.setIcon(new ImageIcon(imgURL));
         playerShipLabel.setForeground(Color.WHITE);
         playerShipLabel.setBackground(Color.BLUE);
         playerShipLabel.setOpaque(true);
@@ -231,9 +235,11 @@ public class MainUI extends JPanel {
      * @param aimButton button to change
      */
     public void changeButtonToMissed(JButton aimButton) {
-        aimButton.setEnabled(false);
-        aimButton.setBackground(Color.BLUE);
-        aimButton.setText("M");
+         aimButton.setEnabled(false);
+        
+        URL imgURL = this.getClass().getResource("/img/seapic2.png");
+        aimButton.setIcon(new ImageIcon(imgURL));
+       
     }
 
     /**
@@ -242,27 +248,26 @@ public class MainUI extends JPanel {
      * @param aimButton button to change
      */
     public void changeButtonToHit(JButton aimButton) {
-        aimButton.setBackground(Color.ORANGE);
-        aimButton.setText("B");
+        URL imgURL = this.getClass().getResource("/img/playershiphitpic.png");
+        aimButton.setIcon(new ImageIcon(imgURL));
         aimButton.setOpaque(true);
     }
     //END AIMBUTTON CREATION AND MODIFICATION
-    
+
     //METHOD NOT YET IMPLEMENTED
     /*
-        public void createImages() {
-        shipUrl = getClass().getResource("/com/purkkapussi/sinkdashipz/UI/GUI/mainui/ship.png");
-        seaUrl = getClass().getResource("/com/purkkapussi/sinkdashipz/UI/GUI/mainui/ship.png");
-        try {
-            shipImage = ImageIO.read(new File("/com/purkkapussi/sinkdashipz/UI/GUI/mainui/ship.png"));
+     public void createImages() {
+     shipUrl = getClass().getResource("/com/purkkapussi/sinkdashipz/UI/GUI/mainui/ship.png");
+     seaUrl = getClass().getResource("/com/purkkapussi/sinkdashipz/UI/GUI/mainui/ship.png");
+     try {
+     shipImage = ImageIO.read(new File("/com/purkkapussi/sinkdashipz/UI/GUI/mainui/ship.png"));
 
-        } catch (IOException e) {
-        }
-        try {
-            seaImage = ImageIO.read(new File("/com/purkkapussi/sinkdashipz/UI/GUI/mainui/sea.png"));
-        } catch (IOException e) {
-        }
-    }
-    */
-
+     } catch (IOException e) {
+     }
+     try {
+     seaImage = ImageIO.read(new File("/com/purkkapussi/sinkdashipz/UI/GUI/mainui/sea.png"));
+     } catch (IOException e) {
+     }
+     }
+     */
 }

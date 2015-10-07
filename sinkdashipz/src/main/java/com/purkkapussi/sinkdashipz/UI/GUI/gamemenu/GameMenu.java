@@ -53,6 +53,7 @@ public class GameMenu extends JPanel {
         this.add(coordinates);
 
         this.add(playerScore);
+        updateGameMenu(gui);
 
     }
 

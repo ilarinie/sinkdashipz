@@ -5,8 +5,14 @@
  */
 package com.purkkapussi.sinkdashipz.domain;
 
+import com.purkkapussi.sinkdashipz.domain.highscores.HighScore;
+import com.purkkapussi.sinkdashipz.domain.highscores.HighScoreWriter;
+import com.purkkapussi.sinkdashipz.domain.highscores.HighScoreReader;
+import com.purkkapussi.sinkdashipz.tools.Difficulty;
 import com.purkkapussi.sinkdashipz.users.AI;
 import com.purkkapussi.sinkdashipz.users.Player;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 
 /**
@@ -29,6 +35,7 @@ public class Game {
     private HashSet<Location> aiShootLocs;
     private HashSet<Location> initialAIShipLocs;
     private HashSet<Location> initialPlayerShipLocs;
+    private ArrayList<HighScore> highscores = new ArrayList<>();
 
     //CONSTRUCTORS
     public Game(int gameboard) {
@@ -38,6 +45,7 @@ public class Game {
         this.gameBoardSize = gameboard;
         this.playerShootLocs = new HashSet<>();
         this.aiShootLocs = new HashSet<>();
+        readHighScores();
     }
 
     public Game(AI ai, Player player, int gameboard) {
@@ -68,6 +76,8 @@ public class Game {
     }
 
     public void endgame() {
+        addPlayerHighScore();
+        writeHighScores();
         this.endgame = true;
     }
 
@@ -150,4 +160,49 @@ public class Game {
         return initialPlayerShipLocs;
     }
 
+    public void setPlayerName(String name) {
+        player.setName(name);
+    }
+
+    public void setDifficulty(int input) {
+        this.ai.setDifficulty(Difficulty.values()[input]);
+    }
+
+    private void readHighScores() {
+        HighScoreReader reader = new HighScoreReader();
+        highscores = reader.readHighScores();
+        Collections.sort(highscores);
+    }
+    
+    public void addPlayerHighScore(){
+       if(player.getName() == null){
+           highscores.add(new HighScore("seppo",9));
+       } 
+       
+        highscores.add(new HighScore(player.getName(),player.getScore()));
+        
+    }
+    private void writeHighScores(){
+        Collections.sort(highscores);
+        HighScoreWriter writer = new HighScoreWriter();
+        writer.writeHighScores(highscores);
+    }
+    
+    public String tenBestHighScores(){
+        String tenScores = "";
+        int limit = 10;
+        if (highscores.isEmpty()){
+            return tenScores;
+        }
+        if (highscores.size() < 10){
+            limit = highscores.size();
+        }
+        
+        
+        for (int i= 0; i<limit ; i++){
+            tenScores += highscores.get(i).toString() + "\n";
+        }
+        return tenScores;
+    }
+    
 }

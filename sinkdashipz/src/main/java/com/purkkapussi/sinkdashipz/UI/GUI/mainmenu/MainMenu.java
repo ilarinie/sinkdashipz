@@ -9,25 +9,27 @@ import com.purkkapussi.sinkdashipz.UI.GUI.GUI;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import javax.swing.JButton;
+import java.net.URL;
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
 public class MainMenu extends JPanel {
 
-    private MainMenuListener clickListener;
+    private final MainMenuListener clickListener;
 
     public MainMenu(GUI gui) {
         this.clickListener = new MainMenuListener(gui);
-        setLayout(new GridLayout(5,1));
+        setLayout(new GridLayout(5, 1));
         this.setBackground(Color.BLACK);
         this.setForeground(Color.GREEN);
-        this.setPreferredSize(new Dimension(100,400));
-        
+        this.setPreferredSize(new Dimension(100, 500));
+
     }
-    public void createInitialSetup(){
-        
+
+    public void createInitialSetup() {
+
         JButton newgame = new JButton("New Game");
         newgame.setBackground(Color.DARK_GRAY);
         newgame.setForeground(Color.WHITE);
@@ -38,19 +40,18 @@ public class MainMenu extends JPanel {
         highscores.setBackground(Color.DARK_GRAY);
         highscores.setForeground(Color.WHITE);
         highscores.addActionListener(clickListener);
-        highscores.setEnabled(false);
         this.add(highscores);
-        
+
         JButton exit = new JButton("Exit");
         exit.setBackground(Color.DARK_GRAY);
         exit.setForeground(Color.WHITE);
         exit.addActionListener(clickListener);
         this.add(exit);
-        
+
         clickListener.getComponents(newgame, highscores, exit);
 
-        JLabel mainPic = new JLabel("kuva t\u00E4h\u00E4n");
-        mainPic.setForeground(Color.WHITE);
+        URL imgSmartURL = this.getClass().getResource("/img/mainpic.png");
+        JLabel mainPic = new JLabel(new ImageIcon(imgSmartURL), JLabel.CENTER);
         this.add(mainPic);
 
         JLabel titleLabel = new JLabel("Sinkdashipz v 0.1");
