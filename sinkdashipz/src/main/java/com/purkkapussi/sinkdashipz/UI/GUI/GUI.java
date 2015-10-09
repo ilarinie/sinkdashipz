@@ -5,6 +5,7 @@ import com.purkkapussi.sinkdashipz.UI.GUI.endgame.EndGame;
 import com.purkkapussi.sinkdashipz.UI.GUI.gamemenu.GameMenu;
 import com.purkkapussi.sinkdashipz.UI.GUI.mainmenu.MainMenu;
 import com.purkkapussi.sinkdashipz.UI.GUI.mainui.MainUI;
+import com.purkkapussi.sinkdashipz.UI.GUI.shipplacer.ShipPlacer;
 import com.purkkapussi.sinkdashipz.UI.GUI.welcomescreen.WelcomeScreen;
 import com.purkkapussi.sinkdashipz.domain.Game;
 import com.purkkapussi.sinkdashipz.tools.Difficulty;
@@ -117,8 +118,11 @@ public class GUI implements Runnable {
             return;
         }
         this.game.setDifficulty(input);
-
-        startGame();
+        
+        ShipPlacer placer = new ShipPlacer(this);
+        placer.run();
+        
+        //startGame();
     }
 
     public void showHighScore() {
@@ -152,7 +156,10 @@ public class GUI implements Runnable {
     public HashSet<Location> getAIHits() {
         return game.getAiShootLocs();
     }
-
+    
+    public Game getGame(){
+        return this.game;
+    }
     public HashSet<Location> getPlayerHits() {
         return game.getPlayerShootLocs();
     }
