@@ -1,4 +1,3 @@
-
 package com.purkkapussi.sinkdashipz.UI.GUI.mainui;
 
 import com.purkkapussi.sinkdashipz.UI.GUI.GUI;
@@ -12,6 +11,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 /**
  * Class provides the main game functionality for the GUI including aiming and
@@ -32,11 +32,11 @@ public class MainUI extends JPanel {
 
     public MainUI(GUI gui) {
         gameBoardSize = gui.getGameBoardSideLenght();
-        playerShipHolder = new JPanel(new GridLayout(gameBoardSize, gameBoardSize));
-        aimHolder = new JPanel(new GridLayout(gameBoardSize, gameBoardSize));
+        playerShipHolder = new JPanel(new GridLayout(gameBoardSize + 1, gameBoardSize + 1));
+        aimHolder = new JPanel(new GridLayout(gameBoardSize + 1, gameBoardSize + 1));
         mainHolder = new JPanel(new GridLayout(1, 2));
         this.setBackground(Color.BLACK);
-        this.setPreferredSize(new Dimension(810, 400));
+        this.setPreferredSize(new Dimension(900, 500));
     }
 
     /**
@@ -72,23 +72,45 @@ public class MainUI extends JPanel {
      * @param gui main graphical user interface
      */
     public void updateAimButtons(GUI gui) {
-        for (int i = 0; i < gameBoardSize; i++) {
-            for (int j = 0; j < gameBoardSize; j++) {
-                //pelaajan ampumisnappulat
-                JButton aimButton = createAimButton();
-                Location loc = new Location(i, j);
-                AimListener aimListener = new AimListener(gui, loc);
-                if (loc.equals(gui.targetLocation())) {
-                    markAimLocation(aimButton);
-                }
-                if (gui.getPlayerHits().contains(new Location(i, j))) {
-                    changeButtonToMissed(aimButton);
-                    if (gui.initialAIShipLocs().contains(new Location(i, j))) {
-                        changeButtonToHit(aimButton);
+        int apu = 0;
+        for (int i = 0; i < gameBoardSize + 1; i++) {
+            if (i == 0) {
+                for (int k = 0; k < gameBoardSize + 1; k++) {
+                    if (k == 0) {
+                        JLabel emptyLabel = new JLabel("");
+                        emptyLabel.setPreferredSize(new Dimension(buttonWidth, buttonHeight));
+                        emptyLabel.setOpaque(true);
+                        emptyLabel.setBackground(Color.BLACK);
+                        aimHolder.add(emptyLabel);
+                    } else {
+                        JLabel coord = createCoordinateLabel(k - 1);
+                        aimHolder.add(coord);
                     }
                 }
-                aimButton.addActionListener(aimListener);
-                aimHolder.add(aimButton);
+            } else {
+                for (int j = 0; j < gameBoardSize + 1; j++) {
+                    if (j == 0) {
+                        JLabel coord = createCoordinateLabel(apu);
+                        aimHolder.add(coord);
+                        apu++;
+                    } else {
+                        //pelaajan ampumisnappulat
+                        JButton aimButton = createAimButton();
+                        Location loc = new Location(i - 1, j - 1);
+                        AimListener aimListener = new AimListener(gui, loc);
+                        if (loc.equals(gui.targetLocation())) {
+                            markAimLocation(aimButton);
+                        }
+                        if (gui.getPlayerHits().contains(new Location(i - 1, j - 1))) {
+                            changeButtonToMissed(aimButton);
+                            if (gui.initialAIShipLocs().contains(new Location(i - 1, j - 1))) {
+                                changeButtonToHit(aimButton);
+                            }
+                        }
+                        aimButton.addActionListener(aimListener);
+                        aimHolder.add(aimButton);
+                    }
+                }
             }
         }
     }
@@ -99,24 +121,47 @@ public class MainUI extends JPanel {
      * @param gui main graphical user interface
      */
     public void updatePlayerShipLabels(GUI gui) {
-        for (int i = 0; i < gameBoardSize; i++) {
-            for (int j = 0; j < gameBoardSize; j++) {
-                JLabel playerShipLabel = createPlayerShipLabel();
-
-                if (gui.initialPlayerShipLocs().contains(new Location(i, j))) {
-                    if (gui.getAIHits().contains(new Location(i, j))) {
-                        setPlayerShipLabelToHit(playerShipLabel);
+        int apu = 0;
+        for (int i = 0; i < gameBoardSize + 1; i++) {
+            if (i == 0) {
+                for (int k = 0; k < gameBoardSize + 1; k++) {
+                    if (k == 0) {
+                        JLabel emptyLabel = new JLabel("");
+                        emptyLabel.setPreferredSize(new Dimension(buttonWidth, buttonHeight));
+                        emptyLabel.setOpaque(true);
+                        emptyLabel.setBackground(Color.BLACK);
+                        playerShipHolder.add(emptyLabel);
                     } else {
-                        setPlayerShipLabelToShip(playerShipLabel);
-                    }
-                } else {
-                    if (gui.getAIHits().contains(new Location(i, j))) {
-                        setPlayerShipLabelToAIMiss(playerShipLabel);
-                    } else {
-                        setPlayerShipLabelToSea(playerShipLabel);
+                        JLabel coord = createCoordinateLabel(k - 1);
+                        playerShipHolder.add(coord);
                     }
                 }
-                playerShipHolder.add(playerShipLabel);
+            } else {
+                for (int j = 0; j < gameBoardSize + 1; j++) {
+                    if (j == 0) {
+                        JLabel coord = createCoordinateLabel(apu);
+                        playerShipHolder.add(coord);
+                        apu++;
+                    } else {
+
+                        JLabel playerShipLabel = createPlayerShipLabel();
+
+                        if (gui.initialPlayerShipLocs().contains(new Location(i - 1, j - 1))) {
+                            if (gui.getAIHits().contains(new Location(i - 1, j - 1))) {
+                                setPlayerShipLabelToHit(playerShipLabel);
+                            } else {
+                                setPlayerShipLabelToShip(playerShipLabel);
+                            }
+                        } else {
+                            if (gui.getAIHits().contains(new Location(i - 1, j - 1))) {
+                                setPlayerShipLabelToAIMiss(playerShipLabel);
+                            } else {
+                                setPlayerShipLabelToSea(playerShipLabel);
+                            }
+                        }
+                        playerShipHolder.add(playerShipLabel);
+                    }
+                }
             }
         }
     }
@@ -128,28 +173,61 @@ public class MainUI extends JPanel {
      */
     public void updateAimButtonsEndGame(GUI gui) {
         aimHolder.removeAll();
-        for (int i = 0; i < gameBoardSize; i++) {
-            for (int j = 0; j < gameBoardSize; j++) {
-                //pelaajan ampumisnappulat
-                JButton aimButton = createAimButton();
-                Location loc = new Location(i, j);
-                if (gui.getPlayerHits().contains(new Location(i, j))) {
-                    changeButtonToMissed(aimButton);
-                    if (gui.initialAIShipLocs().contains(new Location(i, j))) {
-                        changeButtonToHit(aimButton);
+        int apu = 0;
+        for (int i = 0; i < gameBoardSize + 1; i++) {
+            if (i == 0) {
+                for (int k = 0; k < gameBoardSize + 1; k++) {
+                    if (k == 0) {
+                        JLabel emptyLabel = new JLabel("");
+                        emptyLabel.setPreferredSize(new Dimension(buttonWidth, buttonHeight));
+                        emptyLabel.setOpaque(true);
+                        emptyLabel.setBackground(Color.BLACK);
+                        aimHolder.add(emptyLabel);
+                    } else {
+                        JLabel coord = createCoordinateLabel(k - 1);
+                        aimHolder.add(coord);
                     }
-                } else if (gui.initialAIShipLocs().contains(new Location(i, j))) {
-                    changeButtonToShip(aimButton);
-                } else {
-                    changeButtonToSea(aimButton);
                 }
-                aimButton.setEnabled(false);
-                aimHolder.add(aimButton);
+            } else {
+                for (int j = 0; j < gameBoardSize + 1; j++) {
+                    if (j == 0) {
+                        JLabel coord = createCoordinateLabel(apu);
+                        aimHolder.add(coord);
+                        apu++;
+                    } else {
+                        //pelaajan ampumisnappulat
+                        JButton aimButton = createAimButton();
+                        Location loc = new Location(i, j);
+                        if (gui.getPlayerHits().contains(new Location(i-1, j-1))) {
+                            changeButtonToMissed(aimButton);
+                            if (gui.initialAIShipLocs().contains(new Location(i-1, j-1))) {
+                                changeButtonToHit(aimButton);
+                            }
+                        } else if (gui.initialAIShipLocs().contains(new Location(i-1, j-1))) {
+                            changeButtonToShip(aimButton);
+                        } else {
+                            changeButtonToSea(aimButton);
+                        }
+                        aimButton.setEnabled(false);
+                        aimHolder.add(aimButton);
+                    }
+                }
             }
         }
     }
 
     //END UPDATE METHODS
+    //COORDINATE LABELS
+    public JLabel createCoordinateLabel(int number) {
+        JLabel coord = new JLabel(""+number, SwingConstants.CENTER);
+        coord.setFont(new Font("Arial", Font.PLAIN, fontSize));
+        coord.setPreferredSize(new Dimension(buttonWidth, buttonHeight));
+        coord.setBackground(Color.BLACK);
+        coord.setForeground(Color.GREEN);
+        coord.setOpaque(true);
+        return coord;
+    }
+
     //PLAYERSHIPLABEL CREATION AND MODIFICATION:
     /**
      * Method returns a new JLabel used indicate players ships, sea and AI's
@@ -177,7 +255,8 @@ public class MainUI extends JPanel {
     }
 
     /**
-     * Method updates the icon of the given label to indicate (undamaged) player ship
+     * Method updates the icon of the given label to indicate (undamaged) player
+     * ship
      *
      * @param playerShipLabel label to change
      */
@@ -189,8 +268,8 @@ public class MainUI extends JPanel {
     }
 
     /**
-     * Method updates the icon of the given label to indicate location on which the AI tried
-     * to shoot but missed.
+     * Method updates the icon of the given label to indicate location on which
+     * the AI tried to shoot but missed.
      *
      * @param playerShipLabel label to change
      */
@@ -203,7 +282,8 @@ public class MainUI extends JPanel {
     }
 
     /**
-     * Method updates the icon of the given label to indicate "sea" (no ships or AI misses)
+     * Method updates the icon of the given label to indicate "sea" (no ships or
+     * AI misses)
      *
      * @param playerShipLabel label to change
      */
@@ -255,7 +335,8 @@ public class MainUI extends JPanel {
         aimButton.setDisabledIcon(new ImageIcon(imgURL));
 
     }
-        public void changeButtonToSea(JButton aimButton) {
+
+    public void changeButtonToSea(JButton aimButton) {
         aimButton.setEnabled(false);
 
         URL imgURL = this.getClass().getResource("/img/seapic2.png");

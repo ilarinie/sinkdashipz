@@ -41,7 +41,7 @@ public class GUI implements Runnable {
     @Override
     public void run() {
         frame = new JFrame("Sinkdashipz V 0.1");
-        frame.setPreferredSize(new Dimension(1060, 500));
+        frame.setPreferredSize(new Dimension(1060, 550));
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         frame.getContentPane().setLayout(new BorderLayout());
@@ -262,7 +262,7 @@ public class GUI implements Runnable {
     }
 
     public void playerSinkAiShip() {
-        JOptionPane.showMessageDialog(null,  "Noice! You sank AI's battleship!","Haha!",JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null,  "Noice! You sank AI's battleship! AI has "+this.game.getAI().fleetSize()+" ships left.","Haha!",JOptionPane.INFORMATION_MESSAGE);
     }
 
     public void aiSinkPlayerShip() {
