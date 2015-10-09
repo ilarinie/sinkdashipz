@@ -35,3 +35,20 @@ Sovelluslogiikkaan korjauksia, pelin rikkominen, javadoccia
 ###24.9.2015 
 Koodin siivoilua, pelin korjaus, logiikan korjailua, testien lisäyksiä, javadoccia
 * Tuntimäärä 29
+
+###28.9.2015
+Koodin siivoilua, sekvenssikaavioita
+*Tuntimäärä 32
+
+###7.10.2015
+Käyttöliittymän parantelua, highscoret lisätty
+*Tuntimäärä 38
+
+###8.10.2015
+Käyttöliittymää edelleen paremmaksi
+*Tuntimäärä 44
+
+###9.10.2015
+Koordinaatit ja viestit käyttöliittymään, grafiikoiden parantelua
+*Tuntimäärä 48
+
