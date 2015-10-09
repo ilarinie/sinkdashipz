@@ -33,7 +33,7 @@ public class Player extends Actor {
      * Constructs a new Player with a default name "unnamed player"
      */
     public Player() {
-        super.setName("unnamed player");
+        super.setName("Unnamed Player");
         this.ships = new ArrayList<>();
     }
 

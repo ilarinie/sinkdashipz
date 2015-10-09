@@ -14,12 +14,12 @@ import java.awt.event.ActionListener;
  *
  * @author ile
  */
-public class AimListener implements ActionListener{
+public class MainUIListener implements ActionListener{
     
     private Location loc;
     private GUI gui;
     
-    public AimListener(GUI gui, Location loc){
+    public MainUIListener(GUI gui, Location loc){
         this.loc = loc;
         this.gui = gui;
     }

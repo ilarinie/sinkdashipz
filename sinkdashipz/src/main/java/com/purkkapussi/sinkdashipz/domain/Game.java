@@ -115,10 +115,10 @@ public class Game {
             if (ai.hit(playerTargetLoc)) {
                 if (gui != null) {
                     if (ai.fleetSize() < aiFleetSize) {
-                        gui.playerSinkAiShip();
+                        gui.showPlayerSinkAIShipMessage();
                         aiFleetSize = ai.fleetSize();
                     } else {
-                        gui.playerHitMessage();
+                        gui.showPlayerHitMessage();
                     }
                 }
                 player.scoreHit();
@@ -141,7 +141,7 @@ public class Game {
         while (player.hit(aiShootLoc)) {
             if (gui != null) {
                 if (player.fleetSize() < playerFleetSize) {
-                    gui.aiSinkPlayerShip();
+                    gui.showAISinkPlayerShipMessage();
                     playerFleetSize = player.fleetSize();
                 }
             }

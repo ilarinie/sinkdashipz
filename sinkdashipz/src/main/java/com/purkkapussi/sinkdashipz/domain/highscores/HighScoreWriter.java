@@ -33,6 +33,14 @@ public class HighScoreWriter {
         }
     }
 
+    public void closeFile() {
+        try {
+            fout.close();
+            oos.close();
+        } catch (Exception e) {
+        }
+    }
+
     public void writeHighScores(ArrayList<HighScore> highscores) {
         try {
             openFile();
@@ -42,6 +50,11 @@ public class HighScoreWriter {
 
         try {
             oos.writeObject(highscores);
+        } catch (Exception e) {
+
+        }
+        try {
+            closeFile();
         } catch (Exception e) {
 
         }

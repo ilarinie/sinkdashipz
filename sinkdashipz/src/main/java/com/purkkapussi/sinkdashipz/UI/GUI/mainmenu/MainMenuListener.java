@@ -17,14 +17,16 @@ public class MainMenuListener implements ActionListener {
     private JButton newGame;
     private JButton highScores;
     private JButton exit;
+    private JButton manual;
 
     public MainMenuListener(GUI gui) {
         this.gui = gui;
     }
 
-    public void getComponents(JButton newGame, JButton highScores, JButton exit) {
+    public void getComponents(JButton newGame, JButton highScores, JButton manual,JButton exit) {
         this.newGame = newGame;
         this.highScores = highScores;
+        this.manual = manual;
         this.exit = exit;
     }
 
@@ -35,6 +37,9 @@ public class MainMenuListener implements ActionListener {
         }
         if (ae.getSource() == highScores) {
             gui.showHighScore();
+        }
+        if (ae.getSource() == manual){
+            gui.showManual();
         }
         if (ae.getSource() == exit) {
             gui.exit();

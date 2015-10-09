@@ -15,14 +15,14 @@ import java.awt.event.ActionListener;
  */
 public class GameMenuListener implements ActionListener{
     
-    private GUI gui;
+    private final GUI gui;
     public GameMenuListener(GUI gui){
         this.gui = gui;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        gui.shoot();
+        gui.playerShoot();
     }
     
 }

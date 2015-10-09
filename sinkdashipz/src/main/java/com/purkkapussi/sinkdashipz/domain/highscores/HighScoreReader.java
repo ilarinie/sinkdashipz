@@ -6,6 +6,7 @@
 package com.purkkapussi.sinkdashipz.domain.highscores;
 
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
@@ -29,15 +30,15 @@ public class HighScoreReader {
 
     public ArrayList<HighScore> readHighScores() {
         ArrayList<HighScore> highscores = new ArrayList<>();
-        try {
-            openFile();
 
-        } catch (Exception e) {
-
-        }
-
+        openFile();
         try {
             highscores = (ArrayList<HighScore>) ois.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+        }
+        try {
+            fin.close();
+            ois.close();
         } catch (Exception e) {
 
         }

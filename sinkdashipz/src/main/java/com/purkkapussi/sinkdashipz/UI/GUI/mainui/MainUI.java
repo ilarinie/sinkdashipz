@@ -21,7 +21,7 @@ import javax.swing.SwingConstants;
  */
 public class MainUI extends JPanel {
 
-    private final int gameBoardSize;
+  
     protected JPanel mainHolder;
     protected JPanel aimHolder;
     protected JPanel playerShipHolder;
@@ -29,9 +29,10 @@ public class MainUI extends JPanel {
     private final int buttonWidth = 40;
     private final int buttonHeight = 40;
     private final int fontSize = 7;
+    private final int gameBoardSize = 10;
 
     public MainUI(GUI gui) {
-        gameBoardSize = gui.getGameBoardSideLenght();
+        
         playerShipHolder = new JPanel(new GridLayout(gameBoardSize + 1, gameBoardSize + 1));
         aimHolder = new JPanel(new GridLayout(gameBoardSize + 1, gameBoardSize + 1));
         mainHolder = new JPanel(new GridLayout(1, 2));
@@ -97,13 +98,13 @@ public class MainUI extends JPanel {
                         //pelaajan ampumisnappulat
                         JButton aimButton = createAimButton();
                         Location loc = new Location(i - 1, j - 1);
-                        AimListener aimListener = new AimListener(gui, loc);
-                        if (loc.equals(gui.targetLocation())) {
+                        MainUIListener aimListener = new MainUIListener(gui, loc);
+                        if (loc.equals(gui.getTargetLocation())) {
                             markAimLocation(aimButton);
                         }
                         if (gui.getPlayerHits().contains(new Location(i - 1, j - 1))) {
                             changeButtonToMissed(aimButton);
-                            if (gui.initialAIShipLocs().contains(new Location(i - 1, j - 1))) {
+                            if (gui.getInitialAIShipLocs().contains(new Location(i - 1, j - 1))) {
                                 changeButtonToHit(aimButton);
                             }
                         }
@@ -146,7 +147,7 @@ public class MainUI extends JPanel {
 
                         JLabel playerShipLabel = createPlayerShipLabel();
 
-                        if (gui.initialPlayerShipLocs().contains(new Location(i - 1, j - 1))) {
+                        if (gui.getInitialPlayerShipLocs().contains(new Location(i - 1, j - 1))) {
                             if (gui.getAIHits().contains(new Location(i - 1, j - 1))) {
                                 setPlayerShipLabelToHit(playerShipLabel);
                             } else {
@@ -200,10 +201,10 @@ public class MainUI extends JPanel {
                         Location loc = new Location(i, j);
                         if (gui.getPlayerHits().contains(new Location(i-1, j-1))) {
                             changeButtonToMissed(aimButton);
-                            if (gui.initialAIShipLocs().contains(new Location(i-1, j-1))) {
+                            if (gui.getInitialAIShipLocs().contains(new Location(i-1, j-1))) {
                                 changeButtonToHit(aimButton);
                             }
-                        } else if (gui.initialAIShipLocs().contains(new Location(i-1, j-1))) {
+                        } else if (gui.getInitialAIShipLocs().contains(new Location(i-1, j-1))) {
                             changeButtonToShip(aimButton);
                         } else {
                             changeButtonToSea(aimButton);
@@ -356,24 +357,7 @@ public class MainUI extends JPanel {
         aimButton.setDisabledIcon(new ImageIcon(imgURL));
         aimButton.setOpaque(true);
     }
-    //END AIMBUTTON CREATION AND MODIFICATION
-
-    //METHOD NOT YET IMPLEMENTED
-    /*
-     public void createImages() {
-     shipUrl = getClass().getResource("/com/purkkapussi/sinkdashipz/UI/GUI/mainui/ship.png");
-     seaUrl = getClass().getResource("/com/purkkapussi/sinkdashipz/UI/GUI/mainui/ship.png");
-     try {
-     shipImage = ImageIO.read(new File("/com/purkkapussi/sinkdashipz/UI/GUI/mainui/ship.png"));
-
-     } catch (IOException e) {
-     }
-     try {
-     seaImage = ImageIO.read(new File("/com/purkkapussi/sinkdashipz/UI/GUI/mainui/sea.png"));
-     } catch (IOException e) {
-     }
-     }
-     */
+    
     private void changeButtonToShip(JButton aimButton) {
         URL imgURL = this.getClass().getResource("/img/playershippic.png");
         aimButton.setIcon(new ImageIcon(imgURL));

@@ -5,11 +5,11 @@
  */
 package com.purkkapussi.sinkdashipz.users;
 
-
 import com.purkkapussi.sinkdashipz.domain.Ship;
 import com.purkkapussi.sinkdashipz.tools.Difficulty;
 import com.purkkapussi.sinkdashipz.domain.Location;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Class provides AI specific functionality for the Actor class. The class also
@@ -57,60 +57,62 @@ public class AI extends Actor {
     //AI SHOOTING METHODS
     /**
      * Method determines the next Location the AI will shoot at. The location
-     * depends on the Difficulty level. The method is not yet fully implemented
-     * and will always return a random Location on the given game board.
+     * depends on the Difficulty level. The higher the difficulty level, the
+     * more chance the AI has of hitting players ships.
      *
      *
      * @param gameBoardSize size of the game board to shoot at
      * @param actor Target actor
      * @return
-     * 
+     *
      */
-    public Location shoot(int gameBoardSize, Actor actor){
-       /* if (this.difficulty == Difficulty.BRAINLESS || !lastHitSuccess) {
+    public Location shoot(int gameBoardSize, Actor actor) {
+
+        if (!actor.getShips().isEmpty()) {
+            if (this.difficulty == Difficulty.BRAINLESS) {
+                return new Location(gameBoardSize);
+            }
+            if (this.difficulty == Difficulty.EASY) {
+                return easyShoot(gameBoardSize, actor);
+            }
+            if (this.difficulty == Difficulty.CAPABLE) {
+                return capableShoot(gameBoardSize, actor);
+            }
+            if (this.difficulty == Difficulty.LITERALLYJESUS) {
+                return jesusShoot(gameBoardSize, actor);
+            }
+        } 
             return new Location(gameBoardSize);
-        }
-        if (this.difficulty == Difficulty.EASY) {
-            return new Location(gameBoardSize);
-        }
-        if (this.difficulty == Difficulty.CAPABLE) {
-            return new Location(gameBoardSize);
+        
+
+    }
+
+    private Location easyShoot(int gameBoardSize, Actor actor) {
+        Random random = new Random();
+        int aimChance = random.nextInt(100);
+        if (aimChance < 25) {
+            return actor.getShips().get(0).getHulls().get(0);
         } else {
             return new Location(gameBoardSize);
         }
-        */
-        return new Location(gameBoardSize);
+    }
+
+    private Location capableShoot(int gameBoardSize, Actor actor) {
+        Random random = new Random();
+        int aimChance = random.nextInt(100);
+        if (aimChance < 40) {
+            return actor.getShips().get(0).getHulls().get(0);
+        } else {
+            return new Location(gameBoardSize);
+        }
+    }
+
+    private Location jesusShoot(int gameBoardSize, Actor actor) {
+        if (!actor.getShips().isEmpty()) {
+            return actor.getShips().get(0).getHulls().get(0);
+        } else {
+            return new Location(gameBoardSize);
+        }
     }
 
 }
-/**
-    /**
-     * Method not yet implemented
-     *
-     * @param actor
-     * @return
-   
-    private Location easyShoot(Actor actor) {
-        return new Location(1, 1);
-    }
-
-    /**
-     * Method not yet implemented
-     *
-     * @param actor
-     * @return
-     
-    private Location capableShoot(Actor actor) {
-        return new Location(1, 1);
-    }
-
-    /**
-     * Method not yet implemented
-     *
-     * @param actor
-     * @return
-    
-    private Location jesusShoot(Actor actor) {
-        return actor.getShips().get(0).getHulls().get(0).getLocation();
-    }
-*/

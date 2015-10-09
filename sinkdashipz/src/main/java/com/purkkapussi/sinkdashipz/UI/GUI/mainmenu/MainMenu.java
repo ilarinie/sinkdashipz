@@ -17,10 +17,10 @@ import javax.swing.JLabel;
 
 public class MainMenu extends JPanel {
 
-    private final MainMenuListener clickListener;
+    private final MainMenuListener listener;
 
     public MainMenu(GUI gui) {
-        this.clickListener = new MainMenuListener(gui);
+        this.listener = new MainMenuListener(gui);
         setLayout(new GridLayout(5, 1));
         this.setBackground(Color.BLACK);
         this.setForeground(Color.GREEN);
@@ -29,33 +29,36 @@ public class MainMenu extends JPanel {
     }
 
     public void createInitialSetup() {
-
         JButton newgame = new JButton("New Game");
         newgame.setBackground(Color.DARK_GRAY);
         newgame.setForeground(Color.WHITE);
-        newgame.addActionListener(clickListener);
+        newgame.addActionListener(listener);
         this.add(newgame);
 
-        JButton highscores = new JButton("High Scores");
+        JButton highscores = new JButton("HighScores");
         highscores.setBackground(Color.DARK_GRAY);
         highscores.setForeground(Color.WHITE);
-        highscores.addActionListener(clickListener);
+        highscores.addActionListener(listener);
         this.add(highscores);
+        
+        JButton manual = new JButton("Manual");
+        manual.setBackground(Color.DARK_GRAY);
+        manual.setForeground(Color.WHITE);
+        manual.addActionListener(listener);
+        this.add(manual);
 
         JButton exit = new JButton("Exit");
         exit.setBackground(Color.DARK_GRAY);
         exit.setForeground(Color.WHITE);
-        exit.addActionListener(clickListener);
+        exit.addActionListener(listener);
         this.add(exit);
-
-        clickListener.getComponents(newgame, highscores, exit);
+        
+        listener.getComponents(newgame, highscores, manual,exit);
 
         URL imgSmartURL = this.getClass().getResource("/img/mainpic.png");
         JLabel mainPic = new JLabel(new ImageIcon(imgSmartURL), JLabel.CENTER);
         this.add(mainPic);
 
-        JLabel titleLabel = new JLabel("Sinkdashipz v 0.1");
-        titleLabel.setForeground(Color.WHITE);
-        this.add(titleLabel);
+        
     }
 }

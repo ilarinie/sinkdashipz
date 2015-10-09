@@ -15,6 +15,22 @@ import org.junit.Test;
 public class PlayerTest {
     
     Player player = new Player("tester");
+    Player player2 = new Player();
+    
+    @Test
+    public void nonamedPlayer(){
+        assertEquals("Unnamed Player", player2.getName());
+    }
+    
+    @Test
+    public void setNameTest(){
+        player.setName(null);
+        assertEquals("Unnamed Player",player.getName());
+        player.setName("");
+        assertEquals("Unnamed Player",player.getName());
+        player.setName("pleijeri");
+        assertEquals("pleijeri",player.getName());
+    }
     
     @Test
     public void nameTest(){

@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.purkkapussi.sinkdashipz.UI.GUI;
 
 import com.purkkapussi.sinkdashipz.UI.GUI.endgame.EndGame;
@@ -15,8 +11,11 @@ import com.purkkapussi.sinkdashipz.tools.Difficulty;
 import com.purkkapussi.sinkdashipz.domain.Location;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.net.URL;
 import java.util.HashSet;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
 
@@ -35,7 +34,6 @@ public class GUI implements Runnable {
     public GUI(Game game) {
         this.game = game;
 
-
     }
 
     @Override
@@ -45,6 +43,11 @@ public class GUI implements Runnable {
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         frame.getContentPane().setLayout(new BorderLayout());
+
+        URL imgSmartURL = this.getClass().getResource("/img/icon.png");
+        frame.setIconImage(new ImageIcon(imgSmartURL).getImage());
+
+        frame.setResizable(false);
 
         createInitialSetup();
         createWelcomeScreen();
@@ -66,7 +69,6 @@ public class GUI implements Runnable {
     }
 
     public void startGame() {
-
         mainUI = new MainUI(this);
         mainUI.createMainUI(this);
         frame.getContentPane().add(mainUI, BorderLayout.CENTER);
@@ -77,12 +79,16 @@ public class GUI implements Runnable {
 
         gamerunning = true;
         frame.pack();
-
     }
 
     public void newGame() {
 
-
+        if (gamerunning && !this.game.getEndgame()) {
+            int reply = JOptionPane.showConfirmDialog(null, "Are you sure you want to start a new game? Current game progress excluding highscores will be lost.", "Are you sure?", JOptionPane.YES_NO_OPTION);
+            if (reply == JOptionPane.NO_OPTION || reply == JOptionPane.CLOSED_OPTION || reply == -1) {
+                return;
+            }
+        }
         if (endGame != null) {
             frame.getContentPane().remove(endGame);
             game.resetGame();
@@ -93,30 +99,23 @@ public class GUI implements Runnable {
             frame.getContentPane().remove(gameMenu);
         }
 
-        if (gamerunning && !this.game.getEndgame()) {
-            int reply = JOptionPane.showConfirmDialog(null, "Are you sure you want to start a new game? Current game progress excluding highscores will be lost.", "Are you sure?", JOptionPane.YES_NO_OPTION);
-            if (reply == JOptionPane.NO_OPTION) {
-                return;
-            }
-        }
-        try {
-            frame.getContentPane().remove(welcomescreen);
-        } catch (Exception e) {
+        frame.getContentPane().remove(welcomescreen);
 
-        }
-        
-
-
-        this.game = new Game(10,this);
+        this.game = new Game(10, this);
         game.startGame();
 
-        String name = JOptionPane.showInputDialog(null, "Enter your name");
+        String name = JOptionPane.showInputDialog(null, "Enter your desired nickname", "Who do you want to be?", JOptionPane.INFORMATION_MESSAGE);
+        if (name == null) {
+            return;
+        }
         this.game.setPlayerName(name);
         String[] difficulties = {"BRAINLESS", "EASY", "CAPABLE", "LITERALLYJESUS"};
         int input;
         input = JOptionPane.showOptionDialog(null,
                 "Please Choose the Difficulty Level", "Choose Difficulty", JOptionPane.NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, difficulties, difficulties[1]);
-
+        if (input == -1) {
+            return;
+        }
         this.game.setDifficulty(input);
 
         startGame();
@@ -132,10 +131,6 @@ public class GUI implements Runnable {
 
     public void exit() {
         System.exit(0);
-    }
-
-    public int getGameBoardSideLenght() {
-        return game.getGameBoardSize();
     }
 
     /**
@@ -162,10 +157,6 @@ public class GUI implements Runnable {
         return game.getPlayerShootLocs();
     }
 
-    public HashSet<Location> getAIShipLocs() {
-        return game.getAI().shipLocs();
-    }
-
     public int getAIFleetSize() {
         return game.getAI().fleetSize();
     }
@@ -174,49 +165,45 @@ public class GUI implements Runnable {
         return game.getPlayer().fleetSize();
     }
 
-    public HashSet<Location> initialAIShipLocs() {
+    public HashSet<Location> getInitialAIShipLocs() {
         return game.getInitialAIShipLocs();
     }
 
-    public HashSet<Location> initialPlayerShipLocs() {
+    public HashSet<Location> getInitialPlayerShipLocs() {
         return game.getInitialPlayerShipLocs();
     }
 
-    public void update() {
+    private void update() {
         gameMenu.updateGameMenu(this);
-        //hitList.updateHitList(this);
         mainUI.updateMainUI(this);
         if (game.getEndgame()) {
             endGame();
         }
-
     }
 
-    public boolean isLocationSelected() {
-        if (null != game.getPlayerTargetLoc()) {
-            return true;
-        } else {
-            return false;
-        }
+    /**
+     *
+     * @return true if player has a target selected
+     */
+    public boolean locationSelected() {
+        return null != game.getPlayerTargetLoc();
     }
 
-    public Location targetLocation() {
+    public Location getTargetLocation() {
         return game.getPlayerTargetLoc();
     }
 
-    public void shoot() {
-
+    public void playerShoot() {
         game.playerShoot();
         update();
     }
 
-    public void endGame() {
+    private void endGame() {
         frame.remove(gameMenu);
         mainUI.updateAimButtonsEndGame(this);
         endGame = new EndGame(this);
         endGame.createEndGame(this);
         frame.getContentPane().add(endGame, BorderLayout.SOUTH);
-
     }
 
     public void setDifficulty(Difficulty difficulty) {
@@ -227,15 +214,15 @@ public class GUI implements Runnable {
         this.game.getPlayer().setName(name);
     }
 
-    public int playerScore() {
+    public int getPlayerScore() {
         return this.game.getPlayer().getScore();
     }
 
-    public String playerName() {
+    public String getPlayerName() {
         return this.game.getPlayer().getName();
     }
 
-    public String aiName() {
+    public String getAIName() {
         return this.game.getAI().getName();
     }
 
@@ -246,26 +233,40 @@ public class GUI implements Runnable {
     public int getPlayerRank() {
         return this.game.getPlayerRank();
     }
-    
-    public void playerHitMessage(){
-        JOptionPane.showMessageDialog(null, "Nice hit! Shoot again.","Great success!",JOptionPane.INFORMATION_MESSAGE);
+
+    //INGAME MESSAGES
+    /**
+     * Method shows a message informing the player of a scored hit
+     */
+    public void showPlayerHitMessage() {
+        JOptionPane.showMessageDialog(null, "Nice hit! Shoot again.", "Great success!", JOptionPane.INFORMATION_MESSAGE);
     }
 
-    public void playerMissMessage() {
-        JOptionPane.showMessageDialog(null, "You missed! Better luck next time.","What a failure",JOptionPane.INFORMATION_MESSAGE);
-    }
-    public void aiHitMessage(){
-        JOptionPane.showMessageDialog(null, this.game.getAI().getName()+ " hit your battleship!","Ouch!",JOptionPane.INFORMATION_MESSAGE);
-    }
-    public void aiMissMessage(){
-        JOptionPane.showMessageDialog(null,  this.game.getAI().getName()+ " missed, stupid computers, amiright??.","Haha!",JOptionPane.INFORMATION_MESSAGE);
+    public void showAIHitMessage() {
+        JOptionPane.showMessageDialog(null, this.game.getAI().getName() + " hit your battleship!", "Ouch!", JOptionPane.INFORMATION_MESSAGE);
     }
 
-    public void playerSinkAiShip() {
-        JOptionPane.showMessageDialog(null,  "Noice! You sank AI's battleship! AI has "+this.game.getAI().fleetSize()+" ships left.","Haha!",JOptionPane.INFORMATION_MESSAGE);
+    /**
+     * Method displays a message informing player that an AI ship has been sunk.
+     */
+    public void showPlayerSinkAIShipMessage() {
+        JOptionPane.showMessageDialog(null, "Noice! You sank AI's battleship! AI has " + this.game.getAI().fleetSize() + " ships left.", "Haha!", JOptionPane.INFORMATION_MESSAGE);
     }
 
-    public void aiSinkPlayerShip() {
-        JOptionPane.showMessageDialog(null,  this.game.getAI().getName()+ " sank your battleship!",":(",JOptionPane.INFORMATION_MESSAGE);
+    /**
+     * Method displays a message when AI sinks a player's ship
+     */
+    public void showAISinkPlayerShipMessage() {
+        JOptionPane.showMessageDialog(null, this.game.getAI().getName() + " sank your battleship!", ":(", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    /**
+     * Method pops up a dialog showing the game manual.
+     */
+    public void showManual() {
+        JLabel lbl = new JLabel(new ImageIcon(this.getClass().getResource("/img/manual.png")));
+        JOptionPane.showMessageDialog(null, lbl, "Manual",
+                JOptionPane.PLAIN_MESSAGE, null);
+
     }
 }

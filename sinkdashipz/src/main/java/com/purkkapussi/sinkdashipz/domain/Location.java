@@ -1,7 +1,5 @@
 package com.purkkapussi.sinkdashipz.domain;
 
-
-
 import java.util.Random;
 
 /**
@@ -37,6 +35,7 @@ public class Location {
         this.x = rand.nextInt(size);
         this.y = rand.nextInt(size);
     }
+
     //GETTERS AND SETTERS
     public int getX() {
         return x;
@@ -54,18 +53,23 @@ public class Location {
         this.y = y;
     }
     //LOCATION FUNCTIONALITY
-    
-    public Boolean locOutOfBounds(int size){
-        if (this.x < 0)
+
+    public Boolean locOutOfBounds(int size) {
+        if (this.x < 0) {
             return true;
-        if (this.x >= size)
+        }
+        if (this.x >= size) {
             return true;
-        if (this.y < 0)
+        }
+        if (this.y < 0) {
             return true;
-        if (this.y >= size)
+        }
+        if (this.y >= size) {
             return true;
+        }
         return false;
     }
+
     /**
      * Method moves the Location "east". Adds one to the x-coordinate.
      *
@@ -144,6 +148,5 @@ public class Location {
         }
         return true;
     }
-
 
 }

@@ -19,47 +19,39 @@ import javax.swing.JPanel;
 public class GameMenu extends JPanel {
 
     public GameMenuListener listener;
-    protected JButton shoot = new JButton("shoot");
-    protected JLabel aiShips = new JLabel("aiships");
-    protected JLabel ownShips = new JLabel("own ships");
-    protected JLabel coordinates = new JLabel("Selected coordinates:");
-    protected JLabel playerScore = new JLabel("Current score:");
+    protected JButton shoot = new JButton("Shoot");
+    protected JLabel aiShips = new JLabel();
+    protected JLabel ownShips = new JLabel();
+    protected JLabel coordinates = new JLabel();
+    protected JLabel playerScore = new JLabel();
 
     public GameMenu(GUI gui) {
         listener = new GameMenuListener(gui);
         this.setBackground(Color.BLACK);
-
         aiShips.setForeground(Color.WHITE);
         ownShips.setForeground(Color.WHITE);
         coordinates.setForeground(Color.WHITE);
-        playerScore.setForeground(Color.WHITE);
-        
+        playerScore.setForeground(Color.WHITE);    
         shoot.setOpaque(true);
         shoot.setBackground(Color.DARK_GRAY);
         shoot.setForeground(Color.red);
         shoot.setToolTipText("Use this button to shoot, when a target location has been selected.");
-
     }
 
     public void createGameMenu(GUI gui) {
         this.setLayout(new GridLayout(2, 4));
         shoot.addActionListener(listener);
-        shoot.setEnabled(gui.isLocationSelected());
+        shoot.setEnabled(gui.locationSelected());
         this.add(shoot);
-
         this.add(aiShips);
-
         this.add(ownShips);
-
         this.add(coordinates);
-
         this.add(playerScore);
         updateGameMenu(gui);
-
     }
 
     public void updateGameMenu(GUI gui) {
-        if(gui.isLocationSelected()){
+        if(gui.locationSelected()){
             shoot.setBackground(Color.RED);
             shoot.setForeground(Color.BLACK);
             shoot.setEnabled(true);
@@ -69,10 +61,10 @@ public class GameMenu extends JPanel {
             shoot.setBackground(Color.DARK_GRAY);
         }
         
-        aiShips.setText(gui.aiName() + "'s ships: " + gui.getAIFleetSize());
-        ownShips.setText(gui.playerName() + "'s ships: " + gui.getPlayerFleetSize());
-        coordinates.setText("Selected coordinates: " + gui.targetLocation());
-        playerScore.setText("Current score: " + gui.playerScore());
+        aiShips.setText(gui.getAIName() + "'s ships: " + gui.getAIFleetSize());
+        ownShips.setText(gui.getPlayerName() + "'s ships: " + gui.getPlayerFleetSize());
+        coordinates.setText("Selected coordinates: " + gui.getTargetLocation());
+        playerScore.setText("Current score: " + gui.getPlayerScore());
     }
     
 
