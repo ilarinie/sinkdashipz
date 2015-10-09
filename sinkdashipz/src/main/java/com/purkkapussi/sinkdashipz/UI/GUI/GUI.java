@@ -119,10 +119,10 @@ public class GUI implements Runnable {
         }
         this.game.setDifficulty(input);
         
-        ShipPlacer placer = new ShipPlacer(this);
-        placer.run();
+        //ShipPlacer placer = new ShipPlacer(this);
+       // placer.run();
         
-        //startGame();
+        startGame();
     }
 
     public void showHighScore() {
