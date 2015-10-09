@@ -35,9 +35,9 @@ public class HighScore implements Serializable, Comparable<HighScore> {
             return 0;
         }
         if (this.score > o.score) {
-            return 1;
-        } else {
             return -1;
+        } else {
+            return 1;
         }
     }
 

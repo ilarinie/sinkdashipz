@@ -37,6 +37,7 @@ public class GameMenu extends JPanel {
         shoot.setOpaque(true);
         shoot.setBackground(Color.DARK_GRAY);
         shoot.setForeground(Color.red);
+        shoot.setToolTipText("Use this button to shoot, when a target location has been selected.");
 
     }
 
@@ -73,5 +74,6 @@ public class GameMenu extends JPanel {
         coordinates.setText("Selected coordinates: " + gui.targetLocation());
         playerScore.setText("Current score: " + gui.playerScore());
     }
+    
 
 }
