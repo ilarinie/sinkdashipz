@@ -6,7 +6,7 @@
 package com.purkkapussi.sinkdashipz.tools;
 
 /**
- * AI Difficulty levels in enum
+ * AI Difficulty levels enum
  * @author ile
  */
 public enum Difficulty {

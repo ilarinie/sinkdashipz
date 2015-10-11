@@ -53,6 +53,14 @@ public class ShipCreator {
         return ship;
     }
 
+    /**
+     * Method creates a new ship with the given parameters.
+     *
+     * @param size size of the ship
+     * @param direction direction of the ship on the game board
+     * @param startloc starting location of the ship
+     * @return new Ship
+     */
     public Ship createShip(int size, Direction direction, Location startloc) {
         Ship newShip = new Ship();
         newShip.setDirection(direction);
@@ -69,7 +77,7 @@ public class ShipCreator {
         return newShip;
     }
 
-    public HashSet<Location> createHullSet(int size, Direction direction, Location startloc) {
+    private HashSet<Location> createHullSet(int size, Direction direction, Location startloc) {
         HashSet<Location> hulls = new HashSet<>();
         if (direction == Direction.EAST) {
             for (int i = 0; i < size; i++) {
@@ -208,7 +216,8 @@ public class ShipCreator {
      *
      * @param actor actor who's ships to check against
      * @param ship ship to get neighbors
-     * @return
+     * @return true if ship has immediate neighbors
+     *
      */
     public boolean checkForNeighboringShips(Actor actor, Ship ship) {
         if (actor.getShips().isEmpty()) {

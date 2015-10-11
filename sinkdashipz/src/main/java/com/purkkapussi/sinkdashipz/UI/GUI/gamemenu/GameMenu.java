@@ -13,6 +13,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
+ * In-game shooting and info-panel that holds the shooting button and in-game
+ * info.
  *
  * @author ile
  */
@@ -31,7 +33,7 @@ public class GameMenu extends JPanel {
         aiShips.setForeground(Color.WHITE);
         ownShips.setForeground(Color.WHITE);
         coordinates.setForeground(Color.WHITE);
-        playerScore.setForeground(Color.WHITE);    
+        playerScore.setForeground(Color.WHITE);
         shoot.setOpaque(true);
         shoot.setBackground(Color.DARK_GRAY);
         shoot.setForeground(Color.red);
@@ -51,21 +53,20 @@ public class GameMenu extends JPanel {
     }
 
     public void updateGameMenu(GUI gui) {
-        if(gui.locationSelected()){
+        if (gui.locationSelected()) {
             shoot.setBackground(Color.RED);
             shoot.setForeground(Color.BLACK);
             shoot.setEnabled(true);
-        }else{
+        } else {
             shoot.setEnabled(false);
             shoot.setForeground(Color.GRAY);
             shoot.setBackground(Color.DARK_GRAY);
         }
-        
-        aiShips.setText(gui.getAIName() + "'s ships: " + gui.getAIFleetSize());
-        ownShips.setText(gui.getPlayerName() + "'s ships: " + gui.getPlayerFleetSize());
-        coordinates.setText("Selected coordinates: " + gui.getTargetLocation());
-        playerScore.setText("Current score: " + gui.getPlayerScore());
+
+        aiShips.setText(gui.getGame().getAI().getName() + "'s ships: " + gui.getGame().getAI().fleetSize());
+        ownShips.setText(gui.getGame().getPlayer().getName() + "'s ships: " + gui.getGame().getPlayer().fleetSize());
+        coordinates.setText("Selected coordinates: " + gui.getGame().getPlayerTargetLoc());
+        playerScore.setText("Current score: " + gui.getGame().getPlayer().getScore());
     }
-    
 
 }

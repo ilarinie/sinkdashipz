@@ -1,0 +1,12 @@
+com.purkkapussi.sinkdashipz.UI.GUI
+com.purkkapussi.sinkdashipz.UI.GUI.endgame
+com.purkkapussi.sinkdashipz.UI.GUI.gamemenu
+com.purkkapussi.sinkdashipz.UI.GUI.mainmenu
+com.purkkapussi.sinkdashipz.UI.GUI.mainui
+com.purkkapussi.sinkdashipz.UI.GUI.shipplacer
+com.purkkapussi.sinkdashipz.UI.GUI.welcomescreen
+com.purkkapussi.sinkdashipz.domain
+com.purkkapussi.sinkdashipz.domain.highscores
+com.purkkapussi.sinkdashipz.main
+com.purkkapussi.sinkdashipz.tools
+com.purkkapussi.sinkdashipz.users

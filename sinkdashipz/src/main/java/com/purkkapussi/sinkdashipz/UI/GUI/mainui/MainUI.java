@@ -14,14 +14,13 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 /**
- * Class provides the main game functionality for the GUI including aiming and
- * showing the players ships
+ * Panel that holds a button grid used by the player to target and shoot and a
+ * label grid that shows the players own ships and AI's hits and misses.
  *
  * @author ile
  */
 public class MainUI extends JPanel {
 
-  
     protected JPanel mainHolder;
     protected JPanel aimHolder;
     protected JPanel playerShipHolder;
@@ -32,7 +31,7 @@ public class MainUI extends JPanel {
     private final int gameBoardSize = 10;
 
     public MainUI(GUI gui) {
-        
+
         playerShipHolder = new JPanel(new GridLayout(gameBoardSize + 1, gameBoardSize + 1));
         aimHolder = new JPanel(new GridLayout(gameBoardSize + 1, gameBoardSize + 1));
         mainHolder = new JPanel(new GridLayout(1, 2));
@@ -99,12 +98,12 @@ public class MainUI extends JPanel {
                         JButton aimButton = createAimButton();
                         Location loc = new Location(i - 1, j - 1);
                         MainUIListener aimListener = new MainUIListener(gui, loc);
-                        if (loc.equals(gui.getTargetLocation())) {
+                        if (loc.equals(gui.getGame().getPlayerTargetLoc())) {
                             markAimLocation(aimButton);
                         }
-                        if (gui.getPlayerHits().contains(new Location(i - 1, j - 1))) {
+                        if (gui.getGame().getPlayerShootLocs().contains(new Location(i - 1, j - 1))) {
                             changeButtonToMissed(aimButton);
-                            if (gui.getInitialAIShipLocs().contains(new Location(i - 1, j - 1))) {
+                            if (gui.getGame().getInitialAIShipLocs().contains(new Location(i - 1, j - 1))) {
                                 changeButtonToHit(aimButton);
                             }
                         }
@@ -147,7 +146,7 @@ public class MainUI extends JPanel {
 
                         JLabel playerShipLabel = createPlayerShipLabel();
 
-                        if (gui.getInitialPlayerShipLocs().contains(new Location(i - 1, j - 1))) {
+                        if (gui.getGame().getInitialPlayerShipLocs().contains(new Location(i - 1, j - 1))) {
                             if (gui.getAIHits().contains(new Location(i - 1, j - 1))) {
                                 setPlayerShipLabelToHit(playerShipLabel);
                             } else {
@@ -199,12 +198,12 @@ public class MainUI extends JPanel {
                         //pelaajan ampumisnappulat
                         JButton aimButton = createAimButton();
                         Location loc = new Location(i, j);
-                        if (gui.getPlayerHits().contains(new Location(i-1, j-1))) {
+                        if (gui.getGame().getPlayerShootLocs().contains(new Location(i - 1, j - 1))) {
                             changeButtonToMissed(aimButton);
-                            if (gui.getInitialAIShipLocs().contains(new Location(i-1, j-1))) {
+                            if (gui.getGame().getInitialAIShipLocs().contains(new Location(i - 1, j - 1))) {
                                 changeButtonToHit(aimButton);
                             }
-                        } else if (gui.getInitialAIShipLocs().contains(new Location(i-1, j-1))) {
+                        } else if (gui.getGame().getInitialAIShipLocs().contains(new Location(i - 1, j - 1))) {
                             changeButtonToShip(aimButton);
                         } else {
                             changeButtonToSea(aimButton);
@@ -220,7 +219,7 @@ public class MainUI extends JPanel {
     //END UPDATE METHODS
     //COORDINATE LABELS
     public JLabel createCoordinateLabel(int number) {
-        JLabel coord = new JLabel(""+number, SwingConstants.CENTER);
+        JLabel coord = new JLabel("" + number, SwingConstants.CENTER);
         coord.setFont(new Font("Arial", Font.PLAIN, fontSize));
         coord.setPreferredSize(new Dimension(buttonWidth, buttonHeight));
         coord.setBackground(Color.BLACK);
@@ -357,7 +356,7 @@ public class MainUI extends JPanel {
         aimButton.setDisabledIcon(new ImageIcon(imgURL));
         aimButton.setOpaque(true);
     }
-    
+
     private void changeButtonToShip(JButton aimButton) {
         URL imgURL = this.getClass().getResource("/img/playershippic.png");
         aimButton.setIcon(new ImageIcon(imgURL));

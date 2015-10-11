@@ -1,4 +1,3 @@
-
 package com.purkkapussi.sinkdashipz.UI.GUI;
 
 import com.purkkapussi.sinkdashipz.UI.GUI.endgame.EndGame;
@@ -20,6 +19,12 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
 
+
+/**
+ * Main GUI that holds all the other UI components.
+ * 
+ * @author ile
+ */
 public class GUI implements Runnable {
 
     private Game game;
@@ -32,8 +37,8 @@ public class GUI implements Runnable {
     private WelcomeScreen welcomescreen;
     private boolean gamerunning;
 
-    public GUI(Game game) {
-        this.game = game;
+    public GUI() {
+        
 
     }
 
@@ -82,6 +87,9 @@ public class GUI implements Runnable {
         frame.pack();
     }
 
+    /**
+     * New game method. If a game is currently running, the method will ask confirmation to start a new game.
+     */
     public void newGame() {
 
         if (gamerunning && !this.game.getEndgame()) {
@@ -92,7 +100,6 @@ public class GUI implements Runnable {
         }
         if (endGame != null) {
             frame.getContentPane().remove(endGame);
-            game.resetGame();
         }
 
         if (mainUI != null) {
@@ -109,7 +116,7 @@ public class GUI implements Runnable {
         if (name == null) {
             return;
         }
-        this.game.setPlayerName(name);
+        this.game.getPlayer().setName(name);
         String[] difficulties = {"BRAINLESS", "EASY", "CAPABLE", "LITERALLYJESUS"};
         int input;
         input = JOptionPane.showOptionDialog(null,
@@ -117,14 +124,16 @@ public class GUI implements Runnable {
         if (input == -1) {
             return;
         }
-        this.game.setDifficulty(input);
-        
+        this.game.getAI().setDifficulty(Difficulty.values()[input]);
+
         //ShipPlacer placer = new ShipPlacer(this);
-       // placer.run();
-        
+        //placer.run();
         startGame();
     }
 
+    /**
+     * Method pops up a window showing the top 10 high scores.
+     */
     public void showHighScore() {
         if (this.game.tenBestHighScores().equals("")) {
             JOptionPane.showMessageDialog(null, "No highscores to show yet.", "HighScores", JOptionPane.INFORMATION_MESSAGE);
@@ -133,7 +142,16 @@ public class GUI implements Runnable {
         }
     }
 
+    /**
+     * Method closes the process after confirmation from the user.
+     */
     public void exit() {
+
+        int reply = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit?", "Quit?", JOptionPane.YES_NO_OPTION);
+        if (reply == JOptionPane.NO_OPTION || reply == JOptionPane.CLOSED_OPTION || reply == -1) {
+            return;
+        }
+
         System.exit(0);
     }
 
@@ -156,30 +174,20 @@ public class GUI implements Runnable {
     public HashSet<Location> getAIHits() {
         return game.getAiShootLocs();
     }
-    
-    public Game getGame(){
+
+    /**
+     * Returns the game currently running.
+     *
+     * @return game being played currently
+     */
+    public Game getGame() {
         return this.game;
     }
-    public HashSet<Location> getPlayerHits() {
-        return game.getPlayerShootLocs();
-    }
 
-    public int getAIFleetSize() {
-        return game.getAI().fleetSize();
-    }
-
-    public int getPlayerFleetSize() {
-        return game.getPlayer().fleetSize();
-    }
-
-    public HashSet<Location> getInitialAIShipLocs() {
-        return game.getInitialAIShipLocs();
-    }
-
-    public HashSet<Location> getInitialPlayerShipLocs() {
-        return game.getInitialPlayerShipLocs();
-    }
-
+    /**
+     * Method updates the main game UI and the info panel, switches to end game
+     * screen if the game has ended.
+     */
     private void update() {
         gameMenu.updateGameMenu(this);
         mainUI.updateMainUI(this);
@@ -189,6 +197,8 @@ public class GUI implements Runnable {
     }
 
     /**
+     * Method to check if player has selected a target location. Used to enable
+     * and disable the shooting button accordingly.
      *
      * @return true if player has a target selected
      */
@@ -196,10 +206,10 @@ public class GUI implements Runnable {
         return null != game.getPlayerTargetLoc();
     }
 
-    public Location getTargetLocation() {
-        return game.getPlayerTargetLoc();
-    }
-
+    /**
+     * Method tells the game to shoot at the target coordinates and updates the
+     * UI after.
+     */
     public void playerShoot() {
         game.playerShoot();
         update();
@@ -213,44 +223,12 @@ public class GUI implements Runnable {
         frame.getContentPane().add(endGame, BorderLayout.SOUTH);
     }
 
-    public void setDifficulty(Difficulty difficulty) {
-        this.game.getAI().setDifficulty(difficulty);
-    }
-
-    public void setPlayerName(String name) {
-        this.game.getPlayer().setName(name);
-    }
-
-    public int getPlayerScore() {
-        return this.game.getPlayer().getScore();
-    }
-
-    public String getPlayerName() {
-        return this.game.getPlayer().getName();
-    }
-
-    public String getAIName() {
-        return this.game.getAI().getName();
-    }
-
-    public String getWinner() {
-        return this.game.getWinner();
-    }
-
-    public int getPlayerRank() {
-        return this.game.getPlayerRank();
-    }
-
     //INGAME MESSAGES
     /**
      * Method shows a message informing the player of a scored hit
      */
     public void showPlayerHitMessage() {
         JOptionPane.showMessageDialog(null, "Nice hit! Shoot again.", "Great success!", JOptionPane.INFORMATION_MESSAGE);
-    }
-
-    public void showAIHitMessage() {
-        JOptionPane.showMessageDialog(null, this.game.getAI().getName() + " hit your battleship!", "Ouch!", JOptionPane.INFORMATION_MESSAGE);
     }
 
     /**
@@ -274,6 +252,5 @@ public class GUI implements Runnable {
         JLabel lbl = new JLabel(new ImageIcon(this.getClass().getResource("/img/manual.png")));
         JOptionPane.showMessageDialog(null, lbl, "Manual",
                 JOptionPane.PLAIN_MESSAGE, null);
-
     }
 }

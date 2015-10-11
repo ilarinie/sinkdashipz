@@ -12,8 +12,8 @@ import org.junit.Test;
 
 public class GameTest {
 
-    private int gameboard = 10;
-    private Game game = new Game(gameboard);
+    private final int gameboard = 10;
+    private final Game game = new Game(gameboard);
 
     @Test
     public void fleetsHaveRightAmountOfShips() {
@@ -22,8 +22,9 @@ public class GameTest {
         assertEquals(5, game.getPlayer().fleetSize());
     }
     @Test
-    public void gameBoardRightSize(){
-        assertEquals(10, game.getGameBoardSize());
+    public void highScoresAreRead(){
+        
+        assertEquals(2, game.highscores.size());
     }
 
 
@@ -51,15 +52,6 @@ public class GameTest {
         assertEquals(true, game.getEndgame());
     }
 
-    @Test
-    public void resetGameTest() {
-        game.resetGame();
-        assertEquals(true, game.getAI().getShips().isEmpty());
-        assertEquals(true, game.getPlayer().getShips().isEmpty());
-        assertEquals(true, game.getAiShootLocs().isEmpty());
-        assertEquals(true, game.getPlayerShootLocs().isEmpty());
-        assertEquals(false, game.getEndgame());
-    }
 
     @Test
     public void endGameTest() {

@@ -19,15 +19,12 @@ public class HighScoreReader {
     private FileInputStream fin;
     private ObjectInputStream ois;
 
-    public void openFile() {
-        try {
-            fin = new FileInputStream("highscores.ser");
-            ois = new ObjectInputStream(fin);
-        } catch (Exception e) {
-
-        }
-    }
-
+    /**
+     * Method tries to read the high scores from the file "highscores.ser" and
+     * closes the file after.
+     *
+     * @return ArrayList of HighScores
+     */
     public ArrayList<HighScore> readHighScores() {
         ArrayList<HighScore> highscores = new ArrayList<>();
 
@@ -43,6 +40,15 @@ public class HighScoreReader {
 
         }
         return highscores;
+    }
+
+    private void openFile() {
+        try {
+            fin = new FileInputStream("highscores.ser");
+            ois = new ObjectInputStream(fin);
+        } catch (Exception e) {
+
+        }
     }
 
 }

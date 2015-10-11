@@ -8,6 +8,8 @@ package com.purkkapussi.sinkdashipz.domain.highscores;
 import java.io.Serializable;
 
 /**
+ * HighScore class provides serializable high score objects that can be stored
+ * in files to save high score progress.
  *
  * @author ile
  */
@@ -16,6 +18,12 @@ public class HighScore implements Serializable, Comparable<HighScore> {
     private String name;
     private int score;
 
+    /**
+     * HighScore constructor
+     * 
+     * @param name players name
+     * @param score players score
+     */
     public HighScore(String name, int score) {
         this.name = name;
         this.score = score;

@@ -16,30 +16,8 @@ import java.util.ArrayList;
  */
 public class HighScoreWriter {
 
-    private FileOutputStream fout;
-    private ObjectOutputStream oos;
-
-    public HighScoreWriter() {
-
-    }
-
-    public void openFile() throws FileNotFoundException {
-
-        try {
-            fout = new FileOutputStream("highscores.ser");
-            oos = new ObjectOutputStream(fout);
-        } catch (Exception e) {
-
-        }
-    }
-
-    public void closeFile() {
-        try {
-            fout.close();
-            oos.close();
-        } catch (Exception e) {
-        }
-    }
+    protected FileOutputStream fout;
+    protected ObjectOutputStream oos;
 
     public void writeHighScores(ArrayList<HighScore> highscores) {
         try {
@@ -59,6 +37,24 @@ public class HighScoreWriter {
 
         }
 
+    }
+    
+        private void openFile() throws FileNotFoundException {
+
+        try {
+            fout = new FileOutputStream("highscores.ser");
+            oos = new ObjectOutputStream(fout);
+        } catch (Exception e) {
+
+        }
+    }
+
+    private void closeFile() {
+        try {
+            fout.close();
+            oos.close();
+        } catch (Exception e) {
+        }
     }
 
 }

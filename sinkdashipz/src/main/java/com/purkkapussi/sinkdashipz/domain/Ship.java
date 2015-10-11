@@ -3,7 +3,13 @@ package com.purkkapussi.sinkdashipz.domain;
 import com.purkkapussi.sinkdashipz.tools.Direction;
 import java.util.ArrayList;
 
-
+/**
+ * The Ship class stores the Location of the ship's hulls and the direction of
+ * the ship on the game board. The class also provides functionality to check
+ * whether the ship is fully on the game board.
+ *
+ * @author ile
+ */
 public class Ship {
 
     private ArrayList<Location> hullPieces;
@@ -47,6 +53,7 @@ public class Ship {
         }
         return false;
     }
+
     /**
      * Method adds the given hull to the Ship.
      *
@@ -114,7 +121,7 @@ public class Ship {
 
     //OVERRIDES
     /**
-     * 
+     *
      * @return locations of every hull of the ship
      */
     @Override
@@ -131,6 +138,7 @@ public class Ship {
         int hash = 3;
         return hash;
     }
+
     /**
      * If checking against another Ship, returns true if ANY of the Hull pieces
      * match.

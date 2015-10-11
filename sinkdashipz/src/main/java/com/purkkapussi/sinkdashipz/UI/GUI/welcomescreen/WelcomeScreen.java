@@ -13,14 +13,16 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
+ * Welcome screen that is shown when the application is started before a new
+ * game has been started.
  *
  * @author ile
  */
 public class WelcomeScreen extends JPanel {
-    
-    public WelcomeScreen(){
+
+    public WelcomeScreen() {
         this.setPreferredSize(new Dimension(810, 400));
-        this.setLayout(new GridLayout(1,1));
+        this.setLayout(new GridLayout(1, 1));
         URL imgURL = this.getClass().getResource("/img/welcomescreen.png");
         JLabel image = new JLabel(new ImageIcon(imgURL));
         this.add(image);

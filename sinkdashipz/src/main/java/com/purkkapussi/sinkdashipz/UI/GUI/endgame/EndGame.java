@@ -11,6 +11,11 @@ import java.awt.GridLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+/**
+ * EndGame info-panel shown at the end of the game.
+ *
+ * @author ile
+ */
 public class EndGame extends JPanel {
 
     protected JLabel gameEndedText = new JLabel();
@@ -37,8 +42,8 @@ public class EndGame extends JPanel {
 
     public void updateEndGame(GUI gui) {
         gameEndedText.setText("The Game has ended.");
-        winnerText.setText(gui.getWinner() + " won.");
-        playerScoreText.setText("Your score was: " + gui.getPlayerScore());
-        playerScore.setText("Your score puts you on the  " + gui.getPlayerRank() + ". spot in the highscores");
+        winnerText.setText(gui.getGame().getWinner() + " won.");
+        playerScoreText.setText("Your score was: " + gui.getGame().getPlayer().getScore());
+        playerScore.setText("Your score puts you on the  " + gui.getGame().getPlayerRank() + ". spot in the highscores");
     }
 }

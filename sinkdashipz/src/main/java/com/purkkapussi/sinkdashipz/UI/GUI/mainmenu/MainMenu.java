@@ -15,6 +15,11 @@ import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
+/**
+ * Main menu panel that holds New Game, High Score, Manual and Exit buttons.
+ *
+ * @author ile
+ */
 public class MainMenu extends JPanel {
 
     private final MainMenuListener listener;
@@ -40,7 +45,7 @@ public class MainMenu extends JPanel {
         highscores.setForeground(Color.WHITE);
         highscores.addActionListener(listener);
         this.add(highscores);
-        
+
         JButton manual = new JButton("Manual");
         manual.setBackground(Color.DARK_GRAY);
         manual.setForeground(Color.WHITE);
@@ -52,13 +57,12 @@ public class MainMenu extends JPanel {
         exit.setForeground(Color.WHITE);
         exit.addActionListener(listener);
         this.add(exit);
-        
-        listener.getComponents(newgame, highscores, manual,exit);
+
+        listener.getComponents(newgame, highscores, manual, exit);
 
         URL imgSmartURL = this.getClass().getResource("/img/mainpic.png");
         JLabel mainPic = new JLabel(new ImageIcon(imgSmartURL), JLabel.CENTER);
         this.add(mainPic);
 
-        
     }
 }

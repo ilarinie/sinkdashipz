@@ -54,6 +54,14 @@ public class Location {
     }
     //LOCATION FUNCTIONALITY
 
+    /**
+     * Method checks if this Location is out of bounds on the given game board
+     * size
+     *
+     * @param size size of the game board
+     *
+     * @return true if location is not on the game board
+     */
     public Boolean locOutOfBounds(int size) {
         if (this.x < 0) {
             return true;
