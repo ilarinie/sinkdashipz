@@ -18,10 +18,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
 
-
 /**
  * Main GUI that holds all the other UI components.
- * 
+ *
  * @author ile
  */
 public class GUI implements Runnable {
@@ -37,7 +36,6 @@ public class GUI implements Runnable {
     private boolean gamerunning;
 
     public GUI() {
-        
 
     }
 
@@ -53,26 +51,30 @@ public class GUI implements Runnable {
         frame.setIconImage(new ImageIcon(imgSmartURL).getImage());
 
         frame.setResizable(false);
-
-        createInitialSetup();
-        createWelcomeScreen();
+        createInitialScreen();
 
         frame.pack();
         frame.setVisible(true);
 
     }
 
-    public void createInitialSetup() {
+    /**
+     * Method creates the components shown initially when the application is
+     * started. These components are MainMenu and WelcomeScreen.
+     */
+    public void createInitialScreen() {
         initialSetup = new MainMenu(this);
         initialSetup.createInitialSetup();
+        welcomescreen = new WelcomeScreen();
+        frame.getContentPane().add(welcomescreen, BorderLayout.CENTER);
         frame.getContentPane().add(initialSetup, BorderLayout.WEST);
     }
 
-    public void createWelcomeScreen() {
-        welcomescreen = new WelcomeScreen();
-        frame.getContentPane().add(welcomescreen, BorderLayout.CENTER);
-    }
-
+    /**
+     * Method creates the main game UI components which are the MainUI which
+     * holds the grids to show ship locations and targeting and the game
+     * menu/info-panel.
+     */
     public void startGame() {
         mainUI = new MainUI(this);
         mainUI.createMainUI(this);
@@ -87,9 +89,16 @@ public class GUI implements Runnable {
     }
 
     /**
-     * New game method. If a game is currently running, the method will ask confirmation to start a new game.
+     * New game method. If a game is currently running, the method will ask
+     * confirmation to start a new game. Method removes last games UI from the
+     * screen if applicable. After, the method will start a new Game and asks
+     * for players name and difficulty level. Name can be blank, but if cancel
+     * is pressed or a dialog closed, the method will exit without starting a
+     * new game.
      */
     public void newGame() {
+
+        String[] difficulties = {"BRAINLESS", "EASY", "CAPABLE", "LITERALLYJESUS"};
 
         if (gamerunning && !this.game.getEndgame()) {
             int reply = JOptionPane.showConfirmDialog(null, "Are you sure you want to start a new game? Current game progress excluding highscores will be lost.", "Are you sure?", JOptionPane.YES_NO_OPTION);
@@ -97,36 +106,29 @@ public class GUI implements Runnable {
                 return;
             }
         }
-        if (endGame != null) {
-            frame.getContentPane().remove(endGame);
-        }
-
-        if (mainUI != null) {
-            frame.getContentPane().remove(mainUI);
-            frame.getContentPane().remove(gameMenu);
-        }
 
         frame.getContentPane().remove(welcomescreen);
-
-        this.game = new Game(10, this);
-        game.startGame();
 
         String name = JOptionPane.showInputDialog(null, "Enter your desired nickname", "Who do you want to be?", JOptionPane.INFORMATION_MESSAGE);
         if (name == null) {
             return;
         }
-        this.game.getPlayer().setName(name);
-        String[] difficulties = {"BRAINLESS", "EASY", "CAPABLE", "LITERALLYJESUS"};
-        int input;
-        input = JOptionPane.showOptionDialog(null,
+
+        int input = JOptionPane.showOptionDialog(null,
                 "Please Choose the Difficulty Level", "Choose Difficulty", JOptionPane.NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, difficulties, difficulties[1]);
         if (input == -1) {
             return;
         }
+        if (endGame != null) {
+            frame.getContentPane().remove(endGame);
+            frame.getContentPane().remove(mainUI);
+            frame.getContentPane().remove(gameMenu);
+        }
+        this.game = new Game(10, this);
+        game.startGame();
+        this.game.getPlayer().setName(name);
         this.game.getAI().setDifficulty(Difficulty.values()[input]);
 
-        //ShipPlacer placer = new ShipPlacer(this);
-        //placer.run();
         startGame();
     }
 
