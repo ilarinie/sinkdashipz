@@ -64,7 +64,7 @@ public class GUI implements Runnable {
      */
     public void createInitialScreen() {
         initialSetup = new MainMenu(this);
-        initialSetup.createInitialSetup();
+        initialSetup.createMainMenu();
         welcomescreen = new WelcomeScreen();
         frame.getContentPane().add(welcomescreen, BorderLayout.CENTER);
         frame.getContentPane().add(initialSetup, BorderLayout.WEST);
@@ -173,7 +173,7 @@ public class GUI implements Runnable {
      * @return targets the AI has hit
      */
     public HashSet<Location> getAIHits() {
-        return game.getAiShootLocs();
+        return game.getAiShotLocs();
     }
 
     /**
@@ -218,7 +218,7 @@ public class GUI implements Runnable {
 
     private void endGame() {
         frame.remove(gameMenu);
-        mainUI.updateAimButtonsEndGame(this);
+        mainUI.updateMainUI(this);
         endGame = new EndGame(this);
         endGame.createEndGame(this);
         frame.getContentPane().add(endGame, BorderLayout.SOUTH);

@@ -21,48 +21,47 @@ import javax.swing.JLabel;
  * @author ile
  */
 public class MainMenu extends JPanel {
-
+    
     private final MainMenuListener listener;
-
+    
     public MainMenu(GUI gui) {
         this.listener = new MainMenuListener(gui);
         setLayout(new GridLayout(5, 1));
         this.setBackground(Color.BLACK);
         this.setForeground(Color.GREEN);
         this.setPreferredSize(new Dimension(150, 500));
-
+        
     }
-
-    public void createInitialSetup() {
+    
+    public void createMainMenu() {
         JButton newgame = new JButton("New Game");
-        newgame.setBackground(Color.DARK_GRAY);
-        newgame.setForeground(Color.WHITE);
-        newgame.addActionListener(listener);
+        buttonSetup(newgame);
         this.add(newgame);
-
+        
         JButton highscores = new JButton("HighScores");
-        highscores.setBackground(Color.DARK_GRAY);
-        highscores.setForeground(Color.WHITE);
-        highscores.addActionListener(listener);
+        buttonSetup(highscores);
         this.add(highscores);
-
+        
         JButton manual = new JButton("Manual");
-        manual.setBackground(Color.DARK_GRAY);
-        manual.setForeground(Color.WHITE);
-        manual.addActionListener(listener);
+        buttonSetup(manual);
         this.add(manual);
-
+        
         JButton exit = new JButton("Exit");
-        exit.setBackground(Color.DARK_GRAY);
-        exit.setForeground(Color.WHITE);
-        exit.addActionListener(listener);
+        buttonSetup(exit);
         this.add(exit);
-
+        
         listener.getComponents(newgame, highscores, manual, exit);
-
+        
         URL imgSmartURL = this.getClass().getResource("/img/mainpic.png");
         JLabel mainPic = new JLabel(new ImageIcon(imgSmartURL), JLabel.CENTER);
         this.add(mainPic);
-
+        
+    }
+    
+    private void buttonSetup(JButton button) {
+        button.setBackground(Color.DARK_GRAY);
+        button.setForeground(Color.WHITE);
+        button.addActionListener(listener);
+        button.setFocusPainted(false);
     }
 }

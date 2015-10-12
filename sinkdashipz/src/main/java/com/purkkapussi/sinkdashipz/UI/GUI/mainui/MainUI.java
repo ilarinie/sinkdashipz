@@ -45,171 +45,56 @@ public class MainUI extends JPanel {
      * @param gui GUI to be used
      */
     public void createMainUI(GUI gui) {
-        updateAimButtons(gui);
-        updatePlayerShipLabels(gui);
+        updateMainUI(gui);
         mainHolder.add(aimHolder);
         mainHolder.add(playerShipHolder);
         this.add(mainHolder);
     }
 
-    //MAIN UPDATE METHOD
+
     /**
-     * Method updates the buttons and labels on the mainUI.
+     * Method to update the UI. Creates two grids with coordinate legends. Uses
+     * changeButton to determine icon for the button.
      *
-     * @param gui GUI to be used
+     * @see #changeButton()
+     *
+     * @param gui main graphical user interface
      */
     public void updateMainUI(GUI gui) {
         aimHolder.removeAll();
         playerShipHolder.removeAll();
-        updateAimButtons(gui);
-        updatePlayerShipLabels(gui);
-    }
-
-    //SECONDARY UPDATE METHODS
-    /**
-     * Method to update the aimButtons on the main UI
-     *
-     * @param gui main graphical user interface
-     */
-    public void updateAimButtons(GUI gui) {
-        int apu = 0;
+        int counter = 0;
         for (int i = 0; i < gameBoardSize + 1; i++) {
             if (i == 0) {
                 for (int k = 0; k < gameBoardSize + 1; k++) {
                     if (k == 0) {
-                        JLabel emptyLabel = new JLabel("");
-                        emptyLabel.setPreferredSize(new Dimension(buttonWidth, buttonHeight));
-                        emptyLabel.setOpaque(true);
-                        emptyLabel.setBackground(Color.BLACK);
-                        aimHolder.add(emptyLabel);
+                        aimHolder.add(createEmptyLabel());
+                        playerShipHolder.add(createEmptyLabel());
                     } else {
                         JLabel coord = createCoordinateLabel(k - 1);
+                        JLabel coord2 = createCoordinateLabel(k - 1);
                         aimHolder.add(coord);
+                        playerShipHolder.add(coord2);
                     }
                 }
             } else {
                 for (int j = 0; j < gameBoardSize + 1; j++) {
                     if (j == 0) {
-                        JLabel coord = createCoordinateLabel(apu);
+                        JLabel coord = createCoordinateLabel(counter);
+                        JLabel coord2 = createCoordinateLabel(counter);
                         aimHolder.add(coord);
-                        apu++;
+                        playerShipHolder.add(coord2);
+                        counter++;
                     } else {
-                        //pelaajan ampumisnappulat
-                        JButton aimButton = createAimButton();
+                        JButton aimButton = createButton();
+                        JButton labelButton = createButton();
                         Location loc = new Location(i - 1, j - 1);
                         MainUIListener aimListener = new MainUIListener(gui, loc);
-                        if (loc.equals(gui.getGame().getPlayerTargetLoc())) {
-                            markAimLocation(aimButton);
-                        }
-                        if (gui.getGame().getPlayerShootLocs().contains(new Location(i - 1, j - 1))) {
-                            changeButtonToMissed(aimButton);
-                            if (gui.getGame().getInitialAIShipLocs().contains(new Location(i - 1, j - 1))) {
-                                changeButtonToHit(aimButton);
-                            }
-                        }
+                        changeButton(gui, aimButton, loc, aimHolder);
+                        changeButton(gui, labelButton, loc, playerShipHolder);
                         aimButton.addActionListener(aimListener);
                         aimHolder.add(aimButton);
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * Method to update the container which contains the players ships.
-     *
-     * @param gui main graphical user interface
-     */
-    public void updatePlayerShipLabels(GUI gui) {
-        int apu = 0;
-        for (int i = 0; i < gameBoardSize + 1; i++) {
-            if (i == 0) {
-                for (int k = 0; k < gameBoardSize + 1; k++) {
-                    if (k == 0) {
-                        JLabel emptyLabel = new JLabel("");
-                        emptyLabel.setPreferredSize(new Dimension(buttonWidth, buttonHeight));
-                        emptyLabel.setOpaque(true);
-                        emptyLabel.setBackground(Color.BLACK);
-                        playerShipHolder.add(emptyLabel);
-                    } else {
-                        JLabel coord = createCoordinateLabel(k - 1);
-                        playerShipHolder.add(coord);
-                    }
-                }
-            } else {
-                for (int j = 0; j < gameBoardSize + 1; j++) {
-                    if (j == 0) {
-                        JLabel coord = createCoordinateLabel(apu);
-                        playerShipHolder.add(coord);
-                        apu++;
-                    } else {
-
-                        JLabel playerShipLabel = createPlayerShipLabel();
-
-                        if (gui.getGame().getInitialPlayerShipLocs().contains(new Location(i - 1, j - 1))) {
-                            if (gui.getAIHits().contains(new Location(i - 1, j - 1))) {
-                                setPlayerShipLabelToHit(playerShipLabel);
-                            } else {
-                                setPlayerShipLabelToShip(playerShipLabel);
-                            }
-                        } else {
-                            if (gui.getAIHits().contains(new Location(i - 1, j - 1))) {
-                                setPlayerShipLabelToAIMiss(playerShipLabel);
-                            } else {
-                                setPlayerShipLabelToSea(playerShipLabel);
-                            }
-                        }
-                        playerShipHolder.add(playerShipLabel);
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * Method to update the aimButtons when the game has ended
-     *
-     * @param gui main graphical user interface
-     */
-    public void updateAimButtonsEndGame(GUI gui) {
-        aimHolder.removeAll();
-        int apu = 0;
-        for (int i = 0; i < gameBoardSize + 1; i++) {
-            if (i == 0) {
-                for (int k = 0; k < gameBoardSize + 1; k++) {
-                    if (k == 0) {
-                        JLabel emptyLabel = new JLabel("");
-                        emptyLabel.setPreferredSize(new Dimension(buttonWidth, buttonHeight));
-                        emptyLabel.setOpaque(true);
-                        emptyLabel.setBackground(Color.BLACK);
-                        aimHolder.add(emptyLabel);
-                    } else {
-                        JLabel coord = createCoordinateLabel(k - 1);
-                        aimHolder.add(coord);
-                    }
-                }
-            } else {
-                for (int j = 0; j < gameBoardSize + 1; j++) {
-                    if (j == 0) {
-                        JLabel coord = createCoordinateLabel(apu);
-                        aimHolder.add(coord);
-                        apu++;
-                    } else {
-                        //pelaajan ampumisnappulat
-                        JButton aimButton = createAimButton();
-                        Location loc = new Location(i, j);
-                        if (gui.getGame().getPlayerShootLocs().contains(new Location(i - 1, j - 1))) {
-                            changeButtonToMissed(aimButton);
-                            if (gui.getGame().getInitialAIShipLocs().contains(new Location(i - 1, j - 1))) {
-                                changeButtonToHit(aimButton);
-                            }
-                        } else if (gui.getGame().getInitialAIShipLocs().contains(new Location(i - 1, j - 1))) {
-                            changeButtonToShip(aimButton);
-                        } else {
-                            changeButtonToSea(aimButton);
-                        }
-                        aimButton.setEnabled(false);
-                        aimHolder.add(aimButton);
+                        playerShipHolder.add(labelButton);
                     }
                 }
             }
@@ -218,7 +103,7 @@ public class MainUI extends JPanel {
 
     //END UPDATE METHODS
     //COORDINATE LABELS
-    public JLabel createCoordinateLabel(int number) {
+    private JLabel createCoordinateLabel(int number) {
         JLabel coord = new JLabel("" + number, SwingConstants.CENTER);
         coord.setFont(new Font("Arial", Font.PLAIN, fontSize));
         coord.setPreferredSize(new Dimension(buttonWidth, buttonHeight));
@@ -228,81 +113,13 @@ public class MainUI extends JPanel {
         return coord;
     }
 
-    //PLAYERSHIPLABEL CREATION AND MODIFICATION:
-    /**
-     * Method returns a new JLabel used indicate players ships, sea and AI's
-     * hits and misses. Labels will be updated with icons in the future
-     *
-     * @return new Label with the defined appearance
-     */
-    public JLabel createPlayerShipLabel() {
-        JLabel playerShipLabel = new JLabel();
-        playerShipLabel.setFont(new Font("Arial", Font.PLAIN, fontSize));
-        playerShipLabel.setPreferredSize(new Dimension(buttonWidth, buttonHeight));
-        return playerShipLabel;
-    }
-
-    /**
-     * Method changes the given Label to indicate AI hit on a players ship.
-     *
-     * @param playerShipLabel label to change
-     */
-    public void setPlayerShipLabelToHit(JLabel playerShipLabel) {
-        URL imgURL = this.getClass().getResource("/img/playershiphitpic.png");
-        playerShipLabel.setIcon(new ImageIcon(imgURL));
-        playerShipLabel.setBackground(Color.ORANGE);
-        playerShipLabel.setOpaque(true);
-    }
-
-    /**
-     * Method updates the icon of the given label to indicate (undamaged) player
-     * ship
-     *
-     * @param playerShipLabel label to change
-     */
-    public void setPlayerShipLabelToShip(JLabel playerShipLabel) {
-        URL imgURL = this.getClass().getResource("/img/playershippic.png");
-        playerShipLabel.setIcon(new ImageIcon(imgURL));
-        playerShipLabel.setBackground(Color.BLACK);
-        playerShipLabel.setOpaque(true);
-    }
-
-    /**
-     * Method updates the icon of the given label to indicate location on which
-     * the AI tried to shoot but missed.
-     *
-     * @param playerShipLabel label to change
-     */
-    public void setPlayerShipLabelToAIMiss(JLabel playerShipLabel) {
-        URL imgURL = this.getClass().getResource("/img/aimisspic.png");
-        playerShipLabel.setIcon(new ImageIcon(imgURL));
-        playerShipLabel.setForeground(Color.BLACK);
-        playerShipLabel.setBackground(Color.red);
-        playerShipLabel.setOpaque(true);
-    }
-
-    /**
-     * Method updates the icon of the given label to indicate "sea" (no ships or
-     * AI misses)
-     *
-     * @param playerShipLabel label to change
-     */
-    public void setPlayerShipLabelToSea(JLabel playerShipLabel) {
-        URL imgURL = this.getClass().getResource("/img/seapic.png");
-        playerShipLabel.setIcon(new ImageIcon(imgURL));
-        playerShipLabel.setForeground(Color.WHITE);
-        playerShipLabel.setBackground(Color.BLUE);
-        playerShipLabel.setOpaque(true);
-    }
-    //END PLAYERSHIPLABEL CREATION AND MODIFICATION
-
-    // AIMBUTTON CREATION AND MODIFICATION:
+    // UTTON CREATION AND MODIFICATION:
     /**
      * Method returns a new JButton to be used in the aim grid.
      *
      * @return new JButton
      */
-    public JButton createAimButton() {
+    private JButton createButton() {
         JButton aimButton = new JButton();
         aimButton.setPreferredSize(new Dimension(buttonWidth, buttonHeight));
         aimButton.setFont(new Font("Arial", Font.PLAIN, fontSize));
@@ -318,7 +135,7 @@ public class MainUI extends JPanel {
      *
      * @param aimButton button to change
      */
-    public void markAimLocation(JButton aimButton) {
+    private void markAimLocation(JButton aimButton) {
         aimButton.setText("X");
     }
 
@@ -327,7 +144,7 @@ public class MainUI extends JPanel {
      *
      * @param aimButton button to change
      */
-    public void changeButtonToMissed(JButton aimButton) {
+    private void changeButtonToMissed(JButton aimButton) {
         aimButton.setEnabled(false);
 
         URL imgURL = this.getClass().getResource("/img/seamiss.png");
@@ -336,7 +153,7 @@ public class MainUI extends JPanel {
 
     }
 
-    public void changeButtonToSea(JButton aimButton) {
+    private void changeButtonToSea(JButton aimButton) {
         aimButton.setEnabled(false);
 
         URL imgURL = this.getClass().getResource("/img/seapic2.png");
@@ -350,7 +167,8 @@ public class MainUI extends JPanel {
      *
      * @param aimButton button to change
      */
-    public void changeButtonToHit(JButton aimButton) {
+    private void changeButtonToHit(JButton aimButton) {
+        aimButton.setEnabled(false);
         URL imgURL = this.getClass().getResource("/img/playershiphitpic.png");
         aimButton.setIcon(new ImageIcon(imgURL));
         aimButton.setDisabledIcon(new ImageIcon(imgURL));
@@ -358,8 +176,68 @@ public class MainUI extends JPanel {
     }
 
     private void changeButtonToShip(JButton aimButton) {
+        aimButton.setEnabled(false);
         URL imgURL = this.getClass().getResource("/img/playershippic.png");
         aimButton.setIcon(new ImageIcon(imgURL));
         aimButton.setDisabledIcon(new ImageIcon(imgURL));
+    }
+
+    private JLabel createEmptyLabel() {
+        JLabel emptyLabel = new JLabel("");
+        emptyLabel.setPreferredSize(new Dimension(buttonWidth, buttonHeight));
+        emptyLabel.setOpaque(true);
+        emptyLabel.setBackground(Color.BLACK);
+        return emptyLabel;
+    }
+    /**
+     * Method changes the icon on the given button to represent what is in the buttons location.
+     * 
+     * 
+     * @param gui current GUI
+     * @param button button to be changed
+     * @param loc location of the button
+     * @param panel panel the button belongs to
+     * @return 
+     */
+    private JButton changeButton(GUI gui, JButton button, Location loc, JPanel panel) {
+        
+        if (panel == aimHolder && !gui.getGame().getEndgame()) {
+            if (loc.equals(gui.getGame().getPlayerTargetLoc())) {
+                markAimLocation(button);
+            }
+            if (gui.getGame().getPlayerShotLocs().contains(loc)) {
+                changeButtonToMissed(button);
+                if (gui.getGame().getInitialAIShipLocs().contains(loc)) {
+                    changeButtonToHit(button);
+                }
+            }
+        } else if (panel == playerShipHolder) {
+            if (gui.getGame().getInitialPlayerShipLocs().contains(loc)) {
+                if (gui.getAIHits().contains(loc)) {
+                    changeButtonToHit(button);
+                } else {
+                    changeButtonToShip(button);
+                }
+            } else {
+                if (gui.getAIHits().contains(loc)) {
+                    changeButtonToMissed(button);
+                } else {
+                    changeButtonToSea(button);
+                }
+            }
+        } else {
+            if (gui.getGame().getPlayerShotLocs().contains(loc)) {
+                changeButtonToMissed(button);
+                if (gui.getGame().getInitialAIShipLocs().contains(loc)) {
+                    changeButtonToHit(button);
+                }
+            } else if (gui.getGame().getInitialAIShipLocs().contains(loc)) {
+                changeButtonToShip(button);
+            } else {
+                changeButtonToSea(button);
+            }
+        }
+        return button;
+
     }
 }

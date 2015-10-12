@@ -240,7 +240,7 @@ public class Game {
      *
      * @return HashSet of Locations the AI has shot at.
      */
-    public HashSet<Location> getAiShootLocs() {
+    public HashSet<Location> getAiShotLocs() {
         return aiShootLocs;
     }
 
@@ -248,7 +248,7 @@ public class Game {
      *
      * @return HashSet of Locations the Player has shot at.
      */
-    public HashSet<Location> getPlayerShootLocs() {
+    public HashSet<Location> getPlayerShotLocs() {
         return playerShootLocs;
     }
 

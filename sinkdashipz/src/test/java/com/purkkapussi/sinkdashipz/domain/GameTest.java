@@ -39,7 +39,7 @@ public class GameTest {
         game.getPlayer().addShip(new Ship(new Location(-1,2)));
         game.setPlayerTargetLoc(new Location(0, 1));
         game.playerShoot();
-        assertEquals(1,game.getAiShootLocs().size());
+        assertEquals(1,game.getAiShotLocs().size());
         game.setPlayerTargetLoc(new Location(1, 1));
         game.playerShoot();
         
