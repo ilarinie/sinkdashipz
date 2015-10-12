@@ -28,6 +28,7 @@ public class GameMenu extends JPanel {
     protected JLabel playerScore = new JLabel();
 
     public GameMenu(GUI gui) {
+       
         listener = new GameMenuListener(gui);
         this.setBackground(Color.BLACK);
         aiShips.setForeground(Color.WHITE);

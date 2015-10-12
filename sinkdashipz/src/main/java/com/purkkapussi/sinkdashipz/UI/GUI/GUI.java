@@ -4,7 +4,6 @@ import com.purkkapussi.sinkdashipz.UI.GUI.endgame.EndGame;
 import com.purkkapussi.sinkdashipz.UI.GUI.gamemenu.GameMenu;
 import com.purkkapussi.sinkdashipz.UI.GUI.mainmenu.MainMenu;
 import com.purkkapussi.sinkdashipz.UI.GUI.mainui.MainUI;
-import com.purkkapussi.sinkdashipz.UI.GUI.shipplacer.ShipPlacer;
 import com.purkkapussi.sinkdashipz.UI.GUI.welcomescreen.WelcomeScreen;
 import com.purkkapussi.sinkdashipz.domain.Game;
 import com.purkkapussi.sinkdashipz.tools.Difficulty;

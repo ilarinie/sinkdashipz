@@ -21,12 +21,7 @@ public class GameTest {
         assertEquals(5, game.getAI().fleetSize());
         assertEquals(5, game.getPlayer().fleetSize());
     }
-    @Test
-    public void highScoresAreRead(){
-        
-        assertEquals(2, game.highscores.size());
-    }
-
+    
 
     @Test
     public void gameEndsWhenAIFleetDestroyed() {

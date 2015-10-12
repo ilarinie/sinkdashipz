@@ -29,7 +29,7 @@ public class MainMenu extends JPanel {
         setLayout(new GridLayout(5, 1));
         this.setBackground(Color.BLACK);
         this.setForeground(Color.GREEN);
-        this.setPreferredSize(new Dimension(100, 500));
+        this.setPreferredSize(new Dimension(150, 500));
 
     }
 
