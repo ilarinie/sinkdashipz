@@ -23,29 +23,30 @@ public class HighScoreWriter {
         try {
             openFile();
         } catch (Exception e) {
+            System.out.println("Error opening highscore-file");
             return;
         }
 
         try {
             oos.writeObject(highscores);
         } catch (Exception e) {
-
+            System.out.println("Error writing in the highscore-file");
         }
         try {
             closeFile();
         } catch (Exception e) {
-
+            System.out.println("Error closing the highscore-file.");
         }
 
     }
-    
-        private void openFile() throws FileNotFoundException {
+
+    private void openFile() throws FileNotFoundException {
 
         try {
             fout = new FileOutputStream("highscores.ser");
             oos = new ObjectOutputStream(fout);
         } catch (Exception e) {
-
+            System.out.println("Error opening highscore-file");
         }
     }
 
@@ -54,6 +55,7 @@ public class HighScoreWriter {
             fout.close();
             oos.close();
         } catch (Exception e) {
+            System.out.println("Error closing the highscore-file");
         }
     }
 

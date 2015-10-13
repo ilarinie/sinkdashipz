@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.purkkapussi.sinkdashipz.UI.GUI.mainmenu;
+package com.purkkapussi.sinkdashipz.ui.gui.mainmenu;
 
-import com.purkkapussi.sinkdashipz.UI.GUI.GUI;
+import com.purkkapussi.sinkdashipz.ui.gui.GraphicalUI;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -23,17 +23,19 @@ import javax.swing.JLabel;
 public class MainMenu extends JPanel {
     
     private final MainMenuListener listener;
+    private DialogHandler handler;
     
-    public MainMenu(GUI gui) {
-        this.listener = new MainMenuListener(gui);
+    public MainMenu(GraphicalUI gui) {
+        handler = new DialogHandler(gui);
+        this.listener = new MainMenuListener(gui, handler);
         setLayout(new GridLayout(5, 1));
         this.setBackground(Color.BLACK);
         this.setForeground(Color.GREEN);
         this.setPreferredSize(new Dimension(150, 500));
-        
+        createMainMenu();
     }
     
-    public void createMainMenu() {
+    private void createMainMenu() {
         JButton newgame = new JButton("New Game");
         buttonSetup(newgame);
         this.add(newgame);

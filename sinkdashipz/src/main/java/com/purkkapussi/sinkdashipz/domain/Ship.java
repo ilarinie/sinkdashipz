@@ -97,7 +97,7 @@ public class Ship {
      *
      * @return hulls of the Ship
      */
-    public ArrayList<Location> getHulls() {
+    public ArrayList<Location> getLocs() {
         return this.hullPieces;
     }
 
@@ -157,7 +157,7 @@ public class Ship {
         final Ship other = (Ship) obj;
 
         if (this.getSize() == 1 && other.getSize() == 1) {
-            if (this.getHulls().get(0) == other.getHulls().get(0)) {
+            if (this.getLocs().get(0) == other.getLocs().get(0)) {
                 return true;
             }
         }

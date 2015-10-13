@@ -157,7 +157,7 @@ public class ShipCreatorTest {
 
     @Test
     public void testAllSpotsAroundShip() {
-        Location startLoc = new Location(testShip.getHulls().get(0).getX(), testShip.getHulls().get(0).getY());
+        Location startLoc = new Location(testShip.getLocs().get(0).getX(), testShip.getLocs().get(0).getY());
         int size = testShip.getSize();
 
         if (testShip.getDirection() == Direction.SOUTH) {

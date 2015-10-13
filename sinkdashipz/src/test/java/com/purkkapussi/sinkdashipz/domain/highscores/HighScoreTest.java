@@ -29,6 +29,7 @@ public class HighScoreTest {
         assertEquals(1,highscore.compareTo(highscore2));
         assertEquals(0,highscore.compareTo(highscore1));
         assertEquals(-1,highscore.compareTo(highscore3));
+        assertEquals(0,highscore.compareTo(highscore));
     }
     
     

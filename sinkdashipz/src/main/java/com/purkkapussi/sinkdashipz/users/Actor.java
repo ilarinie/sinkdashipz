@@ -16,8 +16,8 @@ import java.util.HashSet;
 public class Actor {
 
     private ArrayList<Ship> ships;
+    private HashSet<Location> initialShipLocations;
     private String name;
-
 
     /**
      * Constructs a new Actor and creates a new ArrayList for it's ships.
@@ -37,6 +37,29 @@ public class Actor {
      */
     public void addShip(Ship ship) {
         ships.add(ship);
+        if (this.fleetSize() == 5) {
+            initialShipLocations = this.shipLocs();
+        }
+    }
+
+    /**
+     * Returns the size of the next ship to be added according to the game
+     * rules.
+     *
+     * @return size of the next ship the actor needs
+     */
+    public int nextShipSize() {
+        if (this.fleetSize() == 0) {
+            return 5;
+        }
+        if (this.fleetSize() == 1) {
+            return 4;
+        }
+        if (this.fleetSize() < 4) {
+            return 3;
+        } else {
+            return 2;
+        }
     }
 
     /**
@@ -62,6 +85,10 @@ public class Actor {
         this.name = name;
     }
 
+    public HashSet<Location> initialShipLocations() {
+        return initialShipLocations;
+    }
+
     /**
      * Method returns the size of the Actor's fleet
      *
@@ -80,12 +107,11 @@ public class Actor {
         ships.remove(ship);
     }
 
-
     public HashSet<Location> shipLocs() {
         HashSet<Location> shipLocs = new HashSet<Location>();
         for (Ship ship : ships) {
-            for (Location hull : ship.getHulls()) {
-                shipLocs.add(hull);
+            for (Location loc : ship.getLocs()) {
+                shipLocs.add(loc);
             }
         }
         return shipLocs;
@@ -108,19 +134,14 @@ public class Actor {
      * @see Hull
      */
     public boolean hit(Location location) {
-        Ship ship = new Ship(new Location(location.getX(), location.getY()));  //Luo uuden laivan ampumalokaatioon vertailua varten
-
+        Ship ship = new Ship(new Location(location.getX(), location.getY()));
         boolean re = false;
-
         for (int i = 0; i < ships.size(); i++) {
-            if (ships.get(i).equals(ship)) {    // Ship luokan oliot ovat samat, jos niissä on yksikin runkopalikka samassa sijainnissa
-
-                ships.get(i).removeHull(ship.getHulls().get(0));
-
-                if (ships.get(i).getHulls().isEmpty()) {
+            if (ships.get(i).equals(ship)) {    // Ship class equals if at least one of the locations overlap
+                ships.get(i).removeHull(ship.getLocs().get(0));
+                if (ships.get(i).getLocs().isEmpty()) {
                     ships.remove(i);
                 }
-
                 re = true;
             }
         }

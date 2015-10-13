@@ -21,8 +21,7 @@ public class AI extends Actor {
 
     private final ArrayList<Ship> ships;
     private Difficulty difficulty;
-    private boolean lastHitSuccess;
-    private Location lastHitLoc;
+    private final ArrayList<Location> shotLocs = new ArrayList<>();
 
     /**
      * Constructs a new AI actor with the given Difficulty level. Also sets a
@@ -54,6 +53,10 @@ public class AI extends Actor {
         return this.difficulty;
     }
 
+    public ArrayList<Location> getShotLocs() {
+        return shotLocs;
+    }
+
     //AI SHOOTING METHODS
     /**
      * Method determines the next Location the AI will shoot at. The location
@@ -67,49 +70,41 @@ public class AI extends Actor {
      *
      */
     public Location shoot(int gameBoardSize, Actor actor) {
-
+        Random random = new Random();
+        int chance = random.nextInt(100);
         if (!actor.getShips().isEmpty()) {
             if (this.difficulty == Difficulty.BRAINLESS) {
                 return new Location(gameBoardSize);
             }
             if (this.difficulty == Difficulty.EASY) {
-                return easyShoot(gameBoardSize, actor);
+                return shotTargeter(gameBoardSize, actor, chance, 25);
             }
             if (this.difficulty == Difficulty.CAPABLE) {
-                return capableShoot(gameBoardSize, actor);
+                return shotTargeter(gameBoardSize, actor, chance, 40);
             }
             if (this.difficulty == Difficulty.LITERALLYJESUS) {
                 return jesusShoot(gameBoardSize, actor);
             }
-        } 
-            return new Location(gameBoardSize);
-        
-
-    }
-
-    private Location easyShoot(int gameBoardSize, Actor actor) {
-        Random random = new Random();
-        int aimChance = random.nextInt(100);
-        if (aimChance < 25) {
-            return actor.getShips().get(0).getHulls().get(0);
-        } else {
-            return new Location(gameBoardSize);
         }
+        return new Location(gameBoardSize);
+
     }
 
-    private Location capableShoot(int gameBoardSize, Actor actor) {
-        Random random = new Random();
-        int aimChance = random.nextInt(100);
-        if (aimChance < 40) {
-            return actor.getShips().get(0).getHulls().get(0);
+    private Location shotTargeter(int gameBoardSize, Actor actor, int randomized, int hitChance) {
+        if (randomized < hitChance) {
+            shotLocs.add(actor.getShips().get(0).getLocs().get(0));
+            return actor.getShips().get(0).getLocs().get(0);
         } else {
-            return new Location(gameBoardSize);
+            Location loc = new Location(gameBoardSize);
+            shotLocs.add(loc);
+            return loc;
         }
     }
 
     private Location jesusShoot(int gameBoardSize, Actor actor) {
         if (!actor.getShips().isEmpty()) {
-            return actor.getShips().get(0).getHulls().get(0);
+            shotLocs.add(actor.getShips().get(0).getLocs().get(0));
+            return actor.getShips().get(0).getLocs().get(0);
         } else {
             return new Location(gameBoardSize);
         }

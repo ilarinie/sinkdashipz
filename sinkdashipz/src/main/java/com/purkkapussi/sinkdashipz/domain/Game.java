@@ -5,16 +5,12 @@
  */
 package com.purkkapussi.sinkdashipz.domain;
 
-import com.purkkapussi.sinkdashipz.UI.GUI.GUI;
+import com.purkkapussi.sinkdashipz.ui.gui.GraphicalUI;
 import com.purkkapussi.sinkdashipz.domain.highscores.HighScore;
-import com.purkkapussi.sinkdashipz.domain.highscores.HighScoreWriter;
-import com.purkkapussi.sinkdashipz.domain.highscores.HighScoreReader;
+import com.purkkapussi.sinkdashipz.domain.highscores.HighScoreHandler;
 import com.purkkapussi.sinkdashipz.users.AI;
 import com.purkkapussi.sinkdashipz.users.Player;
-
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
 
 /**
  * Class contains the main game functionality, including tracking player and AI
@@ -24,80 +20,45 @@ import java.util.HashSet;
  */
 public class Game {
 
-    //Main object variables
     private final int gameBoardSize;
-    private final ShipCreator creator;
-    private final AI ai;
-    private final Player player;
-    private GUI gui;
+    private ShipCreator creator;
+    private AI ai;
+    private Player player;
+    private GraphicalUI gui;
+    private HighScoreHandler handler;
 
-    //Runtime variables
     private Boolean endgame = false;
-    private Location playerTargetLoc;
-    private Location aiShootLoc;
-    private final HashSet<Location> playerShootLocs;
-    private final HashSet<Location> aiShootLocs;
-    private HashSet<Location> initialAIShipLocs;
-    private HashSet<Location> initialPlayerShipLocs;
+    private Location aiShotLoc;
     protected ArrayList<HighScore> highscores = new ArrayList<>();
     private String winner;
     private int playerRank;
     private int aiFleetSize;
     private int playerFleetSize;
 
-    //CONSTRUCTORS
     /**
      * Main Game constructor. Initializes a new game with the given game board
      * size. Creates new AI and a Player objects. Tries to read high scores from
      * file using HighScoreReader if high score file is present.
      *
-     * @see
-     * com.purkkapussi.sinkdashipz.domain.highscores.HighScoreReader#readHighScores()
-     *
-     * @param gameboard size of the game board.
-     */
-    public Game(int gameboard) {
-        this.creator = new ShipCreator();
-        this.ai = new AI();
-        this.player = new Player();
-        this.gameBoardSize = gameboard;
-        this.playerShootLocs = new HashSet<>();
-        this.aiShootLocs = new HashSet<>();
-
-        readHighScores();
-    }
-
-    /**
-     * Constructor used for testing.
-     *
      * @param gameboard
      * @param gui
      */
-    public Game(int gameboard, GUI gui) {
+    public Game(int gameboard, GraphicalUI gui) {
+        this.gameBoardSize = gameboard;
+        this.gui = gui;
+        initializeGame();
+    }
+
+    public Game(int gameboard) {
+        this.gameBoardSize = gameboard;
+        initializeGame();
+    }
+
+    private void initializeGame() {
         this.creator = new ShipCreator();
         this.ai = new AI();
         this.player = new Player();
-        this.gameBoardSize = gameboard;
-        this.playerShootLocs = new HashSet<>();
-        this.aiShootLocs = new HashSet<>();
-        this.gui = gui;
-        readHighScores();
-    }
-
-    /**
-     * Constructor used for testing.
-     *
-     * @param ai
-     * @param player
-     * @param gameboard
-     */
-    public Game(AI ai, Player player, int gameboard) {
-        this.ai = ai;
-        this.player = player;
-        this.creator = new ShipCreator();
-        this.gameBoardSize = gameboard;
-        this.playerShootLocs = new HashSet<>();
-        this.aiShootLocs = new HashSet<>();
+        handler = new HighScoreHandler();
     }
 
     //GAME CONTROLS
@@ -107,8 +68,6 @@ public class Game {
      */
     public void startGame() {
         addRandomFleets();
-        initialAIShipLocs = ai.shipLocs();
-        initialPlayerShipLocs = player.shipLocs();
         playerFleetSize = player.fleetSize();
         aiFleetSize = ai.fleetSize();
     }
@@ -118,12 +77,10 @@ public class Game {
      * scores, writes the high scores to file and sets endgame variable to true;
      */
     public void endgame() {
-        addPlayerHighScore();
-        writeHighScores();
+        this.playerRank = handler.addHighScore(player.getName(), player.getScore());
         this.endgame = true;
     }
 
-    //FLEET CREATORS
     /**
      * Method creates randomized fleets for both the player and the AI.
      *
@@ -135,7 +92,6 @@ public class Game {
         creator.createRandomFleet(player, gameBoardSize);
     }
 
-    //SHOOTING CONTROLS
     /**
      * Player shooting method. The method will fire at target location (defined
      * in the playerTargetLoc) variable. If a hit is scored a message is shown
@@ -143,10 +99,10 @@ public class Game {
      * completely, endgame method is called. If the player misses, points are
      * deducted and the aiShoot method is called.
      */
-    public void playerShoot() {
-        if (this.playerTargetLoc != null) {
-            playerShootLocs.add(playerTargetLoc);
-            if (ai.hit(playerTargetLoc)) {
+    public void playerShoot(Location loc) {
+        if (loc != null) {
+            player.addShotLoc(loc);
+            if (ai.hit(loc)) {
                 if (gui != null) {
                     if (ai.fleetSize() < aiFleetSize) {
                         gui.showPlayerSinkAIShipMessage();
@@ -160,10 +116,11 @@ public class Game {
                     winner = player.getName();
                     endgame();
                 }
-                playerTargetLoc = null;
             } else {
+                if (gui != null) {
+                    gui.playMissSound();
+                }
                 player.scoreMiss();
-                playerTargetLoc = null;
                 aiShoot();
             }
         }
@@ -176,27 +133,25 @@ public class Game {
      * called.
      */
     public void aiShoot() {
-        aiShootLoc = ai.shoot(gameBoardSize, player);
-        aiShootLocs.add(aiShootLoc);
-        while (player.hit(aiShootLoc)) {
+        aiShotLoc = ai.shoot(gameBoardSize, player);
+        while (player.hit(aiShotLoc)) {
             if (gui != null) {
                 if (player.fleetSize() < playerFleetSize) {
-                    gui.showAISinkPlayerShipMessage();
+                    if (player.fleetSize() != 0) {
+                        gui.showAISinkPlayerShipMessage();
+                    }
                     playerFleetSize = player.fleetSize();
                 }
             }
             if (player.fleetSize() == 0) {
-                winner = ai.getName();
+                winner = "AI";
                 endgame();
             }
-            aiShootLoc = ai.shoot(gameBoardSize, player);
-            aiShootLocs.add(aiShootLoc);
+            aiShotLoc = ai.shoot(gameBoardSize, player);
         }
     }
 
-    //GETTERS AND SETTERS
     /**
-     *
      * @return true if game has ended
      */
     public Boolean getEndgame() {
@@ -204,7 +159,6 @@ public class Game {
     }
 
     /**
-     *
      * @return Player object of the current game
      */
     public Player getPlayer() {
@@ -212,7 +166,6 @@ public class Game {
     }
 
     /**
-     *
      * @return AI object of the current game
      */
     public AI getAI() {
@@ -220,67 +173,14 @@ public class Game {
     }
 
     /**
-     * Sets the players target to the given location.
-     *
-     * @param playerTargetLoc location the player is targeting
-     */
-    public void setPlayerTargetLoc(Location playerTargetLoc) {
-        this.playerTargetLoc = playerTargetLoc;
-    }
-
-    /**
-     *
-     * @return the coordinates player is currently targeting at.
-     */
-    public Location getPlayerTargetLoc() {
-        return playerTargetLoc;
-    }
-
-    /**
-     *
-     * @return HashSet of Locations the AI has shot at.
-     */
-    public HashSet<Location> getAiShotLocs() {
-        return aiShootLocs;
-    }
-
-    /**
-     *
-     * @return HashSet of Locations the Player has shot at.
-     */
-    public HashSet<Location> getPlayerShotLocs() {
-        return playerShootLocs;
-    }
-
-    /**
-     *
-     * @return HashSet of (initial) Locations of AI's Ships.
-     */
-    public HashSet<Location> getInitialAIShipLocs() {
-        return initialAIShipLocs;
-    }
-
-    /**
-     *
-     * @return HashSet of (initial) Locations of Players Ships.
-     */
-    public HashSet<Location> getInitialPlayerShipLocs() {
-        return initialPlayerShipLocs;
-    }
-
-    /**
-     *
      * @return the name of the winner of the current game
      */
     public String getWinner() {
         return this.winner;
     }
 
-    //HIGHSCORE METHODS 
     /**
      * Method returns player's rank versus those already in high scores
-     *
-     * @see com.purkkapussi.sinkdashipz.domain.Game#addPlayerHighScore()
      *
      * @return rank of the player versus previous high scores
      */
@@ -289,50 +189,11 @@ public class Game {
     }
 
     /**
-     * Adds Players score and name to high scores and sets playerRank variable
-     * to indicate the rank of the player compared to previous high scores
-     */
-    public void addPlayerHighScore() {
-        if (player.getName() == null) {
-            highscores.add(new HighScore("seppo", 9));
-        }
-        HighScore playerHighScore = new HighScore(player.getName(), player.getScore());
-        highscores.add(playerHighScore);
-        Collections.sort(highscores);
-
-        this.playerRank = highscores.indexOf(playerHighScore) + 1;
-
-    }
-
-    protected void readHighScores() {
-        HighScoreReader reader = new HighScoreReader();
-        highscores = reader.readHighScores();
-        Collections.sort(highscores);
-    }
-
-    protected void writeHighScores() {
-        Collections.sort(highscores);
-        HighScoreWriter writer = new HighScoreWriter();
-        writer.writeHighScores(highscores);
-    }
-
-    /**
      * Method returns a string consisting of the top 10 High Scores
      *
      * @return top ten high scores separated by line change
      */
     public String tenBestHighScores() {
-        String tenScores = "";
-        int limit = 10;
-        if (highscores.isEmpty()) {
-            return tenScores;
-        }
-        if (highscores.size() < 10) {
-            limit = highscores.size();
-        }
-        for (int i = 1; i <= limit; i++) {
-            tenScores += i + ". " + highscores.get(i - 1).toString() + "\n";
-        }
-        return tenScores;
+        return handler.tenBestHighScores();
     }
 }

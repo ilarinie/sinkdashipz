@@ -5,6 +5,7 @@
  */
 package com.purkkapussi.sinkdashipz.users;
 
+import com.purkkapussi.sinkdashipz.domain.Location;
 import com.purkkapussi.sinkdashipz.domain.Ship;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,7 @@ public class Player extends Actor {
 
     private final ArrayList<Ship> ships;
     private int score;
+    private ArrayList<Location> shotLocs;
 
     /**
      * Constructs a new Player object with specified name
@@ -35,6 +37,7 @@ public class Player extends Actor {
     public Player() {
         super.setName("Unnamed Player");
         this.ships = new ArrayList<>();
+        shotLocs = new ArrayList<>();
     }
 
     public int getScore() {
@@ -51,6 +54,14 @@ public class Player extends Actor {
 
     public void scoreMiss() {
         this.score = this.score - 20;
+    }
+
+    public ArrayList<Location> getShotLocs() {
+        return shotLocs;
+    }
+
+    public void addShotLoc(Location loc) {
+        shotLocs.add(loc);
     }
 
     @Override

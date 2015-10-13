@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.purkkapussi.sinkdashipz.UI.GUI.gamemenu;
+package com.purkkapussi.sinkdashipz.ui.gui.mainui;
 
-import com.purkkapussi.sinkdashipz.UI.GUI.GUI;
+import com.purkkapussi.sinkdashipz.ui.gui.GraphicalUI;
+import com.purkkapussi.sinkdashipz.domain.Location;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -13,16 +14,21 @@ import java.awt.event.ActionListener;
  *
  * @author ile
  */
-public class GameMenuListener implements ActionListener{
-    
-    private final GUI gui;
-    public GameMenuListener(GUI gui){
+public class MainUIListener implements ActionListener {
+
+    private Location loc;
+    private GraphicalUI gui;
+
+    public MainUIListener(GraphicalUI gui, Location loc) {
+        this.loc = loc;
         this.gui = gui;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        gui.playerShoot();
+
+        gui.shoot(loc);
+
     }
-    
+
 }

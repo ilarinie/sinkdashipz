@@ -6,14 +6,16 @@
 package com.purkkapussi.sinkdashipz.domain;
 
 
-import com.purkkapussi.sinkdashipz.users.*;
+
+import com.purkkapussi.sinkdashipz.ui.gui.GraphicalUI;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 public class GameTest {
 
     private final int gameboard = 10;
-    private final Game game = new Game(gameboard);
+
+    private Game game = new Game(gameboard);
 
     @Test
     public void fleetsHaveRightAmountOfShips() {
@@ -21,15 +23,22 @@ public class GameTest {
         assertEquals(5, game.getAI().fleetSize());
         assertEquals(5, game.getPlayer().fleetSize());
     }
-    
+    @Test
+    public void guiConstructorTest(){
+        GraphicalUI gui = new GraphicalUI();
+        game = new Game(gameboard, gui);
+        assertEquals("Unnamed Player",game.getPlayer().getName());
+    }
 
     @Test
     public void gameEndsWhenAIFleetDestroyed() {
         game.getAI().addShip(new Ship(new Location(1, 1)));
-        game.setPlayerTargetLoc(new Location(1, 1));
-        game.playerShoot();
+        game.playerShoot(new Location(1, 1));
+        assertEquals(1,game.getPlayer().getShotLocs().size());
         assertEquals(200, game.getPlayer().getScore());
         assertEquals(true, game.getEndgame());
+        assertEquals("Unnamed Player",game.getWinner());
+        assertEquals(3,game.getPlayerRank());
     }
 
     @Test
@@ -37,11 +46,9 @@ public class GameTest {
         
         game.getAI().addShip(new Ship(new Location(1, 1)));
         game.getPlayer().addShip(new Ship(new Location(-1,2)));
-        game.setPlayerTargetLoc(new Location(0, 1));
-        game.playerShoot();
-        assertEquals(1,game.getAiShotLocs().size());
-        game.setPlayerTargetLoc(new Location(1, 1));
-        game.playerShoot();
+        game.playerShoot(new Location(0, 1));
+
+        game.playerShoot(new Location(1, 1));
         
         assertEquals(180, game.getPlayer().getScore());
         assertEquals(true, game.getEndgame());
@@ -61,13 +68,6 @@ public class GameTest {
         assertEquals(5, game.getAI().fleetSize());
     }
 
-    @Test
-    public void testAnotherConstructor() {
-        Game game2 = new Game(new AI(), new Player(), gameboard);
-        assertEquals(0, game2.getAI().fleetSize());
-        game2.startGame();
-        assertEquals(5, game2.getAI().fleetSize());
-    }
     @Test
     public void gameEndsIfAIWins(){
         Game game2 = new Game(1);

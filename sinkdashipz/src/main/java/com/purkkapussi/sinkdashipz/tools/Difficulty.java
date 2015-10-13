@@ -10,12 +10,12 @@ package com.purkkapussi.sinkdashipz.tools;
  * @author ile
  */
 public enum Difficulty {
-    BRAINLESS(0),EASY(1),CAPABLE(2),LITERALLYJESUS(3);
+    BRAINLESS(0), EASY(1), CAPABLE(2), LITERALLYJESUS(3);
     
     private final int level;
     
-    Difficulty(int level){
-        this.level =level;
+    Difficulty(int level) {
+        this.level = level;
     }
     
 

@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.purkkapussi.sinkdashipz.UI.GUI.mainmenu;
+package com.purkkapussi.sinkdashipz.ui.gui.mainmenu;
 
-import com.purkkapussi.sinkdashipz.UI.GUI.GUI;
+import com.purkkapussi.sinkdashipz.ui.gui.GraphicalUI;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -13,17 +13,19 @@ import javax.swing.JButton;
 
 public class MainMenuListener implements ActionListener {
 
-    private GUI gui;
+    private GraphicalUI gui;
+    private DialogHandler handler;
     private JButton newGame;
     private JButton highScores;
     private JButton exit;
     private JButton manual;
 
-    public MainMenuListener(GUI gui) {
+    public MainMenuListener(GraphicalUI gui, DialogHandler handler) {
         this.gui = gui;
+        this.handler = handler;
     }
 
-    public void getComponents(JButton newGame, JButton highScores, JButton manual,JButton exit) {
+    public void getComponents(JButton newGame, JButton highScores, JButton manual, JButton exit) {
         this.newGame = newGame;
         this.highScores = highScores;
         this.manual = manual;
@@ -36,13 +38,13 @@ public class MainMenuListener implements ActionListener {
             gui.newGame();
         }
         if (ae.getSource() == highScores) {
-            gui.showHighScore();
+            handler.showHighScores();
         }
-        if (ae.getSource() == manual){
-            gui.showManual();
+        if (ae.getSource() == manual) {
+            handler.showManual();
         }
         if (ae.getSource() == exit) {
-            gui.exit();
+            handler.exit();
         }
     }
 }
