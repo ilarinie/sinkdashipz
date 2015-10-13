@@ -52,3 +52,14 @@ Käyttöliittymää edelleen paremmaksi
 Koordinaatit ja viestit käyttöliittymään, grafiikoiden parantelua
 *Tuntimäärä 48
 
+###11.10.2015
+Käyttöliittymän parantelua
+*Tuntimäärä 53
+
+###12.10.2015
+Käyttöliittymän reworkkausta järkevämmäksi
+*Tuntimäärä 56
+
+###13.10.2015
+Monien luokkien reworkkaus järkevimmiksi, muutamia uusia luokkia, äänet
+*Tuntimäärä 66
