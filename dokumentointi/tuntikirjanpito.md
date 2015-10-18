@@ -63,3 +63,7 @@ Käyttöliittymän reworkkausta järkevämmäksi
 ###13.10.2015
 Monien luokkien reworkkaus järkevimmiksi, muutamia uusia luokkia, äänet
 *Tuntimäärä 66
+
+###18.10.2015
+Projektin loppuun saattaminen
+*Tuntimäärä 75
