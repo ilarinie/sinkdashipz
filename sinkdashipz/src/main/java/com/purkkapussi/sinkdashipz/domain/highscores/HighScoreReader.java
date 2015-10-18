@@ -39,7 +39,7 @@ public class HighScoreReader {
             fin = new FileInputStream("highscores.ser");
             ois = new ObjectInputStream(fin);
         } catch (Exception e) {
-            System.out.println("Error opening highscore-file.");
+            System.out.println();
         }
     }
 
@@ -58,13 +58,13 @@ public class HighScoreReader {
                 highscores = (ArrayList<HighScore>) ois.readObject();
             }
         } catch (IOException | ClassNotFoundException e) {
-            System.out.println("Error reading highscores.");
+            System.out.println();
         }
         try {
             fin.close();
             ois.close();
         } catch (Exception e) {
-            System.out.println("Error closing highscore-file.");
+            System.out.println();
         }
         return highscores;
     }

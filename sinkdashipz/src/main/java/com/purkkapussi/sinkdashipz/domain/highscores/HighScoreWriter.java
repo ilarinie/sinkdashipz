@@ -39,19 +39,19 @@ public class HighScoreWriter {
         try {
             openFile();
         } catch (Exception e) {
-            System.out.println("Error opening highscore-file");
+            System.out.println();
             return;
         }
 
         try {
             oos.writeObject(highscores);
         } catch (Exception e) {
-            System.out.println("Error writing in the highscore-file");
+            System.out.println();
         }
         try {
             closeFile();
         } catch (Exception e) {
-            System.out.println("Error closing the highscore-file.");
+            System.out.println();
         }
 
     }
@@ -62,7 +62,7 @@ public class HighScoreWriter {
             fout = new FileOutputStream(filename);
             oos = new ObjectOutputStream(fout);
         } catch (Exception e) {
-            System.out.println("Error opening highscore-file");
+            System.out.println();
         }
     }
 
@@ -71,7 +71,7 @@ public class HighScoreWriter {
             fout.close();
             oos.close();
         } catch (Exception e) {
-            System.out.println("Error closing the highscore-file");
+            System.out.println();
         }
     }
 
