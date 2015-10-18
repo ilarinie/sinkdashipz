@@ -1,0 +1,14 @@
+Valitsin aiheeksi laivanupotuspelin, koska se on tuttu peli, ja vaikutti aiheena helpolta toteuttaa.
+Toteutus olikin suhteellisen helppoa, jonka seurauksena peliin tuli lisättyä ominaisuuksia, joita ei alussa
+ollut edes määritelty. Loppua kohden alkoi aihevalinta hieman harmittamaan, koska laivanupotuspelistä on suht
+mahdotonta tehdä hienoa ja hauskaa tietokonetta vastaan. 
+
+Aloitin toteutuksen yksinkertaisesta sovelluslogiikasta jonka jälkeen siirryin suhteellisen nopeasti käyttöliittymän
+rakentamisen pariin. Huomasin vasta suht myöhäisessä vaiheessa että kälin rakentamiseen olisi voinut työkalujakin käyttää, 
+tällä kertaa meni manuaalisesti. Peli sai suht nopeasti pelattavan olomuodon, jonka jälkeen alkoi ominaisuuksien viilaus.
+Tässä vaiheessa toteutusta käytin ehkä turhaa aikaa ylimääräisiin ominaisuuksiin ja ulkoasun säätämiseen, dokumentoinnin ja
+testauskattavuuden kärsiessä hieman. Aikaa olisi voinut käyttää myös koodin optimointiin, mutta halusin tehdä tylsäksi osoit-
+tautuneesta aiheesta edes jotenkin mielenkiintoisen, joten käytin aikaa esimerkiksi HighScoreihin ja äänien lisäämiseen.
+
+Lopputulos on Laivanupotuksen tylsyyden huomioon ottaen ihan kelpo peli, kattavilla ominaisuuksilla. Seuraavaan projektiin,
+oli se mikä tahansa, on kyllä valittava haastavampi ja mielenkiintoisempi aihe.
