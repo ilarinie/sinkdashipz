@@ -11,8 +11,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- *
- * @author ile
+ * Listener for the main UI shooting button grid buttons.
+ * 
  */
 public class MainUIListener implements ActionListener {
 

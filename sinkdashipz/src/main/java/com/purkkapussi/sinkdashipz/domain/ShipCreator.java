@@ -95,7 +95,8 @@ public class ShipCreator {
      * @param actor actor to create the fleet for
      * @param gameBoard game board to be used
      *
-     * @throws IllegalArgumentException
+     * @throws IllegalArgumentException if a ship cant be added to the actor.
+     * Tries again until the fleet size of 5 is reached.
      *
      */
     public void createRandomFleet(Actor actor, int gameBoard) throws IllegalArgumentException {

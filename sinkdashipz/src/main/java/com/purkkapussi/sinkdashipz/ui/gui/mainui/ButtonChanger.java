@@ -18,12 +18,6 @@ import javax.swing.JButton;
  */
 public class ButtonChanger {
 
-    private final GraphicalUI gui;
-
-    public ButtonChanger(GraphicalUI gui) {
-        this.gui = gui;
-    }
-
     /**
      * Method updates the icon on the given button depending on the location and
      * whether the game has ended or not.
@@ -33,7 +27,8 @@ public class ButtonChanger {
      * @param loc location of the button on the game board.
      * @param panelId id of the panel in question
      * aimHolder=1,playerShipHolder=2.
-     * @return
+     *
+     * @return Button with a corresponding icon added.
      */
     public JButton changeButton(GraphicalUI gui, JButton button, Location loc, int panelId) {
         if (panelId == 1) {

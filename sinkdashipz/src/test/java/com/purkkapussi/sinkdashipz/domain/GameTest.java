@@ -7,16 +7,27 @@ package com.purkkapussi.sinkdashipz.domain;
 
 
 
+
+import com.purkkapussi.sinkdashipz.domain.highscores.HighScore;
+import com.purkkapussi.sinkdashipz.domain.highscores.HighScoreHandler;
 import com.purkkapussi.sinkdashipz.ui.gui.GraphicalUI;
+import java.util.ArrayList;
 import static org.junit.Assert.assertEquals;
+import org.junit.Before;
 import org.junit.Test;
 
 public class GameTest {
 
     private final int gameboard = 10;
+    private HighScoreHandler handler = new HighScoreHandler(new ArrayList<HighScore>());
+    private Game game = new Game(gameboard,handler);
 
-    private Game game = new Game(gameboard);
-
+    
+    @Before
+    public void resetHighScores(){
+        handler.resetHighScores();
+    }
+    
     @Test
     public void fleetsHaveRightAmountOfShips() {
         game.addRandomFleets();
@@ -38,7 +49,6 @@ public class GameTest {
         assertEquals(200, game.getPlayer().getScore());
         assertEquals(true, game.getEndgame());
         assertEquals("Unnamed Player",game.getWinner());
-        assertEquals(3,game.getPlayerRank());
     }
 
     @Test
@@ -70,11 +80,12 @@ public class GameTest {
 
     @Test
     public void gameEndsIfAIWins(){
-        Game game2 = new Game(1);
+        Game game2 = new Game(1,handler);
         game2.getPlayer().addShip(new Ship(new Location(0,0)));
-        game2.aiShoot();
+        game2.getAI().addShip(new Ship(new Location(0,0)));
+        game2.playerShoot(new Location(2,4));
         assertEquals(true,game2.getEndgame());
-        
+        assertEquals(1, game2.getPlayerRank());
     }
 
 }

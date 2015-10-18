@@ -104,7 +104,6 @@ public class Location {
      * @return new Location after the repositioning.
      */
     public Location moveNorth() {
-
         this.y = this.y + 1;
         return this;
     }
@@ -115,7 +114,6 @@ public class Location {
      * @return new Location after the repositioning.
      */
     public Location moveWest() {
-
         this.x = this.x - 1;
         return this;
     }
@@ -127,7 +125,6 @@ public class Location {
      */
     @Override
     public String toString() {
-
         return "[" + this.x + "," + this.y + "]";
     }
 

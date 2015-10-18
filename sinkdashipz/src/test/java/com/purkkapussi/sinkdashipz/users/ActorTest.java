@@ -5,12 +5,10 @@
  */
 package com.purkkapussi.sinkdashipz.users;
 
-
 import com.purkkapussi.sinkdashipz.domain.Ship;
 import com.purkkapussi.sinkdashipz.domain.Location;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
-
 
 public class ActorTest {
 
@@ -54,17 +52,35 @@ public class ActorTest {
 
         assertEquals(before - 1, person.getShips().size());
     }
-    
+
     @Test
-    public void toStringTest(){
+    public void toStringTest() {
         person.addShip(ship);
-        assertEquals("[1,1]\n",person.toString());
+        assertEquals("[1,1]\n", person.toString());
     }
+
     @Test
-    public void removeShipTest(){
+    public void removeShipTest() {
         person.addShip(ship);
         person.removeShip(ship);
-        assertEquals(0,person.fleetSize());
+        assertEquals(0, person.fleetSize());
+    }
+
+    @Test
+    public void initialLocTest() {
+        for (int i = 0; i < 5; i++) {
+            person.addShip(new Ship(new Location(1, 1)));
+            if (i == 3) {
+                assertEquals(null, person.initialShipLocations());
+            }
+        }
+        assertEquals("[[1,1]]", person.initialShipLocations().toString());
+        assertEquals("[[1,1]]", person.shipLocs().toString());
     }
     
+    @Test
+    public void nextShipSizeTest(){
+        assertEquals(5, person.nextShipSize());
+    }
+
 }

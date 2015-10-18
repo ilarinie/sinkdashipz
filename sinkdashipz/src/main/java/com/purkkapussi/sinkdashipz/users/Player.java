@@ -8,7 +8,6 @@ package com.purkkapussi.sinkdashipz.users;
 import com.purkkapussi.sinkdashipz.domain.Location;
 import com.purkkapussi.sinkdashipz.domain.Ship;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Player class provides human player specific functionality for the Actor
@@ -40,38 +39,49 @@ public class Player extends Actor {
         shotLocs = new ArrayList<>();
     }
 
-    public int getScore() {
-        return this.score;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
-    }
-
+    /**
+     * Method adds 200 points to the players score
+     */
     public void scoreHit() {
         this.score = this.score + 200;
     }
 
+    /**
+     * Method deducts 20 points from the players score.
+     */
     public void scoreMiss() {
         this.score = this.score - 20;
+    }
+
+    public int getScore() {
+        return this.score;
     }
 
     public ArrayList<Location> getShotLocs() {
         return shotLocs;
     }
 
+    /**
+     * Add the given location to players list of previous shots.
+     *
+     * @param loc Location to be added
+     */
     public void addShotLoc(Location loc) {
         shotLocs.add(loc);
     }
 
     @Override
     public void setName(String name) {
-        if (name == null) {
-            super.setName("Unnamed Player");
-        } else if (name.isEmpty()) {
+        if (name == null || name.isEmpty()) {
             super.setName("Unnamed Player");
         } else {
-            super.setName(name);
+            if (name.length() > 8) {
+                name = name.substring(0, 8);
+                name = name.concat("...");
+                super.setName(name);
+            } else {
+                super.setName(name);
+            }
         }
     }
 

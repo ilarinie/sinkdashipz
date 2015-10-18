@@ -12,19 +12,19 @@ import java.util.ArrayList;
  */
 public class Ship {
 
-    private ArrayList<Location> hullPieces;
+    private final ArrayList<Location> hullPieces;
     private Direction direction;
 
     /**
-     * Creates a new Ship with no Hull pieces.
+     * Creates a new Ship with no pieces.
      */
     public Ship() {
         this.hullPieces = new ArrayList<>();
     }
 
     /**
-     * Creates a new Ship with the given Hull and the Direction SOUTH. Used for
-     * in-game testing purposes.
+     * Creates a new Ship with the given Location as a starting piece and the
+     * Direction SOUTH. Used for in-game testing purposes.
      *
      * @param hull the Hull of the new ship
      */
@@ -122,7 +122,7 @@ public class Ship {
     //OVERRIDES
     /**
      *
-     * @return locations of every hull of the ship
+     * @return locations of every piece of the ship in human readable form
      */
     @Override
     public String toString() {
@@ -143,8 +143,8 @@ public class Ship {
      * If checking against another Ship, returns true if ANY of the Hull pieces
      * match.
      *
-     * @param obj
-     * @return
+     * @param obj Object to check against
+     * @return true if ships overlap, false otherwise
      */
     @Override
     public boolean equals(Object obj) {
@@ -161,7 +161,6 @@ public class Ship {
                 return true;
             }
         }
-
         for (Location hull : this.hullPieces) {
             for (Location otherHull : other.hullPieces) {
                 if (hull.equals(otherHull)) {
@@ -169,8 +168,6 @@ public class Ship {
                 }
             }
         }
-
         return false;
     }
-
 }

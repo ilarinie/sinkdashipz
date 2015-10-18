@@ -66,31 +66,42 @@ public class AI extends Actor {
      *
      * @param gameBoardSize size of the game board to shoot at
      * @param actor Target actor
-     * @return
+     * @return Location based on the game board and difficulty
      *
      */
     public Location shoot(int gameBoardSize, Actor actor) {
         Random random = new Random();
         int chance = random.nextInt(100);
-        if (!actor.getShips().isEmpty()) {
-            if (this.difficulty == Difficulty.BRAINLESS) {
-                return new Location(gameBoardSize);
-            }
-            if (this.difficulty == Difficulty.EASY) {
-                return shotTargeter(gameBoardSize, actor, chance, 25);
-            }
-            if (this.difficulty == Difficulty.CAPABLE) {
-                return shotTargeter(gameBoardSize, actor, chance, 40);
-            }
-            if (this.difficulty == Difficulty.LITERALLYJESUS) {
-                return jesusShoot(gameBoardSize, actor);
+        if (!actor.getShips().isEmpty() && this.difficulty != null) {
+            switch (this.difficulty) {
+                case BRAINLESS:
+                    Location newLoc = new Location(gameBoardSize);
+                    shotLocs.add(newLoc);
+                    return newLoc;
+                case EASY:
+                    return shotTargeter(gameBoardSize, actor, chance, 25);
+                case CAPABLE:
+                    return shotTargeter(gameBoardSize, actor, chance, 40);
+                case LITERALLYJESUS:
+                    return jesusShoot(gameBoardSize, actor);
             }
         }
         return new Location(gameBoardSize);
-
     }
 
-    private Location shotTargeter(int gameBoardSize, Actor actor, int randomized, int hitChance) {
+    /**
+     * Returns a location of a piece of actors ship, if the randomized number is
+     * below the hit chance.
+     *
+     * @param gameBoardSize size of the game board
+     * @param actor actor to shoot at
+     * @param randomized random number between 1-100
+     * @param hitChance hit chance percent
+     *
+     * @return Location to shoot at
+     *
+     */
+    public Location shotTargeter(int gameBoardSize, Actor actor, int randomized, int hitChance) {
         if (randomized < hitChance) {
             shotLocs.add(actor.getShips().get(0).getLocs().get(0));
             return actor.getShips().get(0).getLocs().get(0);
@@ -100,14 +111,17 @@ public class AI extends Actor {
             return loc;
         }
     }
-
-    private Location jesusShoot(int gameBoardSize, Actor actor) {
-        if (!actor.getShips().isEmpty()) {
-            shotLocs.add(actor.getShips().get(0).getLocs().get(0));
-            return actor.getShips().get(0).getLocs().get(0);
-        } else {
-            return new Location(gameBoardSize);
-        }
+    
+    /**
+     * Shooting method of the "Jesus" difficulty. Hits every time.
+     * 
+     * @param gameBoardSize size of the game board
+     * @param actor actor to shoot at
+     * 
+     * @return Location to shoot at
+     */
+    public Location jesusShoot(int gameBoardSize, Actor actor) {
+        shotLocs.add(actor.getShips().get(0).getLocs().get(0));
+        return actor.getShips().get(0).getLocs().get(0);
     }
-
 }

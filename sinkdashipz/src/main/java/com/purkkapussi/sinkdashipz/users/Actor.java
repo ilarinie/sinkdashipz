@@ -49,16 +49,16 @@ public class Actor {
      * @return size of the next ship the actor needs
      */
     public int nextShipSize() {
-        if (this.fleetSize() == 0) {
-            return 5;
-        }
-        if (this.fleetSize() == 1) {
-            return 4;
-        }
-        if (this.fleetSize() < 4) {
-            return 3;
-        } else {
-            return 2;
+        switch (this.fleetSize()) {
+            case 0:
+                return 5;
+            case 1:
+                return 4;
+            case 2:
+            case 3:
+                return 3;
+            default:
+                return 2;
         }
     }
 
@@ -107,6 +107,11 @@ public class Actor {
         ships.remove(ship);
     }
 
+    /**
+     * Method returns HashSet of all locations occupied by actors ships.
+     *
+     * @return HashSet of all Locations of actors ships.
+     */
     public HashSet<Location> shipLocs() {
         HashSet<Location> shipLocs = new HashSet<Location>();
         for (Ship ship : ships) {
@@ -131,7 +136,6 @@ public class Actor {
      *
      * @see Ship
      * @see Location
-     * @see Hull
      */
     public boolean hit(Location location) {
         Ship ship = new Ship(new Location(location.getX(), location.getY()));

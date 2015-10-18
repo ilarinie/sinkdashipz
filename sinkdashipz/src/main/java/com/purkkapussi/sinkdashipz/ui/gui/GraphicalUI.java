@@ -34,7 +34,7 @@ public class GraphicalUI implements Runnable {
 
     @Override
     public void run() {
-        frame = new JFrame("Sinkdashipz V 0.1");
+        frame = new JFrame("Sinkdashipz v 1.0");
         frame.setPreferredSize(new Dimension(1060, 550));
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(new BorderLayout());
@@ -67,7 +67,7 @@ public class GraphicalUI implements Runnable {
         mainUI = new MainUI(this);
         frame.getContentPane().add(mainUI, BorderLayout.CENTER);
         infoPanel = new InfoPanel(this);
-        frame.getContentPane().add(infoPanel, BorderLayout.SOUTH);
+        frame.getContentPane().add(infoPanel, BorderLayout.NORTH);
         gamerunning = true;
         frame.pack();
     }
@@ -89,7 +89,7 @@ public class GraphicalUI implements Runnable {
             }
         }
         frame.getContentPane().remove(welcomescreen);
-        String name = JOptionPane.showInputDialog(null, "Enter your desired nickname", "Who do you want to be?", JOptionPane.INFORMATION_MESSAGE);
+        String name = JOptionPane.showInputDialog(null, "Enter your desired nickname (max 8 chars)", "Who do you want to be?", JOptionPane.INFORMATION_MESSAGE);
         if (name == null) {
             return;
         }
@@ -152,7 +152,9 @@ public class GraphicalUI implements Runnable {
         sounds.playHitSound();
         JOptionPane.showMessageDialog(null, "Nice hit! Shoot again.", "Great success!", JOptionPane.INFORMATION_MESSAGE);
     }
-
+    /**
+     * Plays a sound indicating a missed shot using the sound player.
+     */
     public void playMissSound() {
         sounds.playMissSound();
     }

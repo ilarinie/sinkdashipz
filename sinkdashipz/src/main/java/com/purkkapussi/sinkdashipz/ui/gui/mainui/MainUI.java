@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -27,11 +28,11 @@ public class MainUI extends JPanel {
 
     private final int buttonWidth = 40;
     private final int buttonHeight = 40;
-    private final int fontSize = 7;
+    private final int fontSize = 10;
     private final int gameBoardSize = 10;
 
     public MainUI(GraphicalUI gui) {
-        changer = new ButtonChanger(gui);
+        changer = new ButtonChanger();
         playerShipHolder = new JPanel(new GridLayout(gameBoardSize + 1, gameBoardSize + 1));
         aimHolder = new JPanel(new GridLayout(gameBoardSize + 1, gameBoardSize + 1));
         mainHolder = new JPanel(new GridLayout(1, 2));
@@ -41,7 +42,7 @@ public class MainUI extends JPanel {
     }
 
     /**
-     * method creates a new MainUI on the given graphical user interface
+     * Method creates a new MainUI on the given graphical user interface
      *
      * @param gui GUI to be used
      */
@@ -69,8 +70,8 @@ public class MainUI extends JPanel {
                         aimHolder.add(createEmptyLabel());
                         playerShipHolder.add(createEmptyLabel());
                     } else {
-                        JLabel coord = createCoordinateLabel(k - 1);
-                        JLabel coord2 = createCoordinateLabel(k - 1);
+                        JLabel coord = createCoordinateLabel(k);
+                        JLabel coord2 = createCoordinateLabel(k);
                         aimHolder.add(coord);
                         playerShipHolder.add(coord2);
                     }
@@ -78,10 +79,10 @@ public class MainUI extends JPanel {
             } else {
                 for (int j = 0; j < gameBoardSize + 1; j++) {
                     if (j == 0) {
-                        JLabel coord = createCoordinateLabel(counter);
-                        JLabel coord2 = createCoordinateLabel(counter);
-                        aimHolder.add(coord);
+                        JLabel coord2 = createCharLabel(CoordChar.values()[counter]);
                         playerShipHolder.add(coord2);
+                        JLabel coord = createCharLabel(CoordChar.values()[counter]);
+                        aimHolder.add(coord);
                         counter++;
                     } else {
                         JButton aimButton = createButton();
@@ -105,7 +106,20 @@ public class MainUI extends JPanel {
         coord.setPreferredSize(new Dimension(buttonWidth, buttonHeight));
         coord.setBackground(Color.BLACK);
         coord.setForeground(Color.GREEN);
+        coord.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 1));
         coord.setOpaque(true);
+        return coord;
+    }
+
+    private JLabel createCharLabel(CoordChar letter) {
+        JLabel coord = new JLabel(letter.toString(), SwingConstants.CENTER);
+        coord.setFont(new Font("Arial", Font.PLAIN, fontSize));
+        coord.setPreferredSize(new Dimension(buttonWidth, buttonHeight));
+        coord.setBackground(Color.BLACK);
+        coord.setForeground(Color.GREEN);
+        coord.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 1));
+        coord.setOpaque(true);
+        
         return coord;
     }
 

@@ -15,8 +15,8 @@ import java.io.Serializable;
  */
 public class HighScore implements Serializable, Comparable<HighScore> {
 
-    private String name;
-    private int score;
+    private final String name;
+    private final int score;
 
     /**
      * HighScore constructor
@@ -48,5 +48,4 @@ public class HighScore implements Serializable, Comparable<HighScore> {
             return 1;
         }
     }
-
 }

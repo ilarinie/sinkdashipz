@@ -26,10 +26,13 @@ public class PlayerTest {
     public void setNameTest(){
         player.setName(null);
         assertEquals("Unnamed Player",player.getName());
+        player = new Player();
         player.setName("");
         assertEquals("Unnamed Player",player.getName());
         player.setName("pleijeri");
         assertEquals("pleijeri",player.getName());
+        player.setName("verylongnamethatdoesnotfit");
+        assertEquals("verylong...", player.getName());
     }
     
     @Test

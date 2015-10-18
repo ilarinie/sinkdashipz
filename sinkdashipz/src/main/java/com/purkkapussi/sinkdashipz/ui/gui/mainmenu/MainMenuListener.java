@@ -11,6 +11,10 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
+/**
+ * Listener for the main menu buttons.
+ * @author ile
+ */
 public class MainMenuListener implements ActionListener {
 
     private GraphicalUI gui;

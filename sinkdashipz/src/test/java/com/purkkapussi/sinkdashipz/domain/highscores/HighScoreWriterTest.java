@@ -16,9 +16,11 @@ import org.junit.Test;
  */
 public class HighScoreWriterTest {
     
+    private final String filename = "highscores.ser";
+    
     private ArrayList<HighScore> highscores = new ArrayList<>();
-    private HighScoreWriter writer = new HighScoreWriter();
-    private HighScoreReader reader = new HighScoreReader();
+    private final HighScoreWriter writer = new HighScoreWriter(filename);
+    private final HighScoreReader reader = new HighScoreReader(filename);
     
     @Before
     public void addHighScores(){

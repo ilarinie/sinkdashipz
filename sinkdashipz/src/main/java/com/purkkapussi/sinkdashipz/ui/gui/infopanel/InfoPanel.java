@@ -7,10 +7,12 @@ package com.purkkapussi.sinkdashipz.ui.gui.infopanel;
 
 import com.purkkapussi.sinkdashipz.ui.gui.GraphicalUI;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 /**
  * In-game shooting and info-panel that holds the shooting button and in-game
@@ -20,13 +22,14 @@ import javax.swing.JPanel;
  */
 public class InfoPanel extends JPanel {
 
-    protected JLabel ownShips = new JLabel();
-    protected JLabel coordinates = new JLabel();
-    protected JLabel playerScore = new JLabel();
+    protected JLabel ownShips = new JLabel("", SwingConstants.CENTER);
+    protected JLabel coordinates = new JLabel("", SwingConstants.CENTER);
+    protected JLabel playerScore = new JLabel("", SwingConstants.CENTER);
     private Font font = new Font("Arial", Font.BOLD, 20);
 
+    
     public InfoPanel(GraphicalUI gui) {
-
+        this.setPreferredSize(new Dimension(1060, 50));
         this.setBackground(Color.BLACK);
         ownShips.setForeground(Color.WHITE);
         ownShips.setFont(font);
@@ -46,13 +49,17 @@ public class InfoPanel extends JPanel {
         updateGameMenu(gui);
     }
 
+    /**
+     * Method updates the info-panel texts
+     * @param gui gui used
+     */
     public void updateGameMenu(GraphicalUI gui) {
         if (!gui.getGame().getEndgame()) {
             coordinates.setText(gui.getGame().getAI().getName() + "'s ships: " + gui.getGame().getAI().fleetSize());
             ownShips.setText(gui.getGame().getPlayer().getName() + "'s ships: " + gui.getGame().getPlayer().fleetSize());
             playerScore.setText("Current score: " + gui.getGame().getPlayer().getScore());
         } else {
-            ownShips.setText("Game ended, " +gui.getGame().getWinner() + " won.");
+            ownShips.setText("Game ended, " + gui.getGame().getWinner() + " won.");
             coordinates.setText("Your score was: " + gui.getGame().getPlayer().getScore());
             playerScore.setText("Your are " + gui.getGame().getPlayerRank() + ". in the highscores");
         }

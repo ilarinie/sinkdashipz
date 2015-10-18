@@ -11,46 +11,59 @@ import sun.audio.AudioPlayer;
 import sun.audio.AudioStream;
 
 /**
+ * Sound player class for the graphical UI.
  *
  * @author ile
  */
 public class SoundPlayer {
 
-    public SoundPlayer() {
-
-    }
-
+    /**
+     * Method plays a sound indicating a miss
+     */
     public void playHitSound() {
         URL url = this.getClass().getResource("/sounds/hitSound.wav");
         playSound(url);
     }
 
+    /**
+     * Method plays a sound indicating a destroyed ship
+     */
     public void playDestroySound() {
         URL url = this.getClass().getResource("/sounds/shipDestroySound.wav");
         playSound(url);
     }
 
+    /**
+     * Method plays a sound indicating that AI has destroyed players ship.
+     */
     public void playAIDestroySound() {
         URL url = this.getClass().getResource("/sounds/badSound.wav");
         playSound(url);
     }
 
+    /**
+     * Method plays a sound indicating a miss.
+     */
     public void playMissSound() {
         URL url = this.getClass().getResource("/sounds/missSound.wav");
         playSound(url);
     }
-
+    /**
+     * Method plays the victory fanfare.
+     */
     public void playVictorySound() {
         URL url = this.getClass().getResource("/sounds/victorySound.wav");
         playSound(url);
     }
-
+    /**
+     * Method plays a sound indicating players loss.
+     */
     public void playLosingSound() {
         URL url = this.getClass().getResource("/sounds/losingSound.wav");
         playSound(url);
     }
 
-    public void playSound(URL url) {
+    private void playSound(URL url) {
         try {
             InputStream in = url.openStream();
             AudioStream as = new AudioStream(in);

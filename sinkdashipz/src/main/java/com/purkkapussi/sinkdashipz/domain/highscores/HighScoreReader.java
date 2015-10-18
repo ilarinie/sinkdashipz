@@ -12,17 +12,27 @@ import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
 /**
+ * Class used to reading the HighScore -file
  *
- * @author ile
  */
 public class HighScoreReader {
+
+    private final String filename;
+    
+    /**
+     * Main constructor
+     * @param filename file name of the high score file.
+     */
+    public HighScoreReader(String filename) {
+        this.filename = filename;
+    }
 
     private FileInputStream fin;
     private ObjectInputStream ois;
 
     private void openFile() {
         try {
-            File scores = new File("highscores.ser");
+            File scores = new File(filename);
             if (!scores.exists()) {
                 scores.createNewFile();
             }

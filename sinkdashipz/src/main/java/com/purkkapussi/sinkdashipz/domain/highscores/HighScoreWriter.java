@@ -11,14 +11,30 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 /**
+ * Class provides the functionality to write high scores to a file.
  *
  * @author ile
  */
 public class HighScoreWriter {
 
-    protected FileOutputStream fout;
-    protected ObjectOutputStream oos;
+    private final String filename;
+    private FileOutputStream fout;
+    private ObjectOutputStream oos;
 
+    /**
+     * Main constructor
+     *
+     * @param filename filename of the high score file.
+     */
+    public HighScoreWriter(String filename) {
+        this.filename = filename;
+    }
+
+    /**
+     * Method writes the given ArrayList of high scores into a file.
+     *
+     * @param highscores high scores to write
+     */
     public void writeHighScores(ArrayList<HighScore> highscores) {
         try {
             openFile();
@@ -43,7 +59,7 @@ public class HighScoreWriter {
     private void openFile() throws FileNotFoundException {
 
         try {
-            fout = new FileOutputStream("highscores.ser");
+            fout = new FileOutputStream(filename);
             oos = new ObjectOutputStream(fout);
         } catch (Exception e) {
             System.out.println("Error opening highscore-file");

@@ -6,11 +6,9 @@
 package com.purkkapussi.sinkdashipz.domain;
 
 import com.purkkapussi.sinkdashipz.ui.gui.GraphicalUI;
-import com.purkkapussi.sinkdashipz.domain.highscores.HighScore;
 import com.purkkapussi.sinkdashipz.domain.highscores.HighScoreHandler;
 import com.purkkapussi.sinkdashipz.users.AI;
 import com.purkkapussi.sinkdashipz.users.Player;
-import java.util.ArrayList;
 
 /**
  * Class contains the main game functionality, including tracking player and AI
@@ -26,10 +24,7 @@ public class Game {
     private Player player;
     private GraphicalUI gui;
     private HighScoreHandler handler;
-
     private Boolean endgame = false;
-    private Location aiShotLoc;
-    protected ArrayList<HighScore> highscores = new ArrayList<>();
     private String winner;
     private int playerRank;
     private int aiFleetSize;
@@ -37,11 +32,10 @@ public class Game {
 
     /**
      * Main Game constructor. Initializes a new game with the given game board
-     * size. Creates new AI and a Player objects. Tries to read high scores from
-     * file using HighScoreReader if high score file is present.
+     * size.
      *
-     * @param gameboard
-     * @param gui
+     * @param gameboard size of the game board
+     * @param gui Graphical UI to be used.
      */
     public Game(int gameboard, GraphicalUI gui) {
         this.gameBoardSize = gameboard;
@@ -49,8 +43,15 @@ public class Game {
         initializeGame();
     }
 
-    public Game(int gameboard) {
+    /**
+     * Constructor used in testing.
+     *
+     * @param gameboard game board size
+     * @param handler HighScoreHandler
+     */
+    public Game(int gameboard, HighScoreHandler handler) {
         this.gameBoardSize = gameboard;
+        this.handler = handler;
         initializeGame();
     }
 
@@ -61,7 +62,6 @@ public class Game {
         handler = new HighScoreHandler();
     }
 
-    //GAME CONTROLS
     /**
      * Method starts a new game with the default rule set and creates randomized
      * fleets for both the AI and the Player.
@@ -83,9 +83,6 @@ public class Game {
 
     /**
      * Method creates randomized fleets for both the player and the AI.
-     *
-     * @see
-     * com.purkkapussi.sinkdashipz.domain.ShipCreator#createRandomFleet(AI,int)
      */
     public void addRandomFleets() {
         creator.createRandomFleet(ai, gameBoardSize);
@@ -93,36 +90,36 @@ public class Game {
     }
 
     /**
-     * Player shooting method. The method will fire at target location (defined
-     * in the playerTargetLoc) variable. If a hit is scored a message is shown
-     * and player added points accordingly. If the AI fleet is destroyed
-     * completely, endgame method is called. If the player misses, points are
-     * deducted and the aiShoot method is called.
+     * Player shooting method. The method will fire at the given location. If a
+     * hit is scored, appropriate message is shown and the player is given
+     * points. If AI's fleet size hits 0, the game ends with the endgame()
+     * method. If the player misses, appropriate message is shown and points
+     * deducted and aiShoot() method called.
+     *
+     * @param loc Location to shoot at
      */
     public void playerShoot(Location loc) {
-        if (loc != null) {
-            player.addShotLoc(loc);
-            if (ai.hit(loc)) {
-                if (gui != null) {
-                    if (ai.fleetSize() < aiFleetSize) {
-                        gui.showPlayerSinkAIShipMessage();
-                        aiFleetSize = ai.fleetSize();
-                    } else {
-                        gui.showPlayerHitMessage();
-                    }
+        player.addShotLoc(loc);
+        if (ai.hit(loc)) {
+            if (gui != null) {
+                if (ai.fleetSize() < aiFleetSize) {
+                    gui.showPlayerSinkAIShipMessage();
+                    aiFleetSize = ai.fleetSize();
+                } else {
+                    gui.showPlayerHitMessage();
                 }
-                player.scoreHit();
-                if (ai.fleetSize() == 0) {
-                    winner = player.getName();
-                    endgame();
-                }
-            } else {
-                if (gui != null) {
-                    gui.playMissSound();
-                }
-                player.scoreMiss();
-                aiShoot();
             }
+            player.scoreHit();
+            if (ai.fleetSize() == 0) {
+                winner = player.getName();
+                endgame();
+            }
+        } else {
+            if (gui != null) {
+                gui.playMissSound();
+            }
+            player.scoreMiss();
+            aiShoot();
         }
     }
 
@@ -133,7 +130,7 @@ public class Game {
      * called.
      */
     public void aiShoot() {
-        aiShotLoc = ai.shoot(gameBoardSize, player);
+        Location aiShotLoc = ai.shoot(gameBoardSize, player);
         while (player.hit(aiShotLoc)) {
             if (gui != null) {
                 if (player.fleetSize() < playerFleetSize) {
